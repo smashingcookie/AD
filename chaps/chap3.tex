@@ -1,0 +1,162 @@
+\section{Methoden zur Berechnung von Ableitungen ($f: \mathbb{R}^n \mapsto \mathbb{R}$)}
+
+
+\subsection{numerisch / Differenzenquotient}
+\label{subsec:numerisch / Differenzenquotient}
+Idee: approximiere den Grenzwert
+\begin{align*}
+\frac{\partial f}{\partial x_i} & = lim_{h\mapsto 0} \frac{f(x_1,\dots,x_n) - f(x_i,\dots,x_n)}{h}\\
+ &= lim_{h\mapsto 0} \frac{f(x+h \cdot l_i) - f(x)}{h}
+\end{align*}
+wobei $l_i$ an der $i$-ten Stelle den Wert 1 und sonst den Wert 0 hat, durch 
+$$\frac{\partial f}{\partial x_i}(x) \approx \left[\frac{f(x+e,\tilde h)-f(x)}{\tilde h)}\right]$$
+mit "hinreichend kleinem"\ Wert $\tilde h \in R^+$
+\\
+Vorteil:
+\begin{itemize}
+	\item einfach zu implementieren
+	\item benötigt nur Auswertung für f
+\end{itemize}
+Nachteil:
+\begin{itemize}
+	\item $\tilde h$ ist unbekannt, "falsche"\ Wahl von $\tilde h$ kann zu Rundungs-/ Approximationsfehlern führen
+	\item Berechnung von $\nabla f$ benötigt $n+1$ Auswertungen der Funktion $f$ - teuer für eine große Anzahl von Variablen
+\end{itemize}
+Grafik zur Genauigkeit: Fehler V -förmig (Rundungsfehler und Ungenauigkeit)
+
+\vspace{3cm}
+
+\subsection{Analytisches Differenzieren/ per Hand}
+Idee: Benutze Standard-Differentationsregeln zum Ableiten einer Funktion, d.h. Kettenregel / Produktregel / Divisionsregel / Summenregel / Winkelfunktionen / Weitere
+
+\noindent Vorteil:
+\begin{itemize}
+	\item kann sehr effiziente, genaue Ergebnisse liefern
+\end{itemize}
+Nachteil:
+\begin{itemize}
+	\item fehleranfällig
+	\item z.T. sehr aufwendig, wenn überhaupt möglich
+\end{itemize}
+Beispielrechnung
+$$f:\mathbb{R}^2\mapsto\mathbb{R}, f(x_1,x_2) = \frac{x_2 x_1^2}{sin(x_1)}+cos(x_2)$$
+
+%\begin{align*}
+%	\frac{\partial f(x_1,x_2)}{\partial x_1} &= \frac{\partial }{\partial x_1}
+%	 = \frac{2x_2x_1}{den}\\	
+%\end{align*}
+\vspace{3cm}
+\subsection{Symbolisches Differenzieren}
+Idee: Zerlegung einer Funktion in ihre elementaren Operationen als Berechnungsbaum und anschließende Transformation mittels vorheriger Ableitungsregeln darstellen
+Beispiel: $f$ wie zuvor, Grafik: symbolischer Berechnungsbaum von $f$
+
+\vspace{8cm}
+
+wird zu, Grafik:  symbolischer Berechnungsbaum mit 41 Knoten
+
+\vspace{10cm}
+
+Vorteil:
+\begin{itemize}
+	\item exakte Ableitungen
+	\item automatisierbar
+	\item nachvollziehbar
+	\item (kann effizient sein)
+\end{itemize}
+Nachteil
+\begin{itemize}
+	\item speicherintensiv!!
+\end{itemize}
+typisches Gegenbeispiel (Speelpenning):
+$f:\mathbb{R}^n\mapsto\mathbb{R}, f(x) = \prod_{i=1}^n x_i$
+Bemerkung: $\prod_{i=1}^n x_i$ taucht z.B. in der Berechnung von Determinanten o.ä. linear Algebra OPs vor.
+
+\subsection{Automatisches/ Algorithmisches Differenzieren}
+
+gegeben: eine mathematische Funktion: $F:\mathbb{R}^n\mapsto\mathbb{R}^m$, welche
+\begin{itemize}
+	\item hinreichend oft differenzierbar ist
+	\item durch einen endlichen "Straight-Line" Code beschrieben werden kann, d.h. keine (unendliche) Rekursion und Verzweigungen (if-branches,\dots) enthält
+\end{itemize}
+Mit anderen Worten $F:U\subseteq \mathbb{R}^n\mapsto\mathbb{R}^m, F(x) = y$ ist gegeben durch eine sogenannte Evaluation Procedure
+\begin{align*}
+	v_{i-n}= x_i & i = 1,\dots,n && Eingabe\\
+	v_i = \ \varphi_i(v_j) & i = 1,\dots,l && Auswertung\\
+	y_{m-i}& i = m-1,\dots,0 && Ausgabe
+\end{align*}
+wobei $x \in \mathbb{R}$ die unabhängigegen, $y \in \mathbb{R}^m$ abhängigen, $v_i \in \mathbb{R}$ Zwischenvariablen und 
+$$\varphi \in \Phi = \{\pm, cos, sin, \sqrt{\cdot}, Exp, Log \dots \}$$
+hinreichend oft differenzierbare Elementarfkt. (über U) sind.
+
+\vspace{\baselineskip}
+\noindent Ziel: 
+
+effiziente numerische Bestimmung von Ableitungsinformationen der Funktion bezüglich ihrer Ausgabe $y=F(x)$ und Eingabe $x \in \mathbb{R}^n$
+\vspace{\baselineskip}
+
+\noindent Bemerkung:
+
+Die Zwischenvariablen $v_i$ in der Eval. Proc. können nach ihrer Berechnungsvorschrift sortiert werden und induzieren einen "Computational DAG"\ 
+$v_i = \varphi(v_j)_{j \prec i}$ ist eine Kurzschreibweise für den Funktionswert der entsprechenden Elementarfkt. $\varphi_i$ zur Auswertung von $v_i$, die von den vorher berechneten Werten ($(v_j)_{j \prec i}$) direkt abhängt.
+
+\vspace{\baselineskip}
+
+\noindent Forward Mode
+
+Ausgehend von der Evaluation Procedure kann man eine erweiterte/ extended  Eval. Proc. angeben, welche sowohl $y=F(x)$ als auch $\dot{y}=F'(x)\dot{x}$ für $\dot{x}\in \mathbb{R}$ berechnet.
+
+\begin{tabular}{| L | L | L |}
+	\hline
+	v_{i-n} = x_i & i=1,\dots ,n& Eingabe\\
+	\dot{v}_{i-n} = \dot{x}_i & &\\
+	\hline
+	v_i = \ \varphi_i(v_j) & i = 1,\dots,l & Auswertung\\ 
+	\dot{v}_i = \sum_{j \prec i} \frac{\partial}{\partial v_j}\varphi_i(u_i)\cdot \dot{v}_j & u_i = (v_j)_{j\prec i} &\\
+	\hline
+	y_{m-i}& i = m-1,\dots,0 & Ausgabe\\
+	\dot{y}_{m-i}& &\\
+	\hline
+\end{tabular}
+\newpage
+\noindent Beispiel : $f : \mathbb{R}^2\mapsto\mathbb{R}$ wie zuvor gegeben\\
+\begin{tabular}{| L | L |}
+	\hline
+	v_{-1} = x_1&\\
+	\dot{v}_{-1} = \dot{x}_1& Eingabe\\
+	v_0 = x_2&\\
+	\dot{v}_0 = \dot{x}_2&\\
+	\hline
+	v_1 = v_{-1}^2&\\
+	\dot{v}_1 = 2 v_{-1} \cdot \dot{v}_{-1} &\text{(mit Punkt ist eine Richtung)}\\
+	v_2 = v_0 v_1 &\\
+	\dot{v}_2 = \dot{v}_0v_1 + v_0\dot{v}_1&\\
+	v_3 = sin(v_{-1})&\\
+	\dot{v}_3 = cos(v_{-1})\dot{v}_{-1} & Auswertung\\
+	v_4 = v_2 / v_3&\\
+	\dot{v}_4 = 1\cdot \frac{\dot{v}_2}{v_3^3} + \frac{-v_2}{v_3^2}\cdot \dot{v}_3&\\
+	v_5 = cos(v_0)&\\
+	\dot{v}_5 = -sin(v_0)\dot{v}_0&\\
+	v_6 = v_4 + v_5&\\
+	\dot{v}_6 = 1\cdot \dot{v}_4 + 1 \cdot \dot{v}_5&\\
+	\hline
+	y_1 = v_6&Ausgabe\\
+	\dot{y}_1 = \dot{v}_6&\\
+	\hline
+\end{tabular}
+\vspace{\baselineskip}
+
+
+\noindent
+\begin{tabular}{L | L L}
+	\hline
+	\text{Grafik: Computational Graph für }f \hspace*{1cm}& \text{Tabelle}&\text{: part. Ordnung der }v_i\text{'s}\\
+	&\varnothing &\prec -1\\
+	&\varnothing &\prec 0\\
+	&\{-1\} &\prec 1\\
+	&\{0,1\} &\prec 2\\
+	&\{-1\} &\prec 3\\
+	&\{2,3\} &\prec 4\\
+	&\{0\} &\prec 5\\
+	&\{4,5\} &\prec 6\\
+	
+\end{tabular}

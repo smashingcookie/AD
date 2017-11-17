@@ -1,0 +1,15 @@
+\contentsline {section}{\numberline {1}Motivation}{1}
+\contentsline {paragraph}{Beispiele f\IeC {\"u}r Differenzieraufgaben:}{1}
+\select@language {ngerman}
+\contentsline {section}{\numberline {2}Ableitungen}{4}
+\contentsline {paragraph}{Partielle Ableitung}{4}
+\contentsline {paragraph}{Def. Gradient}{4}
+\contentsline {paragraph}{Def. Jacobi-Matrix}{4}
+\contentsline {paragraph}{Def. Differenzierbarkeit}{4}
+\contentsline {paragraph}{Def. Hessematrix}{4}
+\contentsline {section}{\numberline {3}Methoden zur Berechnung von Ableitungen ($f: \mathbb {R}^n \DOTSB \mapstochar \rightarrow \mathbb {R}$)}{5}
+\contentsline {subsection}{\numberline {3.1}numerisch / Differenzenquotient}{5}
+\contentsline {subsection}{\numberline {3.2}Analytisches Differenzieren/ per Hand}{6}
+\contentsline {subsection}{\numberline {3.3}Symbolisches Differenzieren}{6}
+\contentsline {subsection}{\numberline {3.4}Automatisches/ Algorithmisches Differenzieren}{7}
+\contentsline {section}{\numberline {4}currentstuff}{10}

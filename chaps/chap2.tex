@@ -1,0 +1,28 @@
+\section{Ableitungen}
+\label{chap:Ableitungen}
+
+\paragraph{Partielle Ableitung}\ \\
+Sei $U \subseteq \mathbb{R}^n$ und $f: U \mapsto \mathbb{R}$ eine gegebene Funktion. der Grenzwert
+$$\lim_{h \mapsto \infty}\frac{f(x_1, \dots x_i+h,\dots x_n)-f(x_1,\dots x_i,\dots x_n)}{h}$$
+heißt partielle Ableitung von $f$ nach $x-i$ an der Stelle $x=(x_1,\dots x_n)\in U$, falls dieser exiistiert und wird mit $\frac{\partial f}{\partial x_i(x)}$ bzw. $f_{x_i}(x)$ bezeichnet.\\
+
+
+\paragraph{Def. Gradient}\ \\
+Der Vektor aller partiellen Ableitungen 
+$$\nabla f(x) = \left(\frac{\partial f}{\partial x_1}(x), ... , \frac{\partial f}{\partial x_n} (x) \right)$$ heißt Gradient von $f$ und ist selbst eine Abbildung - $\nabla f : \mathbb R^n \mapsto \mathbb R^n$. Falls der Gradient existiert (und stetig ist), so heißt $f$ stetig partiell differenzierbar.
+
+\paragraph{Def. Jacobi-Matrix}\ \\
+Für vektorielle Funktionen $F: \ \mathbb{R}^n \mapsto \mathbb{R}^n$ mit $F(x) = f_1(x), ... f_m(x))$, lässt sich das Konzept vom Gradient erweitern und die Ableitungen in der sogenannten Jacobi Matrix
+$$J_F (x) = (\frac{\partial f_j}{\partial x_i})_{j= 1,\dots m;\ i= 1,\dots n}$$
+zusammenfassen.
+
+Bemerkung: Die Ableitungen sind wieder Funktionen, welche abgeleitet werden können falls diese hinreichend oft differenzierbar sind.
+
+\paragraph{Def. Differenzierbarkeit}\ \\
+$f$ heißt $k$-mal (stetig) partiell differenzierbar, wenn alle $k$-ten Ableitungen existieren (und stetig sind).
+
+\paragraph{Def. Hessematrix}\ \\
+Sei $f: \mathbb R^n \mapsto \mathbb R\ 2$-mal stetig partiell differenzierbar, so nennen wir die Ableitung
+$$H_f(x) = \left(\frac{\partial^2f}{\partial x_i \partial x_j} \right)_{i,j=1,...n}$$ Hessematrix
+
+(BSP: Rosenbrockfkt. $\rightarrow$ Gradient \& Hessematrix bestimmt)

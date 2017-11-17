@@ -1,0 +1,46 @@
+%\begin{document}
+
+\section{currentstuff}
+
+ForwardMode: $J \cdot v$ : Jacobi * Richtung
+
+BackwardMode: $v^T \cdot J$: Vektor Transponiert mal Jacobi
+
+Ziel: effiziente Auswertung von $v^TF'(x) = \dot{y}$
+Überlegung: $\dot{y} = P \Phi'_l(V_l)\cdot \Phi'_{l-1}(V_{l-1})\dots \Phi'_1(V_1)\cdot Q \cdot \dot{x}$
+
+wie im Forward Mode zu berechnen muss nun
+
+$\dot{x} = \bar{y}^TP\Phi'_l(V_l)\dots \Phi'_1(V_1)\cdot Q$
+ausgewertet werden
+
+Non-Incremental:
+
+\begin{tabular}{| L | L |}
+	v_{i-n} = x &i=1\dots n\\
+	v_i=\varphi_i(v_j)_{j\prec i} &i=1 \dots l\\
+	y_{m-i} = v_{l-i} & i=m-1 \dots 0\\
+	\hline
+	\bar{y}^TP\bar{v}_{l-i} = \bar{y}_{m-l}& i =m-1 \dots 0\\
+	\bar{v}^T\Phi'(\dots)\bar{v}_j = \sum_{i\succ j} \bar{v}_j&\\
+	&\\
+\end{tabular}
+
+Incremental: (Zusatzmaterial)
+\begin{tabular}{| L | L |}
+	v_{i-n} = x &i=1\dots n\\
+	v_i=\varphi_i(v_j)_{j\prec i} &i=1 \dots l\\
+	y_{m-i} = v_{l-i} & i=m-1 \dots 0\\
+	\hline
+	\bar{v}_i = 0 & i =1-n \dots l\\
+	\bar{v}_{l-1} = &\\
+	\bar{v}^T\Phi'(\dots)\bar{v}_j = \sum_{i\succ j} \bar{v}_j&\\
+	&\\
+\end{tabular}
+
+
+$\rightarrow$ Auswertung von $\bar{x} = \bar{y}^TF'(x)$ benötigt eine Auswertung von F (Forward-Sweep) und einen Reverse Sweep. Der Aufwand kann nach oben abgeschätzt werden
+
+$$OPS(EVAO(\bar{y}^TF'(x))) \leq c_2 OPS(EVAL(F(k)))$$,
+wobei $C_2$ eine Konstante ist $(c_2\approx 2-5)$
+%\end{document}

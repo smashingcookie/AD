@@ -1,0 +1,82 @@
+\tableofcontents
+
+\title{Skript automatisches/ algorithmisches Differenzieren}
+
+\vspace{1cm}
+\noindent Dozent: Dr. Torsten Bosse (torsten.bosse@uni-jena.de)\\
+Prüfungszeitraum: 13.2.-17.2. (mdl.)\\
+Skript digitalisiert von: Martin Nußbaum
+\vspace{1cm}
+
+
+\section{Motivation}
+\label{chap:Motivation}
+
+
+gegeben sei eine Funktion $f: \mathbb{R}^n \mapsto \mathbb{R}$ für welche ein Extremalpunkt $x_*$ bestimmt werden soll, d.h. löse
+$\min_{x \in \mathbb{R}^n}$ bzw. $x_* = \text{ARGMIN}_{x \in \mathbb{R}^n} f(x)$\\
+(Max geht auch, aber Minimum ist Standard)
+
+\paragraph{Beispiele für Differenzieraufgaben:}
+\begin{align*}
+	i) & f:\mathbb{R} &&\mapsto \mathbb{R} \text{, z.B.} &&\text{Polynom k-ten Grades}
+	\\
+	ii) & f:\mathbb{R}^2 &&\mapsto \mathbb{R} \text{, z.B.} &&\text{Rosenbrock-Fkt.: } (1-x_1)^2 +100 (x_2-x_1^2)^2
+	\\
+	iii) & f:\mathbb{R}^{\sim10} &&\mapsto \mathbb{R} \text{, z.B.} &&\text{Datafitting anhand verschiedener Merkmale:}\\
+	 & && &&\text{SIT-Modell g und gemessene Daten} (d_i,t_i)
+	\\
+	iv) & f:\mathbb{R}^{10.000} &&\mapsto \mathbb{R} \text{, z.B.} &&\text{Training von Feedforward neuronalen Netz mit den}\\
+	 & && &&\text{Daten } (d_i, t_i) \text{ auch als Fitting-Problem betrachtbar}\\
+	 & && &&\rightarrow\text{optimiere die Gewichte des Netzes}
+	\\
+	v) & f:\mathbb{R}^{>10^6} &&\mapsto \mathbb{R} \text{, z.B.} &&\text{Auftrieb/Luftwiderstand von Flugzeugen:}\\
+	& && && x\text{  :  parametrisierte Flügel/ FLugzeugprofil}\\
+	& && &&f(x)\text{: Simulation für den Luftwiederstandswert}
+\end{align*}
+(Beispiele hier nur knapp wiedergegeben, Grafiken fehlen)
+
+
+\begin{description}
+	\item[Problem:] Die Lösung der meisten Minimierungsprobleme können nicht analytisch oder direkt angegeben werden.
+	\item[Lösung:] iterative Verfahren: $x_{k+1}=x_k + \alpha_k \cdot S_k$
+\end{description}
+\begin{align*}
+	\alpha_k \in \mathbb{R}_+ &:= \text{Schrittweite}\\
+	S_k \in \mathbb{R}^n&:= \text{Schrittrichtung für} f: \mathbb{R} \mapsto \mathbb{R} \text{ an Stelle } x_k\\
+\end{align*}
+Die Schrittrichtung basiert hierbei meist auf Ableitsungsinformationen, z.B.
+\begin{align*}
+	& \mathbb{R} \mapsto \mathbb{R} && \mathbb{R}^n \mapsto \mathbb{R}\\
+	\text{STEEPEST-DESCENT } & S_k = -f'(x_k) && S_k = -\nabla f'(x_k) && ,\nabla f \in \mathbb{R}^n\\
+	\text{NEWTON  } & S_k=-\frac{f'(x_k)}{f''(x_k)} && H(x_k) S_k = -\nabla f(x_k) && ,H \in \mathbb{R}^{n \times n}\\
+	& && H := \text{Hessematrix}	
+\end{align*}
+\\
+\noindent und dem sogenannten \textbf{Taylortheorem}: ($f: \mathbb{R} \mapsto \mathbb{R}$):\\
+$$f(x+s) = f(x) + \sum_{i=1}^{\infty} \frac{1}{i!}f^i(x)s^i$$
+mit anderen Worten:\\
+wenn die skalare Fkt. $f: \mathbb{R} \mapsto \mathbb{R}$ hinreichend oft differenzierbar ist, so lässt sie sich in einer Umgebung eines Punktes $x$ abschätzen durch den Funktionswert und den Ableitungen an der Stelle $x$.\\
+\vspace{3cm}\\
+(Beispielgrafik)\\
+
+\noindent Im vektoriellen Fall $f: \mathbb{R}^n \mapsto \mathbb{R}$ wird meist nur eine Taylorapproximation bis zur 2. Ableitung genutzt um ein quadratisches Modell der Fkt. zu erhalten:
+$$f(x+s) = \nabla f(x)^Ts + \frac{1}{2} s^TH(x)s + 0||s||^2$$
+mittels des Gradienten $\nabla f(x) \in \mathbb{R}$ und der Hessematrix $H(x) \in \mathbb{R}^{n \times n}$
+
+Zusammenfassung
+
+\begin{itemize}
+	\item
+	\begin{tikzcd}
+	\text{Anwendungen} \ar{r} \ar{dr} &\text{Optimierung} \ar{r} & \text{Solver} \ar{r} & \text{Ableitung}\\
+	& \text{Sensitivitätsanalyse} \ar{urr}
+	\end{tikzcd}
+	
+	\item Anwendungen haben eine mathematische Grundlage, können aber meist nicht mehr einfach als f(x)=\dots formuliert werden
+	\item sondern liegen als Simulationscode vor
+	\item Anwendungen sind groß und komplex
+	\item $\rightarrow$ Ableitungen sind groß und komplex
+	\item letztere sind wichtig und werden benötigt
+	\item und dies \underline{NUMERISCH EFFIZIENT}
+\end{itemize}
