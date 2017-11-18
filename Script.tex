@@ -5,12 +5,15 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage[utf8]{inputenc}
 
+\usepackage{graphicx} % for text stretching
+
 \usepackage{tikz}
 \usetikzlibrary{cd}
 
 
 \usepackage{array}   % for \newcolumntype macro
 \newcolumntype{L}{>{$}l<{$}}% math-mode version of "l" column type
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}} % for centered column
 
 
 \begin{document}

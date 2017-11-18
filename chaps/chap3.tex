@@ -96,7 +96,7 @@ effiziente numerische Bestimmung von Ableitungsinformationen der Funktion bezüg
 
 \noindent Bemerkung:
 
-Die Zwischenvariablen $v_i$ in der Eval. Proc. können nach ihrer Berechnungsvorschrift sortiert werden und induzieren einen "Computational DAG"\ 
+Die Zwischenvariablen $v_i$ in der Eval. Proc. können nach ihrer Berechnungsvorschrift sortiert werden und induzieren einen "Computational DAG", in welchem jede Zwischenvariable durch einen Knoten repräsentiert wird. Eine Kante existiert wenn eine solche Variable direkt von einer Anderen abhängt.
 $v_i = \varphi(v_j)_{j \prec i}$ ist eine Kurzschreibweise für den Funktionswert der entsprechenden Elementarfkt. $\varphi_i$ zur Auswertung von $v_i$, die von den vorher berechneten Werten ($(v_j)_{j \prec i}$) direkt abhängt.
 
 \vspace{\baselineskip}
@@ -119,15 +119,16 @@ Ausgehend von der Evaluation Procedure kann man eine erweiterte/ extended  Eval.
 \end{tabular}
 \newpage
 \noindent Beispiel : $f : \mathbb{R}^2\mapsto\mathbb{R}$ wie zuvor gegeben\\
+
 \begin{tabular}{| L | L |}
 	\hline
-	v_{-1} = x_1&\\
+	v_{-1} = x_1& \\
 	\dot{v}_{-1} = \dot{x}_1& Eingabe\\
 	v_0 = x_2&\\
 	\dot{v}_0 = \dot{x}_2&\\
 	\hline
 	v_1 = v_{-1}^2&\\
-	\dot{v}_1 = 2 v_{-1} \cdot \dot{v}_{-1} &\text{(mit Punkt ist eine Richtung)}\\
+	\dot{v}_1 = 2 v_{-1} \cdot \dot{v}_{-1} &\\
 	v_2 = v_0 v_1 &\\
 	\dot{v}_2 = \dot{v}_0v_1 + v_0\dot{v}_1&\\
 	v_3 = sin(v_{-1})&\\
@@ -143,20 +144,37 @@ Ausgehend von der Evaluation Procedure kann man eine erweiterte/ extended  Eval.
 	\dot{y}_1 = \dot{v}_6&\\
 	\hline
 \end{tabular}
+\quad\quad
+\begin{tabular} { L }
+	V = (0, \dots, 0)\\
+	\quad\quad\downarrow \Phi_{-1}\\
+	V = (v_{-1},0, \dots, 0)\\
+	\quad\quad\downarrow \Phi_0\\
+	V = (v_{-1}, v_0,0, \dots)\\
+	\quad\quad\downarrow \Phi_1\\
+	V = (v_{-1}, v_0, v_{-1}^2,0, \dots)\\
+	\quad\quad\downarrow \Phi_2\\
+	V = (v_{-1}, v_0, v_{-1}^2, v_{-1}v_0,0, \dots)\\
+	\quad\quad\scalebox{1}[2]{\rotatebox{-90}{$\dashrightarrow$}}\\
+	\\
+	V = (v_{-1}, v_0, \dots, v_4+v_5, 0)\\
+	\quad\quad\downarrow \Phi_7\\
+	V = (v_{-1}, v_0, \dots, v_4+v_5, v_6)\\
+\end{tabular}
+
 \vspace{\baselineskip}
 
-
 \noindent
-\begin{tabular}{L | L L}
+\begin{tabular}{L | P{1.2cm}  L}
 	\hline
-	\text{Grafik: Computational Graph für }f \hspace*{1cm}& \text{Tabelle}&\text{: part. Ordnung der }v_i\text{'s}\\
-	&\varnothing &\prec -1\\
-	&\varnothing &\prec 0\\
-	&\{-1\} &\prec 1\\
-	&\{0,1\} &\prec 2\\
-	&\{-1\} &\prec 3\\
-	&\{2,3\} &\prec 4\\
-	&\{0\} &\prec 5\\
-	&\{4,5\} &\prec 6\\
-	
+	\text{Grafik: Computational Graph für }f \quad\quad\quad\quad& Tabelle&\text{: part.Ordnung der }v_i\text{'s}\\
+	&$\varnothing$ &\prec -1\\
+	&$\varnothing$ &\prec 0\\
+	&$-1$ &\prec 1\\
+	&$0,1$ &\prec 2\\
+	&$-1$ &\prec 3\\
+	&$2,3$ &\prec 4\\
+	&$0$ &\prec 5\\
+	&$4,5$ &\prec 6\\
 \end{tabular}
+
