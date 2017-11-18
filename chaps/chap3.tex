@@ -10,7 +10,7 @@ Idee: approximiere den Grenzwert
 \end{align*}
 wobei $l_i$ an der $i$-ten Stelle den Wert 1 und sonst den Wert 0 hat, durch 
 $$\frac{\partial f}{\partial x_i}(x) \approx \left[\frac{f(x+e,\tilde h)-f(x)}{\tilde h)}\right]$$
-mit "hinreichend kleinem"\ Wert $\tilde h \in R^+$
+mit \glqq hinreichend kleinem"\ Wert $\tilde h \in R^+$
 \\
 Vorteil:
 \begin{itemize}
@@ -19,7 +19,7 @@ Vorteil:
 \end{itemize}
 Nachteil:
 \begin{itemize}
-	\item $\tilde h$ ist unbekannt, "falsche"\ Wahl von $\tilde h$ kann zu Rundungs-/ Approximationsfehlern führen
+	\item $\tilde h$ ist unbekannt, \glqq falsche"\ Wahl von $\tilde h$ kann zu Rundungs-/ Approximationsfehlern führen
 	\item Berechnung von $\nabla f$ benötigt $n+1$ Auswertungen der Funktion $f$ - teuer für eine große Anzahl von Variablen
 \end{itemize}
 Grafik zur Genauigkeit: Fehler V -förmig (Rundungsfehler und Ungenauigkeit)
@@ -76,7 +76,7 @@ Bemerkung: $\prod_{i=1}^n x_i$ taucht z.B. in der Berechnung von Determinanten o
 gegeben: eine mathematische Funktion: $F:\mathbb{R}^n\mapsto\mathbb{R}^m$, welche
 \begin{itemize}
 	\item hinreichend oft differenzierbar ist
-	\item durch einen endlichen "Straight-Line" Code beschrieben werden kann, d.h. keine (unendliche) Rekursion und Verzweigungen (if-branches,\dots) enthält
+	\item durch einen endlichen \glqq Straight-Line" Code beschrieben werden kann, d.h. keine (unendliche) Rekursion und Verzweigungen (if-branches,\dots) enthält
 \end{itemize}
 Mit anderen Worten $F:U\subseteq \mathbb{R}^n\mapsto\mathbb{R}^m, F(x) = y$ ist gegeben durch eine sogenannte Evaluation Procedure
 \begin{align*}
@@ -96,7 +96,7 @@ effiziente numerische Bestimmung von Ableitungsinformationen der Funktion bezüg
 
 \noindent Bemerkung:
 
-Die Zwischenvariablen $v_i$ in der Eval. Proc. können nach ihrer Berechnungsvorschrift sortiert werden und induzieren einen "Computational DAG", in welchem jede Zwischenvariable durch einen Knoten repräsentiert wird. Eine Kante existiert wenn eine solche Variable direkt von einer Anderen abhängt.
+Die Zwischenvariablen $v_i$ in der Eval. Proc. können nach ihrer Berechnungsvorschrift sortiert werden und induzieren einen \glqq Computational DAG", in welchem jede Zwischenvariable durch einen Knoten repräsentiert wird. Eine Kante existiert wenn eine solche Variable direkt von einer Anderen abhängt.
 $v_i = \varphi(v_j)_{j \prec i}$ ist eine Kurzschreibweise für den Funktionswert der entsprechenden Elementarfkt. $\varphi_i$ zur Auswertung von $v_i$, die von den vorher berechneten Werten ($(v_j)_{j \prec i}$) direkt abhängt.
 
 \vspace{\baselineskip}
@@ -168,6 +168,7 @@ Ausgehend von der Evaluation Procedure kann man eine erweiterte/ extended  Eval.
 \begin{tabular}{L | P{1.2cm}  L}
 	\hline
 	\text{Grafik: Computational Graph für }f \quad\quad\quad\quad& Tabelle&\text{: part.Ordnung der }v_i\text{'s}\\
+	& &\\
 	&$\varnothing$ &\prec -1\\
 	&$\varnothing$ &\prec 0\\
 	&$-1$ &\prec 1\\
@@ -178,3 +179,86 @@ Ausgehend von der Evaluation Procedure kann man eine erweiterte/ extended  Eval.
 	&$4,5$ &\prec 6\\
 \end{tabular}
 
+\noindent
+Begründung:
+
+Der Forward Mode beruht auf der Kettenregel:\\
+$$\Phi_2(\Phi_1(x))' = \Phi_2'(\Phi_1(x))\cdot \Phi_1'(x)$$,
+welche mehrfach auf die erweiterten Abbildungen $\Phi_i : \tilde{V}\mapsto\tilde{V}$ angewendet wird, wobei $\tilde{V}\subseteq \mathbb{R}^{n+l+m}$ und $V \in \tilde{V}$ der Vektor aller Zwischenvariablen $v_i$, d.h.
+$$V=(v_{1-n},\dots, v_0,v_1, \dots , v_l, v_{l+1},\dots, v_{l+,})$$
+ist und somit $\Phi_i$ die Ausführung einer Zeile $v_i=\dots$ entspricht.
+
+Mit anderen Worten berechnet die Extended Evaluation Procedure nichts anderes als
+$$y=P \Phi_l(\Phi_{l-1}(\dots \Phi_1(Qx))\dots)) \quad \text{und}$$
+$$\dot{y} = P \Phi_l'(V_l)\cdot\Phi_{l-1}'(V_{l-1})\cdot\dots\cdot\Phi_1'(V_1)\cdot Q\dot{x} \text{ ,}$$
+wobei
+$P$ Projektionsmatrix
+$$ P =
+\begin{bmatrix}
+	  0		& \dots	& 0		& 0		& \dots	& 0		& 1	& 		&  \\
+	  \vdots& \ddots& \vdots& \vdots& \ddots& \vdots& 	& \ddots&  \\
+	  0		& \dots & 0		& 0		& \dots	& 0		&	&		& 1\\
+\end{bmatrix}_{(n+l+m)\times m}
+$$
+$Q$ Prolongationsmatrix
+$$ Q= 
+\begin{bmatrix}
+	1		&		&  \\
+			& \ddots&  \\
+			&		& 1\\
+	0		& \dots	& 0\\
+	\vdots	& \ddots& \vdots\\
+	0		& \dots & 0\\
+	
+	0		& \dots	& 0\\
+	\vdots	& \ddots& \vdots\\
+	0		& \dots & 0	
+\end{bmatrix}_{n \times (n+l+m)}
+$$
+und  $V_{i+1}=\Phi_i(V_i)$ mit $V_{1-n}=Qx$ ist,
+in einer effizienten Art und Weise.\\
+
+\noindent Hinweis:
+\begin{align*}	
+	\Phi_i(V) & = 
+	\begin{bmatrix}
+		1	&		&\\
+			& \ddots&\\
+			&		& 1
+	\end{bmatrix}
+	\leftarrow \frac{\partial y_i}{\partial V_i}(V)\\
+	& = (I + (V\varphi(V)\cdot l_{n+i})\cdot l_{n+i}^T)
+\end{align*}
+
+\noindent Effizienz:
+
+$COST(EVAL(F'(x)\cdot \dot{x})) \approx c_1 \cdot COST(EVAL(F(x)))$\\
+wobei $c_1$ eine konstante Zahl (typisch $c_1\approx 2-5$) ist.
+$\Rightarrow$ Auswertung der Jacobimatrix ergibt $COST(EVAL(F'(x))) = n \cdot c_1 \cdot Cost(EVAL(F(x)))$, da im ungünstigsten Fall $F'(x)\cdot\dot{x}$ für alle $n$ Einheitsrichtungen $l_1,\dots, l_n$ ausgeführt werden muss.\\
+
+\noindent Bemerkung:
+\begin{itemize}
+	\item Effizien von AD Forward Mode entspricht dem Aufwand von Differenzenquotient
+	\item Vorteil: kein \glqq $\tilde{h}$"\ benötigt
+	\begin{itemize}
+		\item[$\rightarrow$] keine Rundungs-/ Approximationsfehler
+		\item[$\rightarrow$] bis auf Rechengenauigkeit exakt\\
+		(abhängig von originaler Evaluation Procedure)
+	\end{itemize}
+\end{itemize}
+
+\noindent Problem:
+
+Für eine große Anzahl von abhängigen Variablen ist das immer noch teuer\\
+
+\noindent $\Rightarrow$ Backward Mode\\
+Ziel: effiziente Auswertung von
+$$ \bar{y}^T F'(x)$$
+mit welcher man z.B. nur einen Aufruf benötigen würde um den gesuchten Gradient $\nabla F \in \mathbb{R}^n$  von $F: \mathbb{R}^n \mapsto \mathbb{R}$ zu berechnen.\\
+(setze $\bar{y}=1 \Rightarrow \bar{y}^TF'(x)=1\cdot \nabla F(x)$)\\
+
+\noindent Überlegung: anstatt
+$$\dot{y} = \xleftarrow{P \Phi_l'(V_l)\cdot\Phi_{l-1}'(V_{l-1})\cdot\dots\cdot\Phi_1'(V_1)\cdot Q\dot{x}}$$
+wie im Foward Mode zu berechnen, muss nun 
+$$\bar{x} = \xrightarrow{\bar{y} P \Phi_l'(V_l)\cdot\Phi_{l-1}'(V_{l-1})\cdot\dots\cdot\Phi_1'(V_1)\cdot Q}$$
+ausgewertet werden.

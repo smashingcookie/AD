@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.10.19)  18 NOV 2017 12:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.10.19)  18 NOV 2017 13:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -934,11 +934,36 @@ Overfull \hbox (3.06473pt too wide) in paragraph at lines 170--170
  []
 
 
-Overfull \hbox (17.10112pt too wide) in paragraph at lines 167--180
+Overfull \hbox (17.10112pt too wide) in paragraph at lines 167--181
 [] 
  []
 
-) [9]
+
+Underfull \hbox (badness 10000) in paragraph at lines 185--186
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 217--220
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 235--238
+
+ []
+
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 252--253
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 256--259
+
+ []
+
+) [11]
 \openout2 = `chaps/current.aux'.
 
  (./chaps/current.tex
@@ -948,16 +973,16 @@ Overfull \hbox (7.06372pt too wide) in paragraph at lines 42--43
 -wer-tung von F (Forward-
  []
 
-[10
+[12
 
 
-]) [11] (./Script.aux (./chaps/chap1.aux) (./chaps/chap2.aux)
+]) [13] (./Script.aux (./chaps/chap1.aux) (./chaps/chap2.aux)
 (./chaps/chap3.aux) (./chaps/current.aux)) ) 
 Here is how much of TeX's memory you used:
- 14173 strings out of 493029
- 284052 string characters out of 6136233
+ 14171 strings out of 493029
+ 284022 string characters out of 6136233
  330471 words of memory out of 5000000
- 17392 multiletter control sequences out of 15000+600000
+ 17390 multiletter control sequences out of 15000+600000
  11458 words of font info for 44 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,16n,82p,406b,950s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -971,13 +996,14 @@ m/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12
 usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Script.pdf (11 pages, 159246 bytes).
+f-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/symbols/msbm10.pfb>
+Output written on Script.pdf (13 pages, 173878 bytes).
 PDF statistics:
- 95 PDF objects out of 1000 (max. 8388607)
- 68 compressed objects within 1 object stream
+ 106 PDF objects out of 1000 (max. 8388607)
+ 76 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
