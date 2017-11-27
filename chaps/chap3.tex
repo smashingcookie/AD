@@ -261,4 +261,31 @@ mit welcher man z.B. nur einen Aufruf benötigen würde um den gesuchten Gradien
 $$\dot{y} = \xleftarrow{P \Phi_l'(V_l)\cdot\Phi_{l-1}'(V_{l-1})\cdot\dots\cdot\Phi_1'(V_1)\cdot Q\dot{x}}$$
 wie im Foward Mode zu berechnen, muss nun 
 $$\bar{x} = \xrightarrow{\bar{y} P \Phi_l'(V_l)\cdot\Phi_{l-1}'(V_{l-1})\cdot\dots\cdot\Phi_1'(V_1)\cdot Q}$$
-ausgewertet werden.
+ausgewertet werden. Dies kann auf zwei Arten geschehen (inkrementell und nicht inkrementell). In beiden Fällen werden die Werte $V_i$ benötigt.\\
+
+\noindent Non-Incremental:
+\begin{tabular}{L L c}
+	v_{i-n}=x_i						& i = 1,\dots,n &\\
+	v_i =\varphi_i(v_j)_{j\prec i}	& i = 1,\dots,l & \glqq Forward Sweep" \\
+	y_{m-i} = v_{l-i}				& i = m-1,\dots,0 & zum berechnen der $v_i$'s\\
+	\hline
+	\bar{v}_{l-i} = \bar{y}_{m-i}	& i={m-1},\dots,0 & \\
+	\bar{v}_j = \sum_{i\succ j}\bar{v}_i \frac{\partial}{\partial v_j} \varphi_i(u_i)
+									& i=l-m, \dots,1-n & \glqq Backward Sweep"\\
+	\bar{x}_i=\bar{v}_{i-n}			& i=n,\dots,1 &für (*)
+\end{tabular}
+
+\noindent Incremental:
+Foward Sweep:
+\begin{tabular}{L L}
+	v_i = 0 & i=1-n,\dots,0\\
+	\hline
+	\bar{v}_{l-i} = \bar{y}_{m-i} & i=0,\dots,m-1\\
+	\bar{v}_j += v_i \frac{\partial}{\partial v_j} \varphi_i(u_i) \text{für} j\prec i & i=l,\dots 1\\
+	\bar{x}_i = \bar{v}_{i-n} &i=n,\dots1
+\end{tabular}
+
+$\Rightarrow$\\
+Auswertung von $\bar{x} = \bar{y}^TF'(x)$ benötigt eine Auswertung von F (Forward Sweep) und einen \glqq Reverse Sweep \grqq. Der Aufwand kann nach oben abgeschätzt werden:
+$$OPS(EVAL(\bar{y}^TF'(x))) \approx c_2 OPS(EVAL(F(x)))$$
+wobei $c_2$ kleine Konstante ist.

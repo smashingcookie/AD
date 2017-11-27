@@ -12,4 +12,4 @@
 \contentsline {subsection}{\numberline {3.2}Analytisches Differenzieren/ per Hand}{6}
 \contentsline {subsection}{\numberline {3.3}Symbolisches Differenzieren}{6}
 \contentsline {subsection}{\numberline {3.4}Automatisches/ Algorithmisches Differenzieren}{7}
-\contentsline {section}{\numberline {4}currentstuff}{12}
+\contentsline {section}{\numberline {4}currentstuff}{13}
