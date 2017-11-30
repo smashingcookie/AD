@@ -1,5 +1,5 @@
 \contentsline {section}{\numberline {1}Motivation}{1}
-\contentsline {paragraph}{Beispiele f\IeC {\"u}r Differenzieraufgaben:}{1}
+\contentsline {paragraph}{Beispiele f\IeC {\"u}r Differenzieraufgaben:}{2}
 \select@language {ngerman}
 \contentsline {section}{\numberline {2}Ableitungen}{4}
 \contentsline {paragraph}{Partielle Ableitung}{4}
@@ -13,3 +13,4 @@
 \contentsline {subsection}{\numberline {3.3}Symbolisches Differenzieren}{6}
 \contentsline {subsection}{\numberline {3.4}Automatisches/ Algorithmisches Differenzieren}{7}
 \contentsline {section}{\numberline {4}currentstuff}{13}
+\contentsline {section}{\numberline {5}Sparse Matrices / D\IeC {\"u}nnbesetzte Matritzen}{16}

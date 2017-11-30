@@ -75,4 +75,112 @@ Aufgaben:
 Datentyp adouble erstellen, der 2 Werte speichert: einen für den Wert selbst und eines für die Richtung -> wichtiger Teil Fkt. a la operator+ 
 
 in Matlab: Adimat (Uni Darmstadt)
+...............................................
+
+
+Wdh. Checkpointing
+Gegeben $F = F_v \odot F_{v-1} \odot \dots \odot F_1$ D.H.
+$x_0 = x \rightarrow x_1 = F_1(x_0) \rightarrow x_2 = F_2(x_1) \rightarrow \dots \rightarrow y= x_v = F_v(x_{v-1})$
+
+Problem: bei Rückwärtssweep müssen alle Werte $x_i$ vorhanden sein (gespeichert werden)
+
+$\bar{x}= \bar{y}^TF'(x) | \bar{x} = \bar{y}_1F'(x_0)  \leftarrow \dots \leftarrow $
+
+Lösung: Checkpoints (CP) - anstatt aller $x_i$  werden nur ausgewählte Werte $x_i$ gespeichert, fehlende werden neuberechnet basierend auf diesen CP
+
+Bsp:
+
+\begin{tabular}{ L L L}
+	\text{Startwert} & \text{CP-werte} & \text{Zielwert}\\
+	0 \rightarrow & 1 \rightarrow 2 \rightarrow \dots \rightarrow 9 \rightarrow & 10 \\	
+\end{tabular}
+
+Vorgehen: Init 0
+
+
+\begin{tabular} { c  L L L }
+	Eval + Save & & & \\
+	CP : & 0 \rightarrow & 1 \rightarrow 2 \rightarrow \dots \rightarrow 9 \rightarrow & 10 \\
+	& \downarrow & \dots \downarrow \dots \downarrow \dots & \\
+	Eval + Rev & 9 \rightleftarrows 10 & & \\
+	&  \downarrow & & \\
+	Load CP+ Eval & 7 \rightarrow 8 & &\\
+	Eval + Rev & 8 \rightarrow 9 & &\\
+	&  \downarrow & & \\
+	Load CP+ Eval & 7 \rightleftarrows 8 & &\\
+	
+	letzte beiden Load CP + (Eval) + Rev & & &\\
+\end{tabular}
+
+Frage: wie werden die Checkpoints verteilt?
+$\rightarrow$ Faustregel: kann als dynamisches Optimierungsproblem definiert werden \glqq$MIN t(L,C)$\grqq, wobei 
+$$t(l,C) = MIN_{1\leq \tilde{l}\leq} \{\tilde{l} + t( l- \tilde{l},c-1)+t(\tilde{l},c)\}$$
+mit
+$ t(l,c) \approx$ Zeit für RV von $l$ Teilfkt mit C Checkpoints\\
+
+\vspace{1cm}
+
+Grafik\\
+
+\noindent
+Optimierungsproblem hat explizite Form \marginpar{nicht Prüfungsrelevant}
+$$t(l,c) = v(l,c) \cdot l - \beta (c+1, r-1)$$
+wobei $\beta(c,r) = \frac{(c+v)!}{c!r!}$ und $r = r(l,c)$
+die eindeutige natürliche Zahl mit $\beta (c,r-1) < l \leq \beta (c,r)$
+
+(r $\approx$ Ganzzahliges Verhältnis von Kosten für Reversal von l Funktionen mit c Checkpoints zu den Kosten für eine Vorwärtsauswertung)
+
+Prop 12.3 \glqq Bin. Rev. Schedule \grqq\\
+die optimalen CP sind gegeben durch 
+$$ l(c,r) = \beta(c,r) = \binom{c+v}{c} = \frac{(c+r)!}{c!r!}$$
+
+Faustregel:
+\begin{itemize}
+	
+	\item CP ungefähr bei Hälfte des verbliebenen Abschnitts setzen
+
+	Grafik
+	\item wenn viele CP vorhanden (im Vgl. zu Rel. Auswertungsaufwand), dann CP eher link von der Mitte
+	
+	Grafik
+	\item ansonsten eher rechts
+	
+	Grafik
+\end{itemize}
+
+
+..............................................
+
+\section{Sparse Matrices / Dünnbesetzte Matritzen}
+\label{"chap:sparsemats"}
+
+Gegeben sei eine Funktion $F:\mathbb{R}^n\mapsto\mathbb{R}^m$ deren Jacobi-Matrix dünnbesetzt ist, d.h. nur wenige Elemente $\neq 0 $ besitzt
+
+
+Ziel: effizientes Bestimmen dieser Einträge
+
+Für den generellen Fall haben wir gesehen, dass der FM eine effiziente Methode liefert $F'(x)\cdot s$ auszuwerten.
+
+Somit war es möglich $F'(x)$ durch eine geeignete Wahl von Richtungen  $s_1,\dots$ auszuwerten, z.B. mit den Einheitsvektoren $e_1,e_2, \dots e_n$, lieferte uns $F'(x)$ spaltenweise.\\
+
+
+
+\noindent
+Ziel: Bestimmung von $F'(x)$ mit $p <<n$ FM Auswertungen\\
+Frage: Wie groß ist $p$ und wie sind die Richtungen $s_1,\dots s_p$ zu wählen.\\
+Bem: Die Matrix $S = [s_1, \dots s_p] \in \mathbb{R}^{n\times p}$ wird oft als \glqq Seed\grqq Matrix bezeichnet.
+
+MIt $S$ lässt sich die Auswertung des FM mit den $p$ Richtungen kur als 
+$$B = [ F'(x)s_1 , \dots , F'(x)s_p] = F'(x) S = F'(x) [s_1,\dots,s_p]\ \ \ \ \  B= \dot{y},\ S=\dot{x}$$
+darstellen, wobei die Zeilen $b_i^T$ von B durch $b_i^T = \nabla F_i(x)^TS$ gegeben sind
+
+Beispiel mit Matrizen
+
+M.A.W. wie ist $S\in\mathbb{R}^{n\times p}$ zu wählen, damit $B$ alle Informationen über $F'(x)$ enthält, so dass man diese zurückberechnen kann.
+
+
+
+
 %\end{document}
+
+

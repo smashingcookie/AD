@@ -288,4 +288,34 @@ Foward Sweep:
 $\Rightarrow$\\
 Auswertung von $\bar{x} = \bar{y}^TF'(x)$ benötigt eine Auswertung von F (Forward Sweep) und einen \glqq Reverse Sweep \grqq. Der Aufwand kann nach oben abgeschätzt werden:
 $$OPS(EVAL(\bar{y}^TF'(x))) \approx c_2 OPS(EVAL(F(x)))$$
-wobei $c_2$ kleine Konstante ist.
+wobei $c_2$ kleine Konstante ist.\\
+
+\noindent
+Beispiel $f(x_1,x_2) = \dots$
+
+\begin{tabular}{L L c}
+	v_{-1}=x_1				& &\\
+	v_0 = x_2				& &\\
+	v_1 = v_{-1}^2			& &\\
+	v_2 = v_0 \cdot v_1		& &\\
+	v_3 = sin(v_{-1})		& & Forward Sweep\\
+	v_4 = \frac{v_2}{v_3}	& &\\
+	v_5 = cos(v_0)			& &\\
+	v_6 = v_4+ v_5			& &\\
+	y_1 = v_6				& &\\
+	\hline
+	\bar{v}_6 = \bar{y}_1													&&\\
+	\bar{v}_5 = \bar{v}_6 \frac{\partial}{\partial v_5} (v_4 + v_5) &= \bar{v}_6 \cdot 1	&\\
+	\bar{v}_4 = \bar{v}_6 \frac{\partial}{\partial v_4} (v_4 + v_5)&= \bar{v}_6 \cdot 1	&\\
+	\bar{v}_3 = \bar{v}_4 \frac{\partial}{\partial v_3} \frac{v_2}{v_3}&= \bar{v}_4 \cdot \frac{-v_2}{v_3^2}&\\
+	
+	\bar{v}_2 = \bar{v}_4 \frac{\partial}{\partial v_2} \frac{v_2}{v_3}&= \bar{v}_4 \cdot \frac{1}{v_3}&\\
+	
+	\bar{v}_1 = \bar{v}_2 \frac{\partial}{\partial v_1} (v_0 \cdot v_1)&= \bar{v}_2 \cdot v_0&\\
+	\bar{v}_0 = \bar{v}_2 \frac{\partial}{\partial v_0} (v_0 \cdot v_1)+ \bar{v}_5 \frac{\partial}{\partial v_0} cos(v_0) &= \bar{v}_2 \cdot v_1+ \bar{v}_5 \cdot (-sin(v_0)) &\\
+	
+	\bar{v}_{-1} = \bar{v}_1 \frac{\partial}{\partial v_{-1}} (v_{-1}^2) + \bar{v}_3 \frac{\partial}{\partial v_{-1}} sin(v_{-1}) &= \bar{v}_1 \cdot 2v_{-1} + \bar{v}_3 cos(v_{-1}) &\\
+	
+	\bar{x}_2 = \bar{v}_0 		&&\\
+	\bar{x}_1 = \bar{v}_{-1}	&&\\
+\end{tabular}
