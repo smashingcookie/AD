@@ -12,5 +12,6 @@
 \contentsline {subsection}{\numberline {3.2}Analytisches Differenzieren/ per Hand}{6}
 \contentsline {subsection}{\numberline {3.3}Symbolisches Differenzieren}{6}
 \contentsline {subsection}{\numberline {3.4}Automatisches/ Algorithmisches Differenzieren}{7}
-\contentsline {section}{\numberline {4}currentstuff}{13}
-\contentsline {section}{\numberline {5}Sparse Matrices / D\IeC {\"u}nnbesetzte Matritzen}{16}
+\contentsline {section}{\numberline {4}Checkpointing}{14}
+\contentsline {section}{\numberline {5}currentstuff}{15}
+\contentsline {section}{\numberline {6}Sparse Matrices / D\IeC {\"u}nnbesetzte Matritzen}{18}

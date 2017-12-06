@@ -75,7 +75,7 @@ Aufgaben:
 Datentyp adouble erstellen, der 2 Werte speichert: einen für den Wert selbst und eines für die Richtung -> wichtiger Teil Fkt. a la operator+ 
 
 in Matlab: Adimat (Uni Darmstadt)
-...............................................
+\\...............................................
 
 
 Wdh. Checkpointing
@@ -178,9 +178,19 @@ Beispiel mit Matrizen
 
 M.A.W. wie ist $S\in\mathbb{R}^{n\times p}$ zu wählen, damit $B$ alle Informationen über $F'(x)$ enthält, so dass man diese zurückberechnen kann.
 
+Beispiel matrixgrafik mit Sparsity pattern
 
+oder genauer, wann lassen sich alle GLS $b_i^T = r_i^TS$ eindeutig nach $r_i$ lösen.
+$\Rightarrow$ es werden mindestens genau so viele Gleichungen wie unbekannte benötigt\\
+$\Rightarrow p \ge P_i$,\\
 
+d.h. $P \geq P_i$, wobei $p_i$ die Anzahl der Nichtnulleinträge der $i$-ten Zeile von $F'(x)$ ist. Die Indexmenge dieser N.N.Einträge wird mit $\chi_i$ berzeichnet
+$$b_i^T = e_i^T A \cdot S = \sum_{j=1}^n e_i^T A e_j e_j^T S =\sum_{j\in \chi_i} e_i^T A e_j (e_j^T S) = a_I^T s_i \ \ \ \ \ A \leftarrow F'(x)$$
 
-%\end{document}
+Dabei kann $s_I$ so partitioniert werden, dass $S_i = P_i [...]...$
 
+Quadratisches LGS
+$$\hat{S}_i^Ta_i = \hat{b}_i = (e_k^Tb_i)_{k=1,\dots p_i}$$
+mit $p_i$ Gleichungen und $p_i$ Unbekannten.
 
+Herausforderung: Lösen von $m$ kleinen LGS zur Bestimmung von allen Zeilen von $F'(x)$

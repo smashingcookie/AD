@@ -1,0 +1,42 @@
+\section{Checkpointing}
+\underline{Wiederholung}
+Beim Vorwärtsmodus ($F'(x)\cdot s$) und Rückwärtsmodus ($s^TF'(x)$) hatten wir gesehen, dass für $F:\mathbb{R}^n\mapsto\mathbb{R}^n$ folgende Abschätzungen gelten.
+
+\begin{tabular}{LL}
+	OPS(EVAL(F'(x)\cdot s)) &\le c_1 \cdot OPS()Eval(F(x))\\
+	OPS(EVAL(s^T\cdot F'(x))) &\le c_2 \cdot OPS()Eval(F(x))
+\end{tabular}\\
+und somit
+
+\begin{tabular}{L}
+	OPS(EVAL(F'(x))) \le MIN(n,m) OPS(EVAL(F(x))
+\end{tabular}\\
+insbesondere
+
+\begin{tabular}{L}
+	OPS(EVAL(vf(x))) \le c OPS(EVAL(f(x)))
+\end{tabular}\\
+für $f:\mathbb{R}^n\mapsto \mathbb{R}^n$ im Gegensatz zu FD, wo $n+1$ Auswertungen von $f$ benötigt werden.\\
+
+\noindent
+\underline{Wichtig:}
+Die Abschätzungen gelten nur für die Anzahl der Operationen!!!
+
+\noindent Rechenoperationen sind meist billig im Vergleich zu Lese-/Schreibzugriffen auf fast allen Systemen.\\
+
+\noindent
+\underline{Forward/ Reverse Mode und Speicherbedarf}\\
+
+Forward Mode $\dot{y} = F'(x)\dot{x}$ : 
+\begin{tabular}{L L L }
+	v_{i-n} & = x_i& i = 1\dots n\\
+	\dot{v}_{i-n} &= \dot{x}_i&\\
+	\hline
+	v_i &=\varphi (v_j)_{j\prec i}&i=1\dots l\\
+	\dot{v}_i &= \sum_{j\prec i} \frac{\partial}{\partial v_j} \varphi_i<(u_i)\dot{v}_j&\\
+	\hline
+	y_{m-i} &=v_{l-i}&i= (m-1) \dots 0\\
+	\dot{y}_{m-i} &= \dot{v}_{l-i}&\\
+	\dot{y} &= \varPhi \ \ \ \ \ \ \varPhi \dot{x}&
+\end{tabular}
+$\rightarrow \dot{v}$ wird nur so lange benötigt, wie $v$ benötigt wird, kann also während der Laufzeit schon gelöscht werden. Mit anderen Worten der Speicheraufwand für den Forward-Mode entspricht in etwa dem Speicheraufwand der Funktionsauswertung (bis auf konstanten Faktor).
