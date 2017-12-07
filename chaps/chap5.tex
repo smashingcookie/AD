@@ -1,0 +1,49 @@
+\section{Sparse Matrices/ Duennbesetzte Matrizen}
+\label{chap:sparsemats}
+
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+Zusätzliche evtl. doppelte oder unvollständige Notizen zum Kapitel aus der Vorlesung:\\
+
+Gegeben sei eine Funktion $F:\mathbb{R}^n\mapsto\mathbb{R}^m$ deren Jacobi-Matrix dünnbesetzt ist, d.h. nur wenige Elemente $\neq 0 $ besitzt
+
+
+Ziel: effizientes Bestimmen dieser Einträge
+
+Für den generellen Fall haben wir gesehen, dass der FM eine effiziente Methode liefert $F'(x)\cdot s$ auszuwerten.
+
+Somit war es möglich $F'(x)$ durch eine geeignete Wahl von Richtungen  $s_1,\dots$ auszuwerten, z.B. mit den Einheitsvektoren $e_1,e_2, \dots e_n$, lieferte uns $F'(x)$ spaltenweise.\\
+
+
+
+\noindent
+Ziel: Bestimmung von $F'(x)$ mit $p <<n$ FM Auswertungen\\
+Frage: Wie groß ist $p$ und wie sind die Richtungen $s_1,\dots s_p$ zu wählen.\\
+Bem: Die Matrix $S = [s_1, \dots s_p] \in \mathbb{R}^{n\times p}$ wird oft als \glqq Seed\grqq Matrix bezeichnet.
+
+MIt $S$ lässt sich die Auswertung des FM mit den $p$ Richtungen kurz als 
+$$B = [ F'(x)s_1 , \dots , F'(x)s_p] = F'(x) S = F'(x) [s_1,\dots,s_p]\ \ \ \ \  B= \dot{y},\ S=\dot{x}$$
+darstellen, wobei die Zeilen $b_i^T$ von B durch $b_i^T = \nabla F_i(x)^TS$ gegeben sind
+
+Beispiel mit Matrizen
+
+M.A.W. wie ist $S\in\mathbb{R}^{n\times p}$ zu wählen, damit $B$ alle Informationen über $F'(x)$ enthält, so dass man diese zurückberechnen kann.
+
+Beispiel matrixgrafik mit Sparsity pattern
+
+oder genauer, wann lassen sich alle GLS $b_i^T = r_i^TS$ eindeutig nach $r_i$ lösen.
+$\Rightarrow$ es werden mindestens genau so viele Gleichungen wie unbekannte benötigt\\
+$\Rightarrow p \ge P_i$,\\
+
+d.h. $P \geq P_i$, wobei $p_i$ die Anzahl der Nichtnulleinträge der $i$-ten Zeile von $F'(x)$ ist. Die Indexmenge dieser N.N.Einträge wird mit $\chi_i$ berzeichnet
+$$b_i^T = e_i^T A \cdot S = \sum_{j=1}^n e_i^T A e_j e_j^T S =\sum_{j\in \chi_i} e_i^T A e_j (e_j^T S) = a_I^T s_i \ \ \ \ \ A \leftarrow F'(x)$$
+
+Dabei kann $s_I$ so partitioniert werden, dass $S_i = P_i [...]...$
+
+Quadratisches LGS
+$$\hat{S}_i^Ta_i = \hat{b}_i = (e_k^Tb_i)_{k=1,\dots p_i}$$
+mit $p_i$ Gleichungen und $p_i$ Unbekannten.
+
+Herausforderung: Lösen von $m$ kleinen LGS zur Bestimmung von allen Zeilen von $F'(x)$\\
+
+

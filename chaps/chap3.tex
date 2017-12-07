@@ -238,7 +238,7 @@ $\Rightarrow$ Auswertung der Jacobimatrix ergibt $COST(EVAL(F'(x))) = n \cdot c_
 
 \noindent Bemerkung:
 \begin{itemize}
-	\item Effizien von AD Forward Mode entspricht dem Aufwand von Differenzenquotient
+	\item Effizienz des Forward Mode entspricht dem Aufwand vom Differenzenquotient
 	\item Vorteil: kein \glqq $\tilde{h}$"\ benötigt
 	\begin{itemize}
 		\item[$\rightarrow$] keine Rundungs-/ Approximationsfehler
@@ -281,7 +281,7 @@ Foward Sweep:
 	v_i = 0 & i=1-n,\dots,0\\
 	\hline
 	\bar{v}_{l-i} = \bar{y}_{m-i} & i=0,\dots,m-1\\
-	\bar{v}_j += v_i \frac{\partial}{\partial v_j} \varphi_i(u_i) \text{für} j\prec i & i=l,\dots 1\\
+	\bar{v}_j += v_i \frac{\partial}{\partial v_j} \varphi_i(u_i) \text{ für } j\prec i & i=l,\dots 1\\
 	\bar{x}_i = \bar{v}_{i-n} &i=n,\dots1
 \end{tabular}
 
@@ -337,4 +337,83 @@ Beispiel $f(x_1,x_2) = \dots$
 	& = \bar{v}_4 \cdot \frac{1}{sin(x_1)}x_1^2 - sin(x_2)\cdot \bar{v}_6 \cdot 1\\
 	& = \bar{v}_0 \cdot 1 \cdot \frac{x_1^2}{sin(x_1)} - sin(x_2)\cdot \bar{y}_1\\
 	& = \frac{x_1^2}{sin(x_1)} - sin(x_2)\\
+\end{tabular}\\
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+Zusätzliche evtl. doppelte oder unvollständige Notizen zum Kapitel aus der Vorlesung:\\
+
+
+ForwardMode: $J \cdot v$ : Jacobi * Vektor
+
+BackwardMode: $v^T \cdot J$: Vektor$^T$ * Jacobi
+
+\noindent Ziel: effiziente Auswertung von $v^TF'(x) = \dot{y}$
+Überlegung: $\dot{y} = P \Phi'_l(V_l)\cdot \Phi'_{l-1}(V_{l-1})\dots \Phi'_1(V_1)\cdot Q \cdot \dot{x}$
+
+wie um Forward Mode zu berechnen muss nun
+
+$\dot{x} = \bar{y}^TP\Phi'_l(V_l)\dots \Phi'_1(V_1)\cdot Q$
+ausgewertet werden
+
+Non-Incremental:
+
+\begin{tabular}{| L L |}
+	v_{i-n} = x &i=1\dots n\\
+	v_i=\varphi_i(v_j)_{j\prec i} &i=1 \dots l\\
+	y_{m-i} = v_{l-i} & i=m-1 \dots 0\\
+	\hline
+	\bar{y}^TP\bar{v}_{l-i} = \bar{y}_{m-l}& i =m-1 \dots 0\\
+	\bar{v}^T\Phi'(\dots)\bar{v}_j = \sum_{i\succ j} \bar{v}_j&\\
+	&\\
 \end{tabular}
+
+Incremental: (Zusatzmaterial)
+
+\begin{tabular}{| L L |}
+	v_{i-n} = x &i=1\dots n\\
+	v_i=\varphi_i(v_j)_{j\prec i} &i=1 \dots l\\
+	y_{m-i} = v_{l-i} & i=m-1 \dots 0\\
+	\hline
+	\bar{v}_i = 0 & i =1-n \dots l\\
+	\bar{v}_{l-1} = &\\
+	\bar{v}^T\Phi'(\dots)\bar{v}_j = \sum_{i\succ j} \bar{v}_j&\\
+	&\\
+\end{tabular}
+
+
+$\rightarrow$ Auswertung von $\bar{x} = \bar{y}^TF'(x)$ benötigt eine Auswertung von F (Forward-Sweep) und einen Reverse Sweep. Der Aufwand kann nach oben abgeschätzt werden
+
+$$OPS(EVAL(\bar{y}^TF'(x))) \leq c_2 OPS(EVAL(F(k)))$$,
+wobei $c_2$ eine Konstante ist $(c_2\approx 2-5)$
+\\
+Fehler bisher, sollte sein: (inkorrekte Korrektur, unvollständig)
+$$\bar{v}_i \sum_{i\succ j} \bar{v}_i \frac{\partial}{\partial v_j}\varphi_i(u_i)$$
+
+
+Bsp. Reverse Sweep (Non-Incremental) $f(x_1,x_2)$
+wir wollen berechnen $\bar{y}^Tf'(x), f: \mathbb{R}^2\mapsto\mathbb{R}^1$
+
+\begin{tabular}{| L  L |}
+	\bar{y}_1 = 1 &\\
+	\bar{v}_6 = \bar{y}_1 &\\
+	\bar{v}_5 = \bar{v}_6 \frac{\partial}{\partial v_5}(v_4+v_5) & = \bar{v}\cdot 1\\
+	\bar{v}_4 = \bar{v}_6 \frac{\partial}{\partial v_4}(v_4+v_5)& = \bar{v}\cdot 1\\
+	\bar{v}_3 = \bar{v}_4 \frac{\partial}{\partial v_3}(\frac{v_2}{v_3})&  = \bar{v}_4 \cdot \left( -\frac{v_2}{v_3^2}\right)\\
+	\bar{v}_2 = \bar{v}_4 \frac{\partial}{\partial v_2}(\frac{v_2}{v_3})&) =\bar{v}_4 \cdot \left(\frac{1}{v_3}\right)\\
+	\bar{v}_1 = \bar{v}_2 \frac{\partial}{\partial v_1}(v_0 \cdot v_1) & =\bar{v}_2 \cdot v_0\\
+	\bar{v}_0 = \bar{v}_2 \frac{\partial}{\partial v_0}(v_0 \cdot v_1) + \bar{v}_5 \frac{\partial}{\partial v_0}(cos(v_0))& =  =\bar{v}_2 \cdot v_1 + \bar{v}_5(-sin(v_0))\\
+	\bar{v}_{-1} = \bar{v}_2 \frac{\partial}{\partial v_0}(v_0 \cdot v_1) + \bar{v}_5 \frac{\partial}{\partial v_0}(cos(v_0))& =2 \bar{v}_1 v_{-1} + \bar{v}_3 cos(v_{-1})\\
+	%	\hline
+\end{tabular}
+
+\vspace{\baselineskip}
+Aufgaben:
+\begin{itemize}
+	\item Fehler von \ref{subsec:numerisch / Differenzenquotient} nachimplementieren
+	\item Forward Mode implementieren
+	\item Rosenbrock
+\end{itemize}
+
+Datentyp adouble erstellen, der 2 Werte speichert: einen für den Wert selbst und eines für die Richtung -> wichtiger Teil Fkt. a la operator+ 
+
+in Matlab: Adimat (Uni Darmstadt)
