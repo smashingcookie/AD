@@ -4,3 +4,4 @@ Mitschrift/Skript zur Veranstaltung Automatisches Differenzieren Uni Jena WS 17/
 
 - Grafiken fehlen hier, diese werden eventuell noch nachträglich ergänzt.
 - Fehler/Typos gerne melden
+- Mitschriften zu Vertretungsvorlesung(en) fehlen
