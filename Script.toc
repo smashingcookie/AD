@@ -13,6 +13,6 @@
 \contentsline {subsection}{\numberline {3.3}Symbolisches Differenzieren}{6}
 \contentsline {subsection}{\numberline {3.4}Automatisches/ Algorithmisches Differenzieren}{7}
 \contentsline {section}{\numberline {4}Checkpointing}{15}
-\contentsline {section}{\numberline {5}Sparse Matrices/ Duennbesetzte Matrizen}{18}
-\contentsline {section}{\numberline {6}zu Sparse Matrices}{20}
-\contentsline {section}{\numberline {7}currentstuff}{23}
+\contentsline {section}{\numberline {5}Sparse Matrices/ Duennbesetzte Matrizen}{19}
+\contentsline {section}{\numberline {6}zu Sparse Matrices}{21}
+\contentsline {section}{\numberline {7}currentstuff}{24}

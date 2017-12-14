@@ -55,7 +55,47 @@ $\bar{x}=\bar{y}F'(x)$
 	\bar{v}_i = \sum_{i\succ j}\bar{v}_i\frac{\partial}{\partial v_j} \varphi_i(u_i) & i = l,\dots,1\\
 	\bar{x}_i = \bar{v}_{i-n} & i=n,\dots,1
 \end{tabular}
-$$\bar{x}=\bar{y} \varPhi(\ ) \dots \varPhi(\ )$$
+$$\bar{x}=\bar{y}\ \underrightarrow{\varPhi(\ ) \dots \varPhi(\ )}$$
+
+
+Hier müssen/müssten alle Zwischenwerte $v_i$ gespeichert werden, insbesondere kann der Speicherbedarf nun für generelle Funktionen nicht mehr abgeschätzt werden.
+
+\noindent\underline{Typisches Beispiel}
+Beispiel: Berechne $\nabla f(u_i(x))$, wobei $u_i(x)$ die Lösung einer gewöhnlichen DGL (ODE)
+$$\frac{\partial u}{\partial t} = F(u,x,t)\ \ \ \forall_{t \in T} = [t_0,\dots,t_l]$$
+ist, welche von unbekannter Variable x abhängt, z.B. Parametern oder Startwerte.
+
+Explizites SIR Bsp: Die ODE für ein simples SIR ist gegeben durch:
+$$\frac{\partial u}{\partial t}
+\begin{Bmatrix}
+\frac{\partial S}{\partial t} = & -\alpha S \cdot I & = F_1(u,x,t)\\
+\frac{\partial I}{\partial t} = & +\alpha S \cdot I - \beta I &= F_2(u,x,t)\\
+\frac{\partial R}{\partial t} = & + \beta I & = F_3(u,x,t)
+\end{Bmatrix}
+= F(u,x,t)
+$$
+wobei die Übergangswerte $\alpha$ und $\beta$ sowie die Startwerte $(S_0,I_0,R_0)$ für $U=(S,I,R)$ oft unbekannt sind, d.h. $x=(\alpha,\beta,S_0,I_0,R_0)$. Numerisch kann die Lösung für $U=(S,I,R)$ durch das explorative Eulerverfahren approximiert werden über einem diskretisierten Zeitintervall $T = [t_0, \dots, t_N]$.\\
+\begin{tabular}{L}
+	S_0 = x_3\\
+	I_0 = x_4\\
+	R_0 = x_5\\
+\end{tabular}\\
+Für $k=1 \dots N$\\
+\begin{tabular}{ L}
+	U_k=T_k-T_{k-1}\\
+	S_k = S_{k-1} + U_kF_1(S_{k-1},I_{k-1},R_{k-1},x,t)\\
+	I_k = I_{k-1} + U_kF_2(S_{k-1},I_{k-1},R_{k-1},x,t)\\
+	R_k = R_{k-1} + U_kF_3(S_{k-1},I_{k-1},R_{k-1},x,t)\\
+	\text{Return} f(S_0,\dots S_N,I_0,\dots I_N, R_0,\dots R_N)
+\end{tabular}
+
+Hier könnnte z.B. $f$ eine numerische Approximation 
+$$f(S_0,\dots,S_N,I_0,\dots I_N,\mathbb{R}_0,\dots,\mathbb{R}_N)$$
+$$ \frac{1}{T_N-t_0}\sum_{k=1}^N h_k(\frac{I_k+I_{k-1}}{2})$$
+für die durchschnittliche (Rel.) Anzahl von Infizierten sein:
+
+
+
 
 
 
