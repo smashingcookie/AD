@@ -13,6 +13,12 @@
 \contentsline {subsection}{\numberline {3.3}Symbolisches Differenzieren}{6}
 \contentsline {subsection}{\numberline {3.4}Automatisches/ Algorithmisches Differenzieren}{7}
 \contentsline {section}{\numberline {4}Checkpointing}{15}
-\contentsline {section}{\numberline {5}Sparse Matrices/ Duennbesetzte Matrizen}{19}
-\contentsline {section}{\numberline {6}zu Sparse Matrices}{21}
-\contentsline {section}{\numberline {7}currentstuff}{24}
+\contentsline {subsection}{\numberline {4.1}Wiederholung}{15}
+\contentsline {subsection}{\numberline {4.2}Forward/ Reverse Mode und Speicherbedarf}{15}
+\contentsline {subsubsection}{\numberline {4.2.1}Typisches Beispiel}{16}
+\contentsline {subsubsection}{\numberline {4.2.2}Explizites SIR Bsp}{16}
+\contentsline {subsubsection}{\numberline {4.2.3}Reverse Mode (f\IeC {\"u}r obiges Beispiel)}{18}
+\contentsline {subsection}{\numberline {4.3}Binomial Checkpointing}{19}
+\contentsline {section}{\numberline {5}Sparse Matrices/ Duennbesetzte Matrizen}{22}
+\contentsline {section}{\numberline {6}zu Sparse Matrices}{24}
+\contentsline {section}{\numberline {7}currentstuff}{27}

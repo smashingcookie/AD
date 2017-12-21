@@ -1,10 +1,10 @@
 \section{Checkpointing}
 \label{chap:Checkpointing}
 
-\underline{Wiederholung}
+\subsection{Wiederholung}
 Beim Vorwärtsmodus ($F'(x)\cdot s$) und Rückwärtsmodus ($s^TF'(x)$) hatten wir gesehen, dass für $F:\mathbb{R}^n\mapsto\mathbb{R}^n$ folgende Abschätzungen gelten.
 
-\begin{tabular}{LL}
+\begin{tabular}{L L}
 	OPS(EVAL(F'(x)\cdot s)) &\le c_1 \cdot OPS()Eval(F(x))\\
 	OPS(EVAL(s^T\cdot F'(x))) &\le c_2 \cdot OPS()Eval(F(x))
 \end{tabular}\\
@@ -24,10 +24,9 @@ für $f:\mathbb{R}^n\mapsto \mathbb{R}^n$ im Gegensatz zu FD, wo $n+1$ Auswertun
 \underline{Wichtig:}
 Die Abschätzungen gelten nur für die Anzahl der Operationen!!!
 
-\noindent Rechenoperationen sind meist billig im Vergleich zu Lese-/Schreibzugriffen auf fast allen Systemen.\\
+\noindent Rechenoperationen sind meist billig im Vergleich zu Lese-/Schreibzugriffen auf fast allen Systemen.
 
-\noindent
-\underline{Forward/ Reverse Mode und Speicherbedarf}\\
+\subsection{Forward/ Reverse Mode und Speicherbedarf}
 
 Forward Mode $\dot{y} = F'(x)\dot{x}$ : 
 \begin{tabular}{L L L }
@@ -60,12 +59,13 @@ $$\bar{x}=\bar{y}\ \underrightarrow{\varPhi(\ ) \dots \varPhi(\ )}$$
 
 Hier müssen/müssten alle Zwischenwerte $v_i$ gespeichert werden, insbesondere kann der Speicherbedarf nun für generelle Funktionen nicht mehr abgeschätzt werden.
 
-\noindent\underline{Typisches Beispiel}
+\subsubsection{Typisches Beispiel}
 Beispiel: Berechne $\nabla f(u_i(x))$, wobei $u_i(x)$ die Lösung einer gewöhnlichen DGL (ODE)
 $$\frac{\partial u}{\partial t} = F(u,x,t)\ \ \ \forall_{t \in T} = [t_0,\dots,t_l]$$
 ist, welche von unbekannter Variable x abhängt, z.B. Parametern oder Startwerte.
 
-Explizites SIR Bsp: Die ODE für ein simples SIR ist gegeben durch:
+\subsubsection{Explizites SIR Bsp}
+ Die ODE für ein simples SIR ist gegeben durch:
 $$\frac{\partial u}{\partial t}
 \begin{Bmatrix}
 \frac{\partial S}{\partial t} = & -\alpha S \cdot I & = F_1(u,x,t)\\
@@ -80,25 +80,116 @@ wobei die Übergangswerte $\alpha$ und $\beta$ sowie die Startwerte $(S_0,I_0,R_
 	I_0 = x_4\\
 	R_0 = x_5\\
 \end{tabular}\\
-Für $k=1 \dots N$\\
-\begin{tabular}{ L}
-	U_k=T_k-T_{k-1}\\
-	S_k = S_{k-1} + U_kF_1(S_{k-1},I_{k-1},R_{k-1},x,t)\\
-	I_k = I_{k-1} + U_kF_2(S_{k-1},I_{k-1},R_{k-1},x,t)\\
-	R_k = R_{k-1} + U_kF_3(S_{k-1},I_{k-1},R_{k-1},x,t)\\
-	\text{Return} f(S_0,\dots S_N,I_0,\dots I_N, R_0,\dots R_N)
-\end{tabular}
+
+\begin{algorithmic}
+	\For{$k=1 \dots N$}
+		\State $U_k \gets T_k-T_{k-1}$
+		\State $S_k \gets S_{k-1} + U_kF_1(S_{k-1},I_{k-1},R_{k-1},x,t)$
+		\State $I_k \gets I_{k-1} + U_kF_2(S_{k-1},I_{k-1},R_{k-1},x,t)$
+		\State $R_k \gets R_{k-1} + U_kF_3(S_{k-1},I_{k-1},R_{k-1},x,t)$
+	\EndFor
+	\State \Return $f(S_0,\dots S_N,I_0,\dots I_N, R_0,\dots R_N)$
+\end{algorithmic}
 
 Hier könnnte z.B. $f$ eine numerische Approximation 
 $$f(S_0,\dots,S_N,I_0,\dots I_N,\mathbb{R}_0,\dots,\mathbb{R}_N)$$
 $$ \frac{1}{T_N-t_0}\sum_{k=1}^N h_k(\frac{I_k+I_{k-1}}{2})$$
 für die durchschnittliche (Rel.) Anzahl von Infizierten sein:
+$$\frac{1}{T}\int_TI(t)dt$$
+oder der fehlenden gemessenen Daten $d_{k}$, $k \in 0,\dots N$
+$$f(u,x,t) = \frac{1}{N}\sum_{k=1}^N(d_k-I_k)^2$$
+$\Rightarrow$ Gradient zeigt Sensitivität der Modellparameter bezgl. Störung an und/oder kann zur Optimierung benutzt werden (Data-Fitting).
 
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+Viele dieser und ähnlicher Anwendungen (typischerweise numerische Approximation von ODE's/ PDE's) haben wie im vorherigen Beispiel oft die folgende Form:
+$$v_0 \rightarrow F(v_0) = v_1 \rightarrow F(v_1)=v_2 \rightarrow \dots F(v_{N-1})=v_N$$
+bzw.
+\begin{algorithmic}
+	\State INT $v_0$
+	\For{$k=1 \dots N$}
+		\State $v_k \gets F(v_{k-1})$
+	\EndFor
+	\State \Return $v_n$
+\end{algorithmic}
 
+D.h. alle Zwischenvariablen $v_k$ müssen gespeichert werden.
 
+Alternative: \glqq Speicheraufwand gegen Rechenaufwand austauschen \grqq\\
+m.a.w. anstatt alle $v_k$ tz speichern, werden nur ein paar ausgewählte Zwischenwerte gespeichert, sogenannte Checkpoints, und die restlichen benötigten Werte werden nach Bedarf ausgehend von den CP neu errechnet.
 
+\begin{tabular}{L L | L}
+	&v_0 &\\
+	&\rightarrow F(v_0) = v_1 &v_1 \hat{=}CP_1\\
+	&\rightarrow F(v_1)=v_2 &\\
+	(*)&\rightarrow \dots &\\
+	&\rightarrow F(v_i)=v_{i+1} &v_{i+1}\hat{=}CP_2\\
+	&\rightarrow F(v_{i+1})=v_{i+2} &\\
+	&\rightarrow F(v_{N-2})=v_{N-1}&v_{N-1}\hat{=}CP_3\\
+	&\rightarrow \dots &\\
+	&\rightarrow F(v_{N-1})=v_N& v_N\hat{=}CP_4
+\end{tabular}
+\newpage
+\subsubsection{Reverse Mode (für obiges Beispiel)}
+\begin{itemize}
+	\item[1.] Auswerten von $(*)$ und speichern der CP
+	\item[2.] Reverse Sweep
+	\begin{itemize}
+		\item[i)]  mittels $CP_4$ ausrechnen von $\bar{y}_{N-1}=\bar{y}_N^T F_{N-1}'(v_N)$
+		\item[ii)] mittels $CP_3$ und $\bar{Y}_{N-1}$ausrechnen von $\bar{y}_{N-2}=\bar{y}_{N-1}^T F_{N-2}'(v_{N-1})$
+		\item[iii)]
+		\begin{itemize}
+			\item Neuberechnung von  $v_{n-2}$ durch Forward Sweep ausgehend von $CP_2$, dann Auswerten von $\bar{y}_{N-3}=\bar{y}_{N-2}^T F_{N-3}'(v_{N-2})$
+			\item Neuberechnung von  $v_{n-3}$ durch Forward Sweep ausgehend von $CP_2$, dann Auswerten von $\bar{y}_{N-4}=\bar{y}_{N-3}^T F_{N-4}'(v_{N-3})$
+			\item $\vdots$
+			\item Neuberechnung von  $v_{i+2}$ durch Forward Sweep ausgehend von $CP_2$, dann Auswerten von $\bar{y}_{i+1}=\bar{y}_{i+2}^T F_{i+1}'(v_{i+2})$
+		\end{itemize}
+		\item[iv)] Auswertung von $\bar{y}_{i}=\bar{y}_{i+1}^T F_{i}'(v_{i+1})$
+		\item[v)]
+		\begin{itemize}
+			\item Neuberechnung von $v_i$ durch Forward Sweep Ausgehend von $CP_1$, dann Auswerten von $\bar{y}_{i-1}=\bar{y}_{i}^T F_{i-1}'(v_{i})$
+			\item $\vdots$
+		\end{itemize}
+		\item[vi)] $\vdots$
+		\item[vii)] Auswerten von $\bar{x}=\bar{y}_0=\bar{y}_1^TF_0'(v_1)$
+	\end{itemize}
+\end{itemize}
 
+Beispielgrafik (Berechnungsreihenfolge mit Pfeilen visualisiert)\\
+\vspace{3cm}
 
+Beobachtung:
+\begin{itemize}
+	\item je mehr CP's desto weniger Werte müssen neu berechnet werden
+	\item Extremfall \glqq alle Zwischenwerte sind CP\grqq\ liefert ursprüngliche Methode
+	\item je weniger CP's desto mehr neuberechnete Werte, dafür weniger teure Speicheroperationen
+\end{itemize}
+
+Typische Perfomanzkurve (Grafik: Verhältnis Runtime zu log(#CP's))\\
+\vspace{3cm}
+
+$\Rightarrow$ mögliche Laufzeit für Vanilla RM ohne CP kann z.T. schneller/langsamer oder etwas dazwischen sein im Vgl. zu mit CP - abhängig von Kosten des Speicherzugriffs\\
+
+\noindent weitere Beobachtung:
+\begin{itemize}
+	\item manche CP's werdem ab einem bestimmten Zeitpunkt nicht mehr benötigt $\rightarrow$ können wiederverwendet werden um andere zw.zuspeichern
+\end{itemize}
+Frage:\\
+- Welche Werte sollen als CP gespeichert werden?\\
+- Wie sieht das aus, wenn CP wieder benutzt werden?
+
+\subsection{Binomial Checkpointing}
+Idee:\\
+Verteile CP's optimal bzgl. des Gesamtaufwandes, d.h. benutze auch CP's die wieder frei werden
+$\rightarrow$ CP's nicht uniform verteilen\\
+Grafik\\
+sondern binomial\\
+Grafik\\
+
+Vorteil:\\
+die Letzten CP werden früh frei und können wieder verwendet werden und Neuberechnungen für $(*)$ werden eingespart\\
+$\Rightarrow$ frei gewordene CP's können dann beim ersten Durchlauf von $(*)$ wieder benutzt um Zwischenwerte abzuspeichern.
+
+Beispiel: Revolle Paper \dots / Walther
 
 
 
