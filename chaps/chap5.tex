@@ -1,27 +1,21 @@
-\section{Sparse Matrices/ Duennbesetzte Matrizen}
+\section{Dünnnbesetzte Ableitungsmatrizen}
 \label{chap:sparsemats}
 
+Gegeben sei eine Funktion $F:\mathbb{R}^n\mapsto\mathbb{R}^m$ deren Jacobi-Matrix $F'(x) \in \mathbb{R}^{m\times n}$ dünnbesetzt ist, d.h. nur wenige Nichtnulleinträge besitzt. Das Ziel ist nun diese Einträge (und somit der Jacobi-Matrix) effizient zu bestimmen.
 
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-Zusätzliche evtl. doppelte oder unvollständige Notizen zum Kapitel aus der Vorlesung:\\
-
-Gegeben sei eine Funktion $F:\mathbb{R}^n\mapsto\mathbb{R}^m$ deren Jacobi-Matrix dünnbesetzt ist, d.h. nur wenige Elemente $\neq 0 $ besitzt
-
-
-Ziel: effizientes Bestimmen dieser Einträge
-
-Für den generellen Fall haben wir gesehen, dass der FM eine effiziente Methode liefert $F'(x)\cdot s$ auszuwerten.
+\noindent
+Für den allgemeinen Fall haben wir gesehen, dass der FM eine effiziente Methode bietet $F'(x)\cdot s$ auszuwerten.
 
 Somit war es möglich $F'(x)$ durch eine geeignete Wahl von Richtungen  $s_1,\dots$ auszuwerten, z.B. mit den Einheitsvektoren $e_1,e_2, \dots e_n$, lieferte uns $F'(x)$ spaltenweise.\\
 
 
+\begin{itemize}
+	\item[Ziel:] Bestimmung von $F'(x)$ mit $p <<n$ FM Auswertungen
+	\item[Frage:]Wie groß ist $p$ und wie sind die Richtungen $s_1,\dots s_p$ zu wählen?
+	\item[Bem.:] Die Matrix $S = [s_1, \dots s_p] \in \mathbb{R}^{n\times p}$ wird oft als \glqq Seed\grqq Matrix genannt und ist im Folgenden hilfreich.
+\end{itemize}
 
-\noindent
-Ziel: Bestimmung von $F'(x)$ mit $p <<n$ FM Auswertungen\\
-Frage: Wie groß ist $p$ und wie sind die Richtungen $s_1,\dots s_p$ zu wählen.\\
-Bem: Die Matrix $S = [s_1, \dots s_p] \in \mathbb{R}^{n\times p}$ wird oft als \glqq Seed\grqq Matrix bezeichnet.
-
-MIt $S$ lässt sich die Auswertung des FM mit den $p$ Richtungen kurz als 
+Mit $S$ lässt sich die Auswertung des FM mit den $p$ Richtungen kurz als 
 $$B = [ F'(x)s_1 , \dots , F'(x)s_p] = F'(x) S = F'(x) [s_1,\dots,s_p]\ \ \ \ \  B= \dot{y},\ S=\dot{x}$$
 darstellen, wobei die Zeilen $b_i^T$ von B durch $b_i^T = \nabla F_i(x)^TS$ gegeben sind
 
@@ -46,4 +40,383 @@ mit $p_i$ Gleichungen und $p_i$ Unbekannten.
 
 Herausforderung: Lösen von $m$ kleinen LGS zur Bestimmung von allen Zeilen von $F'(x)$\\
 
+
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+
+
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+
+%\begin{document}
+
+\section{currentstuff}
+
+Wiederholung:
+\begin{itemize}
+	\item Ziel effiziente Berechnung von dünnbesetzten Abhleitungen $F'(x)$, deren dünnbesetzte Struktur bekannt ist
+	\item  Ausnutzen des FM bzw. RM, d.h. finde geeignete Seedmatrix (Richtungen)
+	$$S = S_1, \dots , S_p \in \mathbb{R}^{n\times p}$$
+	so dass
+	$$B=F'(x) \cdot S$$
+	alle Informationen von $F'(x)$ enthält.
+	\item \underline{Curtis-Powell-Reid Seeding}
+	
+	Durch Coloring/ Färbung des Spaltenzshgs.graphen $G=(V,E)$ von $F'(x)$ bestehend aus
+	\begin{itemize}
+		\item Knoten $V=\{1\dots n\}$, die jeweils einer Spalte von $F'(x)$ entsprechen und 
+		\item Kanten $E\subseteq V\times V$, die durch wiederholt auftretende Einträge in den Spalten induziert werden
+	\end{itemize}
+	M.a.W. es existiert eine Kante $(i,j)$ zwischen Knoten $i$ und $j$ gdw. Spalte $i$ und $j$ von $F'(x)$ mindestens einen gemeinsamen Nichtnulleintrag besitzen.\\
+\end{itemize}
+
+\begin{tabular}{l}
+	$\begin{bmatrix}
+	*	& *	& *	& *	& 0	& 0	& 0	& 0	& 0	& 0\\
+	*	& *	& 0	& 0	& *	& *	& 0	& 0	& 0	& 0\\
+	*	& *	& 0	& 0	& 0	& 0	& *	& *	& 0	& 0\\
+	0	& 0	& *	& *	& *	& *	& 0	& 0	& 0	& 0\\
+	0	& 0	& *	& *	& 0	& 0	& * & *	& 0	& 0\\
+	0	& 0	& *	& *	& 0	& 0	& 0 & 0	& *	& *\\
+	\end{bmatrix}$
+	\begin{tabular}{l}
+		$\rightarrow$ \underline{Übung:}\\
+		$\cdot$ Spalten-/ Zeilenzsghs.graphen erstellen\\
+		$\cdot$ (optimales) Coloring\\
+		$\cdot$ Seed Matrix\\
+		$\cdot$ Compressed Jacobial\\
+	\end{tabular}
+\end{tabular}\\
+
+
+\noindent
+Beispiel: $*$ -Nichtnulleintrag, $0$ - Null\\
+$A=\begin{bmatrix}
+*	& *	& 0	& 0	\\
+*	& 0	& *	& 0	\\
+*	& 0	& 0	& *	\\
+0	& 0	& *	& *	\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+a_{11}	& a_{12}	& 0	& 0	\\
+a_{21}	& 0	& a_{23}	& 0	\\
+a_{31}	& 0	& 0	& a_{34}	\\
+0	& 0	& a_{43}	& a_{44}	\\
+\end{bmatrix}
+$\\
+
+
+Spaltenzusammenhangsgraph:
+$$V=\{1,2,3,4\},\ \ E=\{(1,2),(1,3),(1,4),(3,4)\}$$
+
+Zeilenzusammenhangsgraph (analog definiert):
+$$V=\{1,2,3,4\},\ \ E=\{(1,2),(1,3),(2,3),(2,4),(3,4)\}$$
+
+\noindent
+$\rightarrow$ Färbung des Spalten-/ Zeilenzshgsgraphen
+$$c:\{1\dots n\}\mapsto \{1\dots p\}$$
+mit (möglichst wenig) $p$ Farben (1-Rot, 2-Grün, 3-Blau, 4-Gelb,\dots)
+liefert dann die entsprechende Seedmatrix: ($e_k$ bezeichnet den $k$-ten kartesischen Basisvektor)
+$$S = [e^T_{c(j)}]_{j=1,\dots,n}\in \mathbb{R}^{n\times p}\ \ \ e_k^T = [0 \dots 0,1_k, 0 \dots 0]$$
+und die Anzahl der notwendigen Richtungen $p$ (d.h. nötige Aufrufe des FM).\\
+
+\noindent
+Grafik:\\3 mal Spaltenzusammenhangsgraph nebeneinander, verschiedene Colorings\\
+4 Farben [1: Rot(1), Grün(2) , Blau(3),Gelb(4)]\marginpar{Hier anders als in VL!}\\
+3 Farben [2: Rot(1), Grün(2,4),Blau(3)]\\
+3 Farben [3: Rot(1), Grün(2,3),Blau(4)]\\
+\vspace{3cm}
+\\
+\begin{tabular}{c c c}
+	$S^I = \begin{bmatrix}
+	1	& 0	& 0	& 0	\\
+	0	& 1	& 0	& 0	\\
+	0	& 0	& 1	& 0	\\
+	0	& 0	& 0 & 1	\\
+	\end{bmatrix}_{4\times 4}$
+	&
+	$S^{II} = \begin{bmatrix}
+	1	& 0	& 0	\\
+	0	& 1	& 0	\\
+	0	& 0	& 1	\\
+	0	& 1	& 0	\\
+	\end{bmatrix}_{3\times 4}$
+	&
+	$S^{III} = \begin{bmatrix}
+	1	& 0	& 0	\\
+	0	& 1	& 0	\\
+	0	& 1	& 0	\\
+	0	& 0	& 1	\\
+	\end{bmatrix}_{3\times 4}$\\
+	
+	
+	
+	$AS^I =
+	\begin{bmatrix}
+	a_{11}	& a_{12}	& 0	& 0	\\
+	a_{21}	& 0	& a_{23}	& 0	\\
+	a_{31}	& 0	& 0	& a_{34}	\\
+	0	& 0	& a_{43}	& a_{44}\\
+	\end{bmatrix}$
+	&
+	$AS^{II}=
+	\begin{bmatrix}
+	a_{11}	& a_{12}& 0		\\
+	a_{21}	& 0		& a_{23}\\
+	a_{31}	& a_{34}& 0		\\
+	0		& a_{44}& a_{43}\\
+	\end{bmatrix}$
+	&
+	$AS^{III}=
+	\begin{bmatrix}
+	a_{11}	& a_{12}& 0		\\
+	a_{21}	& a_{23}& 0		\\
+	a_{31}	& 0		& a_{34}\\
+	0		& a_{43}& a_{44}\\
+	\end{bmatrix}$
+\end{tabular}\\
+
+\noindent
+Problem: Rekonstruktion von $A (=F'(x))$ aus $B=A\cdot S$\\
+$\Rightarrow$ Lsg von $b_i^T = w_i^TS_i$ bzgl. $w_i^T$ liefert die $p_i$ Nichtnulleinträge von $\nabla F_i(x)$\\
+Beispielgrafik der Matrixberechnung\\
+\vspace{3cm}
+
+
+$$\Rightarrow\ b_i^T =w_i^TS_i = e_i A S = e_i \sum_{j \in X_i} Ae_j^{}e_j^TS$$
+wobei  $X_i$ das Sparsitypattern der $i$-ten Zeile von $F'(x)$ ist, d.h. die Indizes der Nichtnulleinträge von $v\cdot F_i'(x)$\\
+$\Rightarrow\ b_i^T =w_i^TS_i \Leftrightarrow S_i^Tw_i = b_i$ ist ein überstimmtes LGS!\\
+
+\marginpar{Korrektheit/ Vollständigkeit/ Verständlichkeit überprüfen}
+\begin{itemize}
+	\item[$\Rightarrow$] Löse stattdessen $\tilde{S}_i^Tw_i = \tilde{b}_i$
+	mit
+	$\tilde{S}_i \in \mathbb{R}^{p_i\times p_i}$
+	und
+	$S_i = \begin{Bmatrix}
+	\tilde{S}_i & \dots & \tilde{S}_i\end{Bmatrix}_{p_i \times p_i}$ und  $S_i= (e_jS)_{j \in x_i}$
+	und
+	$Det(\tilde{S}_i)\neq 0$, $\tilde{b}_i = (e_k+b_i)_{k=1,\dots p_i}$\\
+	( wobei
+	$e_k$ die zu $\tilde{S_i}$ entsprechenden Spaltenindizes sind )\\
+	
+	\item[$\Rightarrow$] Im Fall von CPR (Curtis-Powell-Reid) ist\\
+	$$S_i = \left[l^T_{c(j)}\right]_{j\in X_i}\in \mathbb{R}^{p_i\times p},\ \ \ x_i \hat{=} \text{ Sparsitypattern von Zeile } i$$
+	gegeben als permutierte Einheitsmatrix mit angehängter Nullmatrix.
+	
+\end{itemize}
+\noindent
+Beispiel zur Matrix\\
+$A=\begin{bmatrix}
+a_{11}	& a_{12}	& 0	& 0	\\
+a_{21}	& 0	& a_{23}	& 0	\\
+a_{31}	& 0	& 0	& a_{34}	\\
+0	& 0	& a_{43}	& a_{44}\\
+\end{bmatrix}$:
+\begin{tabular}{l}
+	Sparsity-Pattern:\\
+	für $i$ Zeilen, jeweils die Indexmenge der Nichtnulleinträge:
+\end{tabular}\\
+\begin{tabular}{L}
+	x_1 = \{1,2\}\\
+	x_2 = \{1,3\}\\
+	x_3 = \{1,4\}\\
+	x_4 = \{3,4\}\\
+\end{tabular}
+$S^{II} = \begin{bmatrix}
+1	& 0	& 0	\\
+0	& 1	& 0	\\
+0	& 0	& 1	\\
+0	& 1	& 0	\\
+\end{bmatrix}
+$
+\begin{tabular} { l | l}
+	$S_1^{II} = \begin{bmatrix}
+		e_{C(1)}^T\\
+		e_{C(2)}^T
+	\end{bmatrix}= \begin{bmatrix}
+		1	& 0	& 0	\\
+		0	& 1	& 0	\\
+	\end{bmatrix}$
+	&
+	$\tilde{S}_1^{II}=\begin{pmatrix}
+	1	& 0\\
+	0	& 1\\
+	\end{pmatrix}$
+	\\
+	$b_1 = (a_{11}, a_{12},0)$ & $\tilde{b}_1 = (a_{11},a_{12})$
+	\\
+	\hline
+	$S_2^{II} = \begin{bmatrix}
+	e_{C(1)}^T\\
+	e_{C(3)}^T
+	\end{bmatrix} = \begin{bmatrix}
+	1	& 0	& 0	\\
+	0	& 0	& 1	\\
+	\end{bmatrix}$
+	&
+	$\tilde{S}_2^{II} = \begin{pmatrix}
+	1&0\\
+	0&1\\
+	\end{pmatrix}$
+	\\
+	$b_2 = (a_{21}, 0, a_{23})$&$\tilde{b}_2 = (a_{21},a_{23})$
+	\\
+	\hline
+	$S_3^{II} = \begin{bmatrix}
+	e_{C(1)}^T\\
+	e_{C(4)}^T
+	\end{bmatrix} = \begin{bmatrix}
+	1	& 0	& 0	\\
+	0	& 1	& 0	\\
+	\end{bmatrix}$
+	&
+	$\tilde{S}_3^{II} = \begin{pmatrix}
+	1&0\\
+	0&1\\
+	\end{pmatrix}$
+	\\
+	$b_3 = (a_{31}, a_{34},0)$&$\tilde{b}_3 = (a_{31},a_{34})$
+	\\
+	\hline
+	$S_4^{II} = \begin{bmatrix}
+	e_{C(3)}^T\\
+	e_{C(4)}^T
+	\end{bmatrix} = \begin{bmatrix}
+	0	& 0	& 1	\\
+	0	& 1	& 0	\\
+	\end{bmatrix}$
+	&	
+	$\tilde{S}_4^{II} = \begin{pmatrix}
+	1&0\\
+	0&1\\
+	\end{pmatrix}$\\
+	$b_4 = (0,a_{44}, a_{43})$&$\tilde{b}_4 = (a_{44},a_{43})$\\	
+\end{tabular}
+
+$\Rightarrow$ Lsg. von $\tilde{S}_i^Tw_i=\tilde{b}_i$,$i=1\dots n$ liefert Nichtnulleinträge $w_i$ von \\
+
+\begin{tabular}{l l}
+	\begin{tabular}{l}
+		$\begin{pmatrix}
+		1 & 0\\
+		0 & 1\\
+		\end{pmatrix}\begin{pmatrix}
+		w_{11}\\
+		w_{12}\\
+		\end{pmatrix} = \begin{pmatrix}
+		a_{11}\\
+		a_{12}\\
+		\end{pmatrix}$\\
+		$\begin{pmatrix}
+		1 & 0\\
+		0 & 1\\
+		\end{pmatrix}\begin{pmatrix}
+		w_{21}\\
+		w_{22}\\
+		\end{pmatrix} = \begin{pmatrix}
+		a_{21}\\
+		a_{23}\\
+		\end{pmatrix}$\\
+		$\begin{pmatrix}
+		1 & 0\\
+		0 & 1\\
+		\end{pmatrix}\begin{pmatrix}
+		w_{31}\\
+		w_{32}\\
+		\end{pmatrix} = \begin{pmatrix}
+		a_{31}\\
+		a_{34}\\
+		\end{pmatrix}$\\
+		$\begin{pmatrix}
+		1 & 0\\
+		0 & 1\\
+		\end{pmatrix}\begin{pmatrix}
+		w_{41}\\
+		w_{42}\\
+		\end{pmatrix} = \begin{pmatrix}
+		a_{44}\\
+		a_{43}\\
+		\end{pmatrix}$\\
+	\end{tabular}
+	&
+	$A=\begin{bmatrix}
+	w_{11}	& w_{12}	& 0	& 0	\\
+	w_{21}	& 0	& w_{22}	& 0	\\
+	w_{31}	& 0	& 0	& w_{32}	\\
+	0	& 0	& w_{41}	& w_{42}\\
+	\end{bmatrix}$
+\end{tabular}\\
+
+\noindent
+\underline{Zeilenkompression}\\
+Analog zur Spaltenkompression von rechts mittesls des FM ($F'(x)\cdot S)$ kann auch von links komprimiert werden mit dem Zeilenzshgs.graph und mittels des RM ($S\cdot F'(x)$), \marginpar{Dimensionen evtl. falsch}
+Mit anderen Worten betrachte nun
+$$ C^T = W^T F'(x) \in \mathbb{R}^{q\times n}$$
+wobei $W^T \in \mathbb{R}^{m\times q}$ nun die adjugierte Seed Matrix ist und $c^T \in \mathbb{R}^{q \times n}$ die komprimierte Darstellung der Jacobimatrix ist.\\
+
+\noindent
+Zeilen- und Spaltenkompression gleichzeitig machen:\\
+typisches Gegenbeispiel
+
+$\begin{bmatrix}
+* & \dots & * \\
+\vdots & \ddots & 0\\
+*	&	0	& *\\
+\end{bmatrix} \Rightarrow$ hier funktioniert weder Zeilen- noch Spaltenkompression
+
+
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+
+Wdhlg.
+$F'(x) = A = \begin{bmatrix}
+* & \dots & * \\
+\vdots & \ddots & 0\\
+*	&	0	& *\\
+\end{bmatrix}$\\
+
+Hier funktioniert weder Spalten- noch Zeilenkompression Solo
+
+$F'(x) \cdot \begin{bmatrix}
+0 &1\\1&0\\ \vdots&0\\1&0
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 & \dots &0
+\end{bmatrix}
+\cdot F'(x)$
+$\Rightarrow$ bei dieser Zerlegung würde es wieder funktionieren\\
+
+$\Rightarrow$ \underline{Beidseitige Kompression}, d.h. finde $S$ und $W$ für Kompressionsmatrizen\\
+$B=A\cdot S$ und $C=A^TW$ $(C^T = W^T A)$\\
+Die genügend Informationen enthalten um die Nichtnulleinträge von $A (=F'(x))$ wieder herzuleiten
+
+\subsubsection{Coleman und Verma}
+\label{subsubsec:part_row/column_compr}
+Vorschlag/Idee:
+Partitionierung von A in Blöcke, z.B. wie folgt
+Grafik: Matrix A in Blöcke aufgeteilt (r- row compression, c - column compression)\\
+
+
+$A=A^r+A^c$
+\vspace{3cm}
+
+Ziel: Bestimme beide Seed $S \in \mathbb{R}^{n\times p}$ für $A^r$ und Seed $W^T \in \mathbb{R}^{q\times m}$ für $A^c$. Entsprechend gilt\\
+$$AS = A^rS + A^cS$$
+$$C = A^TW = (A^r)^TW + (A^c)^TW$$
+
+Die Blöcke $A_i^R$ und $A_j^c$ können nacheinander ausgehend von $A_1^r$ bestimmt werden,\\
+M.A.W. die letzten Zeilen von $A$ bzw. $B=A\cdot S$ hängen nur von $A^r$ ab und können mit Standard Spaltenkompression ermittelt werden.
+
+Das Ergebnis kann benutzt werden um $C$ zu korrigieren.\\
+$C = C- (\bar{A}_1^r)^TW$ bzw. $A^TW = A^TW- (\bar{A}_1^r)^TW$\\,
+wobei\\
+$$PUT A NICE FORMULA HERE$$
+Dann kann $A_1^c$ zurückberechnet werden. usw.
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+
+Wichtig hier:
+Sparse Matrizen mit nichtnulleinträgen, wiederberechnen mit möglichst wenig Vektoren+ zurückrechnen (über Zeilen/Spaltenzshgsgraphen+Coloring), Weg zur Rückberechnung welcher Wert im aktuellen Eintrag steht
 

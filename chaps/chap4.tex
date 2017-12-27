@@ -164,7 +164,7 @@ Beobachtung:
 	\item je weniger CP's desto mehr neuberechnete Werte, dafür weniger teure Speicheroperationen
 \end{itemize}
 
-Typische Perfomanzkurve (Grafik: Verhältnis Runtime zu log(#CP's))\\
+Typische Perfomanzkurve (Grafik: Verhältnis Runtime zu log(\#CP's))\\
 \vspace{3cm}
 
 $\Rightarrow$ mögliche Laufzeit für Vanilla RM ohne CP kann z.T. schneller/langsamer oder etwas dazwischen sein im Vgl. zu mit CP - abhängig von Kosten des Speicherzugriffs\\
@@ -180,7 +180,7 @@ Frage:\\
 \subsection{Binomial Checkpointing}
 Idee:\\
 Verteile CP's optimal bzgl. des Gesamtaufwandes, d.h. benutze auch CP's die wieder frei werden
-$\rightarrow$ CP's nicht uniform verteilen\\
+$\rightarrow$ Griewank: CP's nicht uniform verteilen\\
 Grafik\\
 sondern binomial\\
 Grafik\\
@@ -189,7 +189,7 @@ Vorteil:\\
 die Letzten CP werden früh frei und können wieder verwendet werden und Neuberechnungen für $(*)$ werden eingespart\\
 $\Rightarrow$ frei gewordene CP's können dann beim ersten Durchlauf von $(*)$ wieder benutzt um Zwischenwerte abzuspeichern.
 
-Beispiel: Revolle Paper \dots / Walther
+Beispiel: Revolle Paper Griewank / Walther
 
 
 

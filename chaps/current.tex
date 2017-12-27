@@ -1,213 +1,77 @@
-%\begin{document}
+\section{Lineare Gleichungslöser}
+Gegeben:\\
+Matrix $ A \subseteq \mathbb{R}^{n\times n}, b \in \mathbb{R}^n$\\
+Ziel:\\
+Finde $w\in \mathbb{R}^n$ mit $Aw=b$\\
+Bemerkung:\\
+Sei Funktion $F:\mathbb{R}^{n\times n} \times \mathbb{R}^n \mapsto \mathbb{R}^n$,die eine Lösung von berechnet $w=F(A,b)\in \mathbb{R}^n = A^{-1}b$
+welche z.B. als  Methode/Code $w=foo=(A,b)$gegeben ist.
 
-\section{currentstuff}
+Bsp.: In Matlab kann der "\" Operatore benutzt werden
+Function w = FOooo(A,b)
+$\dots$
 
-Wdhlg.: Ziel effiziente Berechnung von dünnbesetzten Abhleitungen $F'(x)$, deren dünnbesetzte Struktur bekannt ist.
 
-$\rightarrow$ Ausnutzen FM und RM, d.h. finde Seedmatrix (Richtungen)
-$S = S_1, \dots , S_p \in \mathbb{R}^{n\times p}$ Richtungen \\
-so dass die Matrix $B=F'(x) \cdot S$ alle Informationen von $F'(x)$ enthält.\\
 
-\noindent
-\underline{'Curtis-Powell-Reid Seeding'}\\
-Mittels Coloring/ Färbung des Spaltenzusammenhangsgraphen $G=(V,E)$ von $F'(x)$ bestehend aus Knoten $V=\{1dots n\}$, die jeweils eine Spalte von $F'(x)$ entsprechen und Kanten $E\subseteq V\times V$, die durch wiederholte auftretende Einträge in den Spalten induziert werden, mit anderen Worten es existiert eine Kante $(i,j)$ zwischen Knoten $i$ und $j$ gdw. Spalte $i$ und $j$ von $F'(x)$ mindestens einen gemeinsamen Nulleintrag besitzen.\\
+Die meisten linearen Gleichungslöser benutzen/basieren auf iterativen Methoden, wie z.B. dem konjugierten Gradienten Verfahren,
+(falls $A=A^T$ symmetrisch ist und $A>0$ [ist lösbar])\\
 
-\noindent
-Beispiel: $*$ -Nichtnulleintrag, $0$ - Null\\
-$\begin{bmatrix}
-*	& *	& 0	& 0	\\
-*	& 0	& *	& 0	\\
-*	& 0	& 0	& *	\\
-0	& 0	& *	& *	\\
-\end{bmatrix}
-$\\
-Spaltenzusammenhangsgraph:\\
-$V=\{1,2,3,4\}$\\
-$E=\{(1,2),(1,3),(1,4),(3,4)\}$\\
-Zeilenzusammenhangsgraph:\\
-$V=\{1,2,3,4\}$\\
-$E=\{(1,2),(2,3),(2,4),(3,4)\}$\\
+\subsection{CG-Verfahren}
+Literatur: Wiki, Nocedal, Num. Optimization\\
+(wird nicht abgefragt)
+\begin{algorithmic}
+	\State $A,b,w_0$
+	\State $w_0$
+	\State $v_0 \gets b-Aw_0$
+	\State $d_0 \gets v_0$
+	\For{$k=0,1,\dots$}
+		\State $\vdots$
+	\EndFor
+\end{algorithmic}
+\begin{itemize}
+	\item[$\Rightarrow$] $(*)$t A und nicht A selbst $\rightarrow$ es müssen nur ein paar Vektoren der Dimension $n$ gespeichert werden und keine $n\times n$ Matrix (Matrixfreies Verfahren)
+	\item[$\Rightarrow$] Konvergenz des Verfahrens hängt hauptsächlich von der Eigenwertstruktur (Eigenwerte $\lambda$: $Av = \lambda v,\ \ , \lambda \in \mathbb{R}$) der Matrix $A$ ab
+\end{itemize}
 
-Übung
-$\begin{bmatrix}
- *	& *	& *	& *	& 0	& 0	& 0	& 0	& 0	& 0\\
- *	& *	& 0	& 0	& *	& *	& 0	& 0	& 0	& 0\\
- *	& *	& 0	& 0	& 0	& 0	& *	& *	& 0	& 0\\
- 0	& 0	& *	& *	& *	& *	& 0	& 0	& 0	& 0\\
- 0	& 0	& *	& *	& 0	& 0	& * & *	& 0	& 0\\
- 0	& 0	& *	& *	& 0	& 0	& 0 & 0	& *	& *\\
-\end{bmatrix}$\\
-
-Färbung des Spaltenzshgsgraphen\\
-$C:\{1\dots n\}\mapsto \{1\dots p\}$\\
-mit (möglichst wenig) $p$ Farben (1-Rot, 2-Grün, 3-Blau, 4-Gelb,\dots)
-
-liefert dann die entsprechende Seedmatrix
-$$S = [e^T_{c(j)}]_{j=1,\dots,n}\in \mathbb{R}^{n\times p}\ \ \ e_k^T = [0 \dots 0,1_k, 0 \dots 0]$$\\
-und Anzahl der notwendigen Richtungen $p$ (d.h. nötige Aufrufe des FM). Hier bezeichnet  $e_k$ den $k$-ten kartesischen Basisvektor.\\
+Diagramme zum Konvergenzverhalten\\
+\vspace{3cm}
 
 \noindent
-Grafik:\\3 mal Spaltenzusammenhangsgraph nebeneinander, verschiedene Färbungsvarianten (4Farben (1: Rot(1), ) bzw. 3 (2 und 3) Farben)
-
-$ S^I = \begin{bmatrix}
-1	& 0	& 0	& 0	\\
-0	& 1	& 0	& 0	\\
-0	& 0	& 0	& 1	\\
-0	& 0	& 1	& 0	\\
-\end{bmatrix}_{4\times 4}$
-
-$ S^{II} = \begin{bmatrix}
-1	& 0	& 0	\\
-0	& 1	& 0	\\
-0	& 1	& 0	\\
-0	& 0	& 1	\\
-\end{bmatrix}_{3\times 4}$
-
-
-$ S^{III} = \begin{bmatrix}
-1	& 0	& 0	\\
-0	& 1	& 0	\\
-0	& 0	& 1	\\
-0	& 1	& 0	\\
-\end{bmatrix}_{3\times 4}$\\
-
-Beispielmatrix\\
-$\begin{bmatrix}
-*	& *	& 0	& 0	\\
-*	& 0	& *	& 0	\\
-*	& 0	& 0	& *	\\
-0	& 0	& *	& *	\\
-\end{bmatrix}
-=
-\begin{bmatrix}
-a_{11}	& a_{12}	& 0	& 0	\\
-a_{21}	& 0	& a_{23}	& 0	\\
-a_{31}	& 0	& 0	& a_{34}	\\
-0	& 0	& a_{43}	& a_{44}	\\
-\end{bmatrix}
-$\\
-
-$AS^I =
-\begin{bmatrix}
- a_{11}	& a_{12}& 0		& 0 \\
- a_{21}	& 0		& 0		& a_{23}\\
- a_{31}	& 0		& a_{34}& 0\\
- 0		& 0		& a_{44}& a_{43}\\
-\end{bmatrix}$
-$AS^{II}=
-\begin{bmatrix}
-a_{11}	& a_{12}& 0		& 0 \\
-a_{21}	& 0		& 0		& a_{23}\\
-a_{31}	& 0		& a_{34}& 0\\
-0		& 0		& a_{44}& a_{43}\\
-\end{bmatrix} INCORRECT$
-$AS^{III}=,
-\begin{bmatrix}
-a_{11}	& a_{12}& 0		& 0 \\
-a_{21}	& 0		& 0		& a_{23}\\
-a_{31}	& 0		& a_{34}& 0\\
-0		& 0		& a_{44}& a_{43}\\
-\end{bmatrix}INCORRECT$\\
+\begin{itemize}
+	\item[$\Rightarrow$] meist sehr effizient, (evtl. Preconditioning nötig)
+	\item[$\Rightarrow$] Insbesondere ist CG aufgrund von $(*)$ bei der Schrittberechnung nach Newton 
+	$$F'(x)S = -F(x)$$
+	zum lösen von $F(x)=0$ für $F:\mathbb{R}^n\mapsto\mathbb{R}^n$, d.h. $A=F'(x)$, $b=-F(x)$ von Vorteil
+	\begin{itemize}
+		\item[$\Rightarrow$] $As$ = F'(x) kann via FM für CG-Verfahren ...ausgerechnet werden
+	\end{itemize} 
+\end{itemize}
 
 \noindent
-Problem: Rekonstruktion von $A (=F'(x))$ aus $B=A\cdot S$\\
-$\Rightarrow$ Lsg von $b_i^T = w_i^TS_i$ bzgl. $w_i^T$ liefert die $p_i$ Nichtnulleinträge $\nabla F_i(x)=w_i^T$der $i$-ten Zeile\\
-Beispielgrafik der Matrixberechnung\\
-\noindent
+\subsubsection{Problem}
+Annahme $w = A^{-1}b = F(A,b)$ ist nun selber Teil eines Codes/Simulation $h$ die abgeleitet werden soll, und $A$ sowie $b$ hängen von einem Parameter $x$ ab. D.h. $w(x)= A^{-1}(x)b(x)$ und gesucht
+$$\frac{\partial w(x)}{\partial x} = \frac{\partial h}{\partial x}\cdot \frac{\partial w}{\partial x}$$
+Das Benötigt $\frac{\partial w}{\partial x}$ bzw. $\frac{\partial F(A(x),b(x)}{\partial x}$.\\
+$\Rightarrow$ Diese Ableitung ist typischerweise numerisch instabil und ineffizient
+\marginpar{nicht mehr glatt, If-Verzweigungen $\leftrightarrow$ Straight-Line Code}
+Lösung: Gray-Box-Ansatz, d.h. anstatt $\frac{\partial h(x)}{\partial x}$ einfach komplett mittels AD zu berechnen, bestimme Teile der Ableitung per Hand und klebe diese anschließend wieder zusammen
+$$\frac{\partial w(x)}{\partial x} = \frac{\partial}{\partial} \frac{\partial}{\partial}$$
+ADD CONTENT
 
-$\Rightarrow\ b_i^T =w_i^TS_i = e_i A S = e_i \sum_{j \in X_i} Ae_je_j^TS$\\
-wobei  $X_i \approx$ Sparsitypattern der $i$-ten Zeile von $F'(x)$ ist, d.h. die Indizes der N.N. von $v\cdot F_i'(x)$\\
-$\Rightarrow\ b_i^T =w_i^TS_i \Leftrightarrow S_i^Tw_i = b_i$ ist ein überstimmtes LGS!\\
+Lösung:\\
+Ersetzen von Teilableitungen des Codes durch geeignete analytische Lösungen für $Aw = b$\\
+Literatur dazu: Homepage: Tapenade, Inria: Linear Solver
+\marginpar{Aufgabe: Herleitung lesen, auf Homepage statt $\bar{b}$ $bb$, \dots}
 
-$\Rightarrow$ Löse stattdessen $\tilde{S}_i^Tw_i = \tilde{b}_i$ mit $\tilde{S}^T_i \in \mathbb{R}^{p_i\times p_i}$ mit $S_i^T = \begin{Bmatrix}
-S_i\\
-\dots \\
-S_i \\
-\end{Bmatrix}_{p_i \times p_i}$\\
-CONTENT MISSING
+FM : $w = Foo(A,b)$\\
+$[w, \dot{w}]=Foo_D(A,\dot{A},b,\dot{b})$\\
+$w = A\setminus b$\\
+$\dot{w}=A\setminus (\dot{b}-\dot{A}w)$
+End\\
 
-
-Im Falle von CPR (Curtis-Powell-Reid) ist\\
-$$S_i = \left[l^T_{c(j)}\right]_{j\in X_i}\in \mathbb{R}^{p_i\times p}$$
-gegeben durch permutierte Einheitsmatrix mit angehängter Nullmatrix ist.
-
-
-Beispiel zur Matrix $A\begin{bmatrix}
-a_{11}	& a_{12}	& 0	& 0	\\
-a_{21}	& 0	& a_{23}	& 0	\\
-a_{31}	& 0	& 0	& a_{34}	\\
-0	& 0	& a_{43}	& a_{44}	\\
-\end{bmatrix}$:
-Sparsity-Pattern: für $i$ Zeilen,jeweils die Indexmenge der Nichtnulleinträge:\\
-\begin{tabular}{L}
-	x_1 = \{1,2\}\\
-	x_2 = \{1,3\}\\
-	x_3 = \{1,4\}\\
-	x_4 = \{3,4\}\\
-\end{tabular}
-$S^{III} = \begin{bmatrix}
-1	& 0	& 0	\\
-0	& 1	& 0	\\
-0	& 0	& 1	\\
-0	& 1	& 0	\\
-\end{bmatrix}
-$\\
-$S_1^{III} = \begin{bmatrix}
-1	& 0	& 0	\\
-0	& 1	& 0	\\
-\end{bmatrix}$
-$S_2^{III} = \begin{bmatrix}
-1	& 0	& 0	\\
-0	& 0	& 1	\\
-\end{bmatrix}$
-$S_3^{III} = \begin{bmatrix}
-1	& 0	& 0	\\
-0	& 1	& 0	\\
-\end{bmatrix}$
-$S_4^{III} = \begin{bmatrix}
-0	& 0	& 1	\\
-0	& 1	& 0	\\
-\end{bmatrix}$\\
-$b_1 = [a_{11}, a_{12},0]$
-$b_2 = [a_{21}, 0, a_{23}]$
-$b_3 = [a_{31}, a_{34},0]$
-$b_4 = [0,a_{44}, a_{43},0]$\\
-
-$\tilde{S}_1^{III} = \begin{bmatrix}
-1&0\\
-0&1\\
-\end{bmatrix}$
-$\tilde{S}_2^{III} = \begin{bmatrix}
-1&0\\
-0&1\\
-\end{bmatrix}$
-$\tilde{S}_3^{III} = \begin{bmatrix}
-1&0\\
-0&1\\
-\end{bmatrix}$
-$\tilde{S}_4^{III} = \begin{bmatrix}
-0&1\\
-1&0\\
-\end{bmatrix}$\\
-$\tilde{b}_1 = [a_{11},a_{}]$
-$\tilde{b}_2 = [a_{},a_{}]$
-$\tilde{b}_3 = [a_{},a_{}]$
-$\tilde{b}_4 = [a_{},a_{}]$\\
-
-\noindent\underline{Zeilenkompression}\\
-Analog zur Spaltenkompression von Rechts mittesls des FM ($F'(x)\cdot S)$ kann auch von links komprimiert werden mit dem Zeilen
-zshgsgraph und mittels des RM ($S\cdot F'(x)$),
-Mit anderen Worten betrachte nun
-$$ C^T = W^T F'(x)$$
-wobei $W^T \in \mathbb{R}^{q\times m}$ nun die adjugierte Richtungen und $c^T \in \mathbb{R}^{q \times n}$ dei komprimierte Darstellung der Jacobimatrix ist.\\
-
-\noindent
-Zeilen- und Spaltenkompression gleichzeitig machen:\\
-typisches Gegenbeispiel
-
-$\begin{bmatrix}
-* & \dots & * \\
-\vdots & \ddots & 0\\
-*	&	0	& *\\
-\end{bmatrix}$
-hier funktioniert nur eines der beiden nicht
+RM: $[w, \bar{b},\bar{A}] = Foo_B[A,b,\bar{w}]$\\
+$w= A\setminus b$\\
+$\bar{b}+ =A^-T\bar{w}= A' \setminus \bar{w}$\\
+$\bar{A}_{i,j}-= w_j\bar{b}_i$\\
+$\bar{W}=0$\\
+end
