@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.10.19)  27 DEC 2017 17:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.10.19)  27 DEC 2017 20:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -788,7 +788,7 @@ Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
 )
 (./Script.aux (./chaps/chap1.aux) (./chaps/chap2.aux) (./chaps/chap3.aux)
 (./chaps/chap4.aux) (./chaps/chap5.aux) (./chaps/chap5_vertr.aux)
-(./chaps/current.aux))
+(./chaps/chap6.aux) (./chaps/current.aux))
 \openout1 = `Script.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
@@ -1113,12 +1113,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--10
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 28--31
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 41--42
+Underfull \hbox (badness 10000) in paragraph at lines 28--30
 
  []
 
@@ -1126,157 +1121,156 @@ Underfull \hbox (badness 10000) in paragraph at lines 41--42
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 70--71
+Underfull \hbox (badness 10000) in paragraph at lines 39--41
 
  []
 
 
-Overfull \hbox (29.38815pt too wide) in paragraph at lines 73--90
-[][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 73--90
+Underfull \hbox (badness 10000) in paragraph at lines 42--44
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 92--108
+Underfull \hbox (badness 10000) in paragraph at lines 71--72
 
  []
 
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 121--123
+Overfull \hbox (29.38815pt too wide) in paragraph at lines 74--91
+[][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 74--91
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 126--126
+Underfull \hbox (badness 10000) in paragraph at lines 93--109
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--124
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 127--127
 []\OT1/cmr/m/n/12 Hier
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 126--126
+Underfull \hbox (badness 10000) in paragraph at lines 127--127
 \OT1/cmr/m/n/12 an-ders
  []
 
 
-Underfull \hbox (badness 5652) in paragraph at lines 126--126
+Underfull \hbox (badness 5652) in paragraph at lines 127--127
 \OT1/cmr/m/n/12 als in
  []
 
 
-Overfull \hbox (40.65535pt too wide) in paragraph at lines 124--179
+Overfull \hbox (40.65535pt too wide) in paragraph at lines 125--180
 [] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 124--179
+Underfull \hbox (badness 10000) in paragraph at lines 125--180
 
  []
 
 [24]
-Underfull \hbox (badness 10000) in paragraph at lines 187--190
+Underfull \hbox (badness 10000) in paragraph at lines 188--191
 
  []
 
 
-Overfull \hbox (30.59932pt too wide) in paragraph at lines 191--191
+Overfull \hbox (30.59932pt too wide) in paragraph at lines 192--192
 []\OT1/cmr/m/n/12 Korrektheit/
  []
 
 
-Overfull \hbox (47.31026pt too wide) in paragraph at lines 191--191
+Overfull \hbox (47.31026pt too wide) in paragraph at lines 192--192
 \OT1/cmr/m/n/12 Vollst[]andigkeit/
  []
 
 
-Overfull \hbox (47.63664pt too wide) in paragraph at lines 191--191
+Overfull \hbox (47.63664pt too wide) in paragraph at lines 192--192
 \OT1/cmr/m/n/12 Verst[]andlichkeit
  []
 
 
-Overfull \hbox (21.1383pt too wide) in paragraph at lines 191--191
+Overfull \hbox (21.1383pt too wide) in paragraph at lines 192--192
 []\OT1/cmr/m/n/12 uberpr[]ufen 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 193--203
+Underfull \hbox (badness 10000) in paragraph at lines 194--204
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 204--205
+Underfull \hbox (badness 10000) in paragraph at lines 205--206
 
  []
 
 
-Overfull \hbox (56.32445pt too wide) in paragraph at lines 209--297
+Overfull \hbox (56.32445pt too wide) in paragraph at lines 210--298
 \OML/cmm/m/it/12 A \OT1/cmr/m/n/12 = []$: [] 
  []
 
 
-Overfull \hbox (1.65341pt too wide) in paragraph at lines 209--297
+Overfull \hbox (1.65341pt too wide) in paragraph at lines 210--298
 [] $\OML/cmm/m/it/12 S[] \OT1/cmr/m/n/12 = []$ [] 
  []
 
 [25]
-Underfull \hbox (badness 10000) in paragraph at lines 298--299
+Underfull \hbox (badness 10000) in paragraph at lines 299--300
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 300--351
+Underfull \hbox (badness 10000) in paragraph at lines 301--352
 
  []
 
 
-Overfull \hbox (30.82988pt too wide) in paragraph at lines 354--354
+Overfull \hbox (30.82988pt too wide) in paragraph at lines 355--355
 []\OT1/cmr/m/n/12 Dimensionen
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 354--354
+Underfull \hbox (badness 10000) in paragraph at lines 355--355
 \OT1/cmr/m/n/12 evtl.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 356--358
+Underfull \hbox (badness 10000) in paragraph at lines 357--359
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 373--379
+Underfull \hbox (badness 10000) in paragraph at lines 375--383
 
  []
 
 [26]
-Underfull \hbox (badness 10000) in paragraph at lines 382--390
+Underfull \hbox (badness 10000) in paragraph at lines 384--385
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 397--400
+Underfull \hbox (badness 10000) in paragraph at lines 401--402
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 405--406
-
+Underfull \hbox (badness 10000) in paragraph at lines 413--413
+\OT1/cmr/m/n/12 kor-
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 412--415
-
- []
-
-[27]
-Overfull \hbox (81.16594pt too wide) in paragraph at lines 420--422
-\OT1/cmr/m/n/12 mit m[]oglichst we-nig Vek-to-ren+ zur[]uckrechnen ([]uber Zei-
-len/Spaltenzshgsgraphen+Coloring),
- []
-
-) [28]
+[27]) [28]
 \openout2 = `chaps/chap5_vertr.aux'.
 
  (./chaps/chap5_vertr.tex
@@ -1358,146 +1352,172 @@ Underfull \hbox (badness 10000) in paragraph at lines 143--152
  []
 
 ) [31]
-\openout2 = `chaps/current.aux'.
+\openout2 = `chaps/chap6.aux'.
 
- (./chaps/current.tex
-Overfull \hbox (2.65372pt too wide) in paragraph at lines 2--9
-\OML/cmm/m/it/12 F\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 A; b\OT1/cmr/m/n/12 ) \OMS/
-cmsy/m/n/12 2 \U/msb/m/n/12 R[] \OT1/cmr/m/n/12 = \OML/cmm/m/it/12 A[]b$ \OT1/c
-mr/m/n/12 wel-che z.B. als Me-tho-de/Code $\OML/cmm/m/it/12 w \OT1/cmr/m/n/12 =
- \OML/cmm/m/it/12 foo \OT1/cmr/m/n/12 = (\OML/cmm/m/it/12 A; b\OT1/cmr/m/n/12 )
-$gegeben
+ (./chaps/chap6.tex
+Underfull \hbox (badness 10000) in paragraph at lines 9--11
+
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 16--18
+Overfull \hbox (33.37569pt too wide) in paragraph at lines 19--19
+[]\OT1/cmr/m/n/12 Formulierung 
+ []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
+
+ []
+
+
+Overfull \hbox (28.3799pt too wide) in paragraph at lines 23--23
+[]\OT1/cmr/m/n/12 Algorithmus
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--23
+\OT1/cmr/m/n/12 un-voll-
+ []
+
+
+Overfull \hbox (2.27322pt too wide) in paragraph at lines 23--23
+\OT1/cmr/m/n/12 st[]andig 
  []
 
 [32
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 56--56
+Underfull \hbox (badness 10000) in paragraph at lines 51--53
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--71
 []\OT1/cmr/m/n/12 nicht
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--56
+Underfull \hbox (badness 10000) in paragraph at lines 71--71
 \OT1/cmr/m/n/12 mehr
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--56
+Underfull \hbox (badness 10000) in paragraph at lines 71--71
 \OT1/cmr/m/n/12 glatt,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--56
+Underfull \hbox (badness 10000) in paragraph at lines 71--71
 \OT1/cmr/m/n/12 If-
  []
 
 
-Overfull \hbox (41.04366pt too wide) in paragraph at lines 56--56
+Overfull \hbox (41.04366pt too wide) in paragraph at lines 71--71
 \OT1/cmr/m/n/12 Verzweigungen
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--56
+Underfull \hbox (badness 10000) in paragraph at lines 71--71
 \OMS/cmsy/m/n/12 $$
  []
 
 
-Overfull \hbox (10.36758pt too wide) in paragraph at lines 56--56
+Overfull \hbox (10.36758pt too wide) in paragraph at lines 71--71
 \OT1/cmr/m/n/12 Straight-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--56
+Underfull \hbox (badness 10000) in paragraph at lines 71--71
 \OT1/cmr/m/n/12 Line
  []
 
 
-Overfull \hbox (6.93077pt too wide) in paragraph at lines 53--58
+Overfull \hbox (6.93077pt too wide) in paragraph at lines 68--73
 \OMS/cmsy/m/n/12 )$ \OT1/cmr/m/n/12 Die-se Ab-lei-tung ist ty-pi-scher-wei-se n
 u-me-risch in-sta-bil und in-ef-fi-zi-ent L[]osung:
  []
 
 
-Overfull \hbox (11.01619pt too wide) in paragraph at lines 64--64
+Overfull \hbox (11.01619pt too wide) in paragraph at lines 79--79
 []\OT1/cmr/m/n/12 Aufgabe:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 64--64
+Underfull \hbox (badness 10000) in paragraph at lines 79--79
 \OT1/cmr/m/n/12 Her-lei-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 64--64
+Underfull \hbox (badness 10000) in paragraph at lines 79--79
 \OT1/cmr/m/n/12 tung
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 64--64
+Underfull \hbox (badness 10000) in paragraph at lines 79--79
 \OT1/cmr/m/n/12 le-sen,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 64--64
+Underfull \hbox (badness 10000) in paragraph at lines 79--79
 \OT1/cmr/m/n/12 auf
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 64--64
+Underfull \hbox (badness 10000) in paragraph at lines 79--79
 \OT1/cmr/m/n/12 Ho-me-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 64--64
+Underfull \hbox (badness 10000) in paragraph at lines 79--79
 \OT1/cmr/m/n/12 pa-ge
  []
 
 
-Overfull \hbox (0.67929pt too wide) in paragraph at lines 61--65
+Overfull \hbox (0.67929pt too wide) in paragraph at lines 76--80
 \OT1/cmr/m/n/12 Ersetzen von Teila-blei-tun-gen des Co-des durch ge-eig-ne-te a
 na-ly-ti-sche L[]osungen
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 66--71
+[33]
+Underfull \hbox (badness 10000) in paragraph at lines 81--86
 
  []
 
-) [33] (./Script.aux (./chaps/chap1.aux) (./chaps/chap2.aux) (./chaps/chap3.aux
-) (./chaps/chap4.aux) (./chaps/chap5.aux) (./chaps/chap5_vertr.aux)
-(./chaps/current.aux)) ) 
+) [34]
+\openout2 = `chaps/current.aux'.
+
+ (./chaps/current.tex) (./Script.aux (./chaps/chap1.aux)
+(./chaps/chap2.aux) (./chaps/chap3.aux) (./chaps/chap4.aux) (./chaps/chap5.aux)
+(./chaps/chap5_vertr.aux) (./chaps/chap6.aux) (./chaps/current.aux)) ) 
 Here is how much of TeX's memory you used:
- 14711 strings out of 493029
- 291833 string characters out of 6136233
- 346358 words of memory out of 5000000
- 17899 multiletter control sequences out of 15000+600000
- 11458 words of font info for 44 fonts, out of 8000000 for 9000
+ 14724 strings out of 493029
+ 292029 string characters out of 6136233
+ 349745 words of memory out of 5000000
+ 17904 multiletter control sequences out of 15000+600000
+ 11759 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,20n,82p,406b,950s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
-2.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-symbols/msbm10.pfb>
-Output written on Script.pdf (33 pages, 238912 bytes).
+</usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on Script.pdf (34 pages, 252768 bytes).
 PDF statistics:
- 170 PDF objects out of 1000 (max. 8388607)
- 119 compressed objects within 2 object streams
+ 181 PDF objects out of 1000 (max. 8388607)
+ 127 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

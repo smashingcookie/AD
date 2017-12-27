@@ -1,0 +1,92 @@
+\section{Lineare Gleichungslöser}
+\label{chap:LGSsolvers}
+
+\begin{itemize}
+	\item[Gegeben:] Matrix $ A \in \mathbb{R}^{n\times n},\ b \in \mathbb{R}^n$
+	\item[Ziel:] Finde $w\in \mathbb{R}^n$ mit $Aw=b$
+	\item[Bem.:] Sei Funktion $F:\mathbb{R}^{n\times n} \times \mathbb{R}^n \mapsto \mathbb{R}^n$, welche $w \in \mathbb{R}^n$ zu $Aw=b$ berechnet (vorausgesetzt $DET(A) \neq 0$) und als Methode/Code $w=Foo(A,b)$ gegeben ist.\\
+	M.A.W. $$w = A^{-1}b$$
+	\item[Bsp.:] In Matlab kann der \glqq$\setminus$\grqq\  Operator benutzt werden:\\
+	\begin{algorithmic}
+		\Function{w=Foo}{A,b}
+		\State $w = A \setminus b;$
+		\EndFunction
+	\end{algorithmic}
+$\dots$
+\end{itemize}
+
+
+Die meisten linearen Gleichungslöser benutzen bzw. basieren auf iterativen Methoden, wie z.B. dem konjugierten Gradienten Verfahren, falls $A$ symmetrisch ist ($A=A^T$) und lösbar ist ($A>0$)\marginpar{Formulierung}\\
+
+\subsection{CG-Verfahren}
+Literatur: Wiki, Nocedal, Num. Optimization\\
+(wird nicht abgefragt)\marginpar{Algorithmus unvollständig}
+\begin{algorithmic}
+	\State $A,b,w_0$
+	\State $w_0$
+	\State $v_0 \gets b-Aw_0$
+	\State $d_0 \gets v_0$
+	\For{$k=0,1,\dots$}
+		\State $\vdots$
+	\EndFor
+\end{algorithmic}
+\begin{itemize}
+	\item[$\Rightarrow$] \begin{tabular}{l L}\begin{tabular}{l}
+		CG-Verfahren benötigt nur Matrix-Vektor Produkte\\
+		mit $A$, nicht $A$ selbst
+		\end{tabular}&(*)\\
+		\end{tabular}
+	\begin{itemize}
+		\item[$\hookrightarrow$] es müssen nur ein paar Vektoren der Dimension $n$ gespeichert werden, keine Matrix mit $n\times n$ Einträgen (Matrixfreies Verfahren)
+	\end{itemize}
+	\item[$\Rightarrow$] Konvergenz (nicht-monoton) des Verfahrens hängt hauptsächlich von der Eigenwertstruktur der Matrix $A$ ab \\
+	(Eigenwerte $\lambda$: $Av = \lambda v,\ \ , \lambda \in \mathbb{R}$)
+\end{itemize}
+
+Diagramme zum Konvergenzverhalten\\
+\vspace{3cm}
+
+
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+noch nicht weiter bearbeitete Notizen zum Kapitel:\\
+
+\noindent
+\begin{itemize}
+	\item[$\Rightarrow$] meist sehr effizient, (evtl. Preconditioning nötig)
+	\item[$\Rightarrow$] Insbesondere ist CG aufgrund von $(*)$ bei der Schrittberechnung nach Newton 
+	$$F'(x)S = -F(x)$$
+	zum lösen von $F(x)=0$ für $F:\mathbb{R}^n\mapsto\mathbb{R}^n$, d.h. $A=F'(x)$, $b=-F(x)$ von Vorteil
+	\begin{itemize}
+		\item[$\Rightarrow$] $As$ = F'(x) kann via FM für CG-Verfahren ...ausgerechnet werden
+	\end{itemize} 
+\end{itemize}
+
+\noindent
+\subsubsection{Problem}
+Annahme $w = A^{-1}b = F(A,b)$ ist nun selber Teil eines Codes/Simulation $h$ die abgeleitet werden soll, und $A$ sowie $b$ hängen von einem Parameter $x$ ab. D.h. $w(x)= A^{-1}(x)b(x)$ und gesucht
+$$\frac{\partial w(x)}{\partial x} = \frac{\partial h}{\partial x}\cdot \frac{\partial w}{\partial x}$$
+Das Benötigt $\frac{\partial w}{\partial x}$ bzw. $\frac{\partial F(A(x),b(x)}{\partial x}$.\\
+$\Rightarrow$ Diese Ableitung ist typischerweise numerisch instabil und ineffizient
+\marginpar{nicht mehr glatt, If-Verzweigungen $\leftrightarrow$ Straight-Line Code}
+Lösung: Gray-Box-Ansatz, d.h. anstatt $\frac{\partial h(x)}{\partial x}$ einfach komplett mittels AD zu berechnen, bestimme Teile der Ableitung per Hand und klebe diese anschließend wieder zusammen
+$$\frac{\partial w(x)}{\partial x} = \frac{\partial}{\partial} \frac{\partial}{\partial}$$
+ADD CONTENT
+
+Lösung:\\
+Ersetzen von Teilableitungen des Codes durch geeignete analytische Lösungen für $Aw = b$\\
+Literatur dazu: Homepage: Tapenade, Inria: Linear Solver
+\marginpar{Aufgabe: Herleitung lesen, auf Homepage statt $\bar{b}$ $bb$, \dots}
+
+FM : $w = Foo(A,b)$\\
+$[w, \dot{w}]=Foo_D(A,\dot{A},b,\dot{b})$\\
+$w = A\setminus b$\\
+$\dot{w}=A\setminus (\dot{b}-\dot{A}w)$
+End\\
+
+RM: $[w, \bar{b},\bar{A}] = Foo_B[A,b,\bar{w}]$\\
+$w= A\setminus b$\\
+$\bar{b}+ =A^-T\bar{w}= A' \setminus \bar{w}$\\
+$\bar{A}_{i,j}-= w_j\bar{b}_i$\\
+$\bar{W}=0$\\
+end

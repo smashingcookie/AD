@@ -11,41 +11,42 @@ Somit war es möglich $F'(x)$ durch eine geeignete Wahl von Richtungen  $s_1,\do
 
 \begin{itemize}
 	\item[Ziel:] Bestimmung von $F'(x)$ mit $p <<n$ FM Auswertungen
-	\item[Frage:]Wie groß ist $p$ und wie sind die Richtungen $s_1,\dots s_p$ zu wählen?
-	\item[Bem.:] Die Matrix $S = [s_1, \dots s_p] \in \mathbb{R}^{n\times p}$ wird oft als \glqq Seed\grqq Matrix genannt und ist im Folgenden hilfreich.
+	\item[Frage:]Wie groß ist $p$ und wie sind die Richtungen $S_1,\dots S_p$ zu wählen?
+	\item[Bem.:] Die Matrix $S = [S_1, \dots S_p] \in \mathbb{R}^{n\times p}$ wird oft als \glqq Seed\grqq Matrix genannt und ist im Folgenden hilfreich.
+	\item[Bsp.:]
+	Mit $S$ lässt sich die Auswertung des FM mit den $p$ Richtungen kurz als 
+	$$B = F'(x)S$$
+	darstellen, wobei die Zeilen $b_i^T$ von $B$ durch $b_i^T = \nabla F_i(x)^TS$ gegeben sind.
 \end{itemize}
 
-Mit $S$ lässt sich die Auswertung des FM mit den $p$ Richtungen kurz als 
-$$B = [ F'(x)s_1 , \dots , F'(x)s_p] = F'(x) S = F'(x) [s_1,\dots,s_p]\ \ \ \ \  B= \dot{y},\ S=\dot{x}$$
-darstellen, wobei die Zeilen $b_i^T$ von B durch $b_i^T = \nabla F_i(x)^TS$ gegeben sind
+\noindent
+M.A.W. wie ist $S\in\mathbb{R}^{n\times p}$ zu wählen, damit $B$ alle Informationen über $F'(x)$ enthält, so dass man diese auch zurückberechnen kann?
 
-Beispiel mit Matrizen
+Beispiel Matrixgrafik mit Sparsity pattern\\
+\vspace{3cm}
 
-M.A.W. wie ist $S\in\mathbb{R}^{n\times p}$ zu wählen, damit $B$ alle Informationen über $F'(x)$ enthält, so dass man diese zurückberechnen kann.
-
-Beispiel matrixgrafik mit Sparsity pattern
-
-oder genauer, wann lassen sich alle GLS $b_i^T = r_i^TS$ eindeutig nach $r_i$ lösen.
+oder genauer, wann lassen sich alle GLS $b_i^T = w_i^TS$ eindeutig nach $w_i (=\nabla F_i(x))$ lösen?\\
 $\Rightarrow$ es werden mindestens genau so viele Gleichungen wie unbekannte benötigt\\
-$\Rightarrow p \ge P_i$,\\
 
-d.h. $P \geq P_i$, wobei $p_i$ die Anzahl der Nichtnulleinträge der $i$-ten Zeile von $F'(x)$ ist. Die Indexmenge dieser N.N.Einträge wird mit $\chi_i$ berzeichnet
-$$b_i^T = e_i^T A \cdot S = \sum_{j=1}^n e_i^T A e_j e_j^T S =\sum_{j\in \chi_i} e_i^T A e_j (e_j^T S) = a_I^T s_i \ \ \ \ \ A \leftarrow F'(x)$$
+\noindent
+d.h. $p \geq p_i$, wobei $p_i$ die Anzahl der Nichtnulleinträge der $i$-ten Zeile von $F'(x)$ ist. Die Indexmenge dieser Nichtnulleinträge wird mit $\chi_i$ bezeichnet
+$$\Rightarrow b_i^T = e_i^T A \cdot S = \sum_{j=1}^n e_i^T A e_j e_j^T S =\sum_{j\in \chi_i} e_i^T A e_j (e_j^T S) = a_i^T S_i \ ,\ \ \ \ A \leftarrow F'(x)$$
+$$\Rightarrow S_i^Ta_i = b_i mit S_i = (e_j^TS)_{j\in X_i^{\in \mathbb{R}^{p_i\times p}}}$$
+Vermeintliches LGS zur Bestimmung der Nichtnulleinträge.
 
-Dabei kann $s_I$ so partitioniert werden, dass $S_i = P_i [...]...$
+Dabei kann $S_i$ so partitioniert werden, dass $S_i = [\tilde{S}_i,\dots,\tilde{S}_i]^{\in \mathbb{R}^{p_i\times p}}$ mit $DET(S_i) \neq 0$.\\
+$\Rightarrow$ Quadratisches LGS
+$$\tilde{S}_i^Ta_i = \tilde{b}_i=\left(e_k^Tb_i\right)_{k=1,\dots,p_i}$$
+mit $p_i$ Gleichungen und $p_i$ Unbekannten.\\
 
-Quadratisches LGS
-$$\hat{S}_i^Ta_i = \hat{b}_i = (e_k^Tb_i)_{k=1,\dots p_i}$$
-mit $p_i$ Gleichungen und $p_i$ Unbekannten.
-
+\noindent
 Herausforderung: Lösen von $m$ kleinen LGS zur Bestimmung von allen Zeilen von $F'(x)$\\
 
-
+\noindent
+$\Rightarrow$ geht auch ohne Lösen von LGS über Graph Coloring.
 
 \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-
-
-
+Vertretungsvorlesung hier\\
 \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
 
 %\begin{document}
@@ -67,7 +68,7 @@ Wiederholung:
 		\item Knoten $V=\{1\dots n\}$, die jeweils einer Spalte von $F'(x)$ entsprechen und 
 		\item Kanten $E\subseteq V\times V$, die durch wiederholt auftretende Einträge in den Spalten induziert werden
 	\end{itemize}
-	M.a.W. es existiert eine Kante $(i,j)$ zwischen Knoten $i$ und $j$ gdw. Spalte $i$ und $j$ von $F'(x)$ mindestens einen gemeinsamen Nichtnulleintrag besitzen.\\
+	M.A.W. es existiert eine Kante $(i,j)$ zwischen Knoten $i$ und $j$ gdw. Spalte $i$ und $j$ von $F'(x)$ mindestens einen gemeinsamen Nichtnulleintrag besitzen.\\
 \end{itemize}
 
 \begin{tabular}{l}
@@ -364,59 +365,61 @@ $\begin{bmatrix}
 * & \dots & * \\
 \vdots & \ddots & 0\\
 *	&	0	& *\\
-\end{bmatrix} \Rightarrow$ hier funktioniert weder Zeilen- noch Spaltenkompression
+\end{bmatrix} \Rightarrow$
+\begin{tabular}{l}
+	hier funktioniert weder\\
+	Zeilen- noch Spalten-\\
+	kompression alleine
+\end{tabular} 
 
-
-
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-
-Wdhlg.
-$F'(x) = A = \begin{bmatrix}
-* & \dots & * \\
-\vdots & \ddots & 0\\
-*	&	0	& *\\
-\end{bmatrix}$\\
-
-Hier funktioniert weder Spalten- noch Zeilenkompression Solo
-
-$F'(x) \cdot \begin{bmatrix}
+$F'(x) \cdot \begin{pmatrix}
 0 &1\\1&0\\ \vdots&0\\1&0
-\end{bmatrix}
-\begin{bmatrix}
+\end{pmatrix}
+\begin{pmatrix}
 1 & 0 & \dots &0
-\end{bmatrix}
+\end{pmatrix}
 \cdot F'(x)$
-$\Rightarrow$ bei dieser Zerlegung würde es wieder funktionieren\\
+$\Rightarrow$ \begin{tabular}{l}bei dieser Zerlegung würde\\es wieder funktionieren\end{tabular}\\
 
-$\Rightarrow$ \underline{Beidseitige Kompression}, d.h. finde $S$ und $W$ für Kompressionsmatrizen\\
-$B=A\cdot S$ und $C=A^TW$ $(C^T = W^T A)$\\
-Die genügend Informationen enthalten um die Nichtnulleinträge von $A (=F'(x))$ wieder herzuleiten
+$\Rightarrow$ \underline{Beidseitige Kompression}, d.h. finde $S$ und $W$ für Kompressionsmatrix\\
+$$B=A\cdot S \text{ und } C=A^TW$$\\
+Die genügend Informationen enthalten um die Nichtnulleinträge von $F'(x)$ wieder herzuleiten.
 
 \subsubsection{Coleman und Verma}
 \label{subsubsec:part_row/column_compr}
-Vorschlag/Idee:
-Partitionierung von A in Blöcke, z.B. wie folgt
-Grafik: Matrix A in Blöcke aufgeteilt (r- row compression, c - column compression)\\
 
-
-$A=A^r+A^c$
-\vspace{3cm}
-
-Ziel: Bestimme beide Seed $S \in \mathbb{R}^{n\times p}$ für $A^r$ und Seed $W^T \in \mathbb{R}^{q\times m}$ für $A^c$. Entsprechend gilt\\
-$$AS = A^rS + A^cS$$
+\begin{itemize}
+	\item[Idee:] Partitionierung von A in Blöcke, z.B. wie folgt\\
+	Grafik: Matrix A in Blöcke aufgeteilt\\
+	(r- row compression, c - column compression)\\
+	\vspace{2cm}
+	
+	$A=$\hspace{6cm}$=A^r+A^c$
+	\vspace{2cm}
+\end{itemize}
+\begin{itemize}
+	\item[$\Rightarrow$] Bestimme Seed $S \in \mathbb{R}^{n\times p}$ für $A^r$ und Seed $W^T \in \mathbb{R}^{q\times m}$ für $A^c$.\\
+	
+	Entsprechend gilt:
+\end{itemize}
+$$B=AS = A^rS + A^cS$$
 $$C = A^TW = (A^r)^TW + (A^c)^TW$$
 
 Die Blöcke $A_i^R$ und $A_j^c$ können nacheinander ausgehend von $A_1^r$ bestimmt werden,\\
-M.A.W. die letzten Zeilen von $A$ bzw. $B=A\cdot S$ hängen nur von $A^r$ ab und können mit Standard Spaltenkompression ermittelt werden.
+M.A.W. die letzten Zeilen von $B=A\cdot S$ hängen nur von $A^r$ ab und können mit Standard Spaltenkompression ermittelt werden.
 
-Das Ergebnis kann benutzt werden um $C$ zu korrigieren.\\
-$C = C- (\bar{A}_1^r)^TW$ bzw. $A^TW = A^TW- (\bar{A}_1^r)^TW$\\,
-wobei\\
-$$PUT A NICE FORMULA HERE$$
-Dann kann $A_1^c$ zurückberechnet werden. usw.
+Das Ergebnis kann benutzt werden um $C$ zu korrigieren.
+$$\dot{C} = C- (\bar{A}_1^r)^TW \text{ bzw. }A^TW = A^TW- (\bar{A}_1^r)^TW\text{,}$$
+wobei\marginpar{Formel korrekt?}
+$$\bar{A}_1^r = \left[\frac{0}{A_1^r}\right] \in \mathbb{R}^{DIM(A)}$$
+Dann kann $A_1^c$ (mit Standard Zeilenkompression )zurückberechnet werden. usw.
 
 \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
 
-Wichtig hier:
-Sparse Matrizen mit nichtnulleinträgen, wiederberechnen mit möglichst wenig Vektoren+ zurückrechnen (über Zeilen/Spaltenzshgsgraphen+Coloring), Weg zur Rückberechnung welcher Wert im aktuellen Eintrag steht
-
+Wichtig in diesem Kapitel:
+\begin{itemize}
+	\item Sparse Matrizen mit Nichtnulleinträgen,
+	\item wiederberechnen mit möglichst wenig Vektoren+ zurückrechnen (über Zeilen/Spaltenzshgsgraphen+Coloring)
+	\item Weg zur Rückberechnung welcher Wert im aktuellen Eintrag steht
+	\item \dots
+\end{itemize}
