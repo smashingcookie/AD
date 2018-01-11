@@ -1,11 +1,12 @@
-\section{Dünnnbesetzte Ableitungsmatrizen}
+\section{Dünnbesetzte Ableitungsmatrizen}
 \label{chap:sparsemats}
 
-Gegeben sei eine Funktion $F:\mathbb{R}^n\mapsto\mathbb{R}^m$ deren Jacobi-Matrix $F'(x) \in \mathbb{R}^{m\times n}$ dünnbesetzt ist, d.h. nur wenige Nichtnulleinträge besitzt. Das Ziel ist nun diese Einträge (und somit der Jacobi-Matrix) effizient zu bestimmen.
+Gegeben sei eine Funktion $F:\mathbb{R}^n\mapsto\mathbb{R}^m$ deren Jacobi-Matrix $F'(x) \in \mathbb{R}^{m\times n}$ dünnbesetzt ist, d.h. nur wenige Nichtnulleinträge besitzt. Das Ziel ist nun diese Einträge (und somit die Jacobi-Matrix) effizient zu bestimmen.
 
 \noindent
 Für den allgemeinen Fall haben wir gesehen, dass der FM eine effiziente Methode bietet $F'(x)\cdot s$ auszuwerten.
 
+\noindent
 Somit war es möglich $F'(x)$ durch eine geeignete Wahl von Richtungen  $s_1,\dots$ auszuwerten, z.B. mit den Einheitsvektoren $e_1,e_2, \dots e_n$, lieferte uns $F'(x)$ spaltenweise.\\
 
 
@@ -20,21 +21,22 @@ Somit war es möglich $F'(x)$ durch eine geeignete Wahl von Richtungen  $s_1,\do
 \end{itemize}
 
 \noindent
-M.A.W. wie ist $S\in\mathbb{R}^{n\times p}$ zu wählen, damit $B$ alle Informationen über $F'(x)$ enthält, so dass man diese auch zurückberechnen kann?
+M.A.W. wie ist $S\in\mathbb{R}^{n\times p}$ zu wählen, damit $B$ alle Informationen über $F'(x)$ enthält, so dass man diese auch zurückberechnen kann?\\
 
+\noindent
 Beispiel Matrixgrafik mit Sparsity pattern\\
 \vspace{3cm}
 
-oder genauer, wann lassen sich alle GLS $b_i^T = w_i^TS$ eindeutig nach $w_i (=\nabla F_i(x))$ lösen?\\
-$\Rightarrow$ es werden mindestens genau so viele Gleichungen wie unbekannte benötigt\\
+\noindent
+genauer, wann lassen sich alle GLS $b_i^T = w_i^TS$ eindeutig nach $w_i (=\nabla F_i(x))$ auflösen?\\
+$\Rightarrow$ es werden mindestens genau so viele Gleichungen wie Unbekannte benötigt\\
 
 \noindent
 d.h. $p \geq p_i$, wobei $p_i$ die Anzahl der Nichtnulleinträge der $i$-ten Zeile von $F'(x)$ ist. Die Indexmenge dieser Nichtnulleinträge wird mit $\chi_i$ bezeichnet
 $$\Rightarrow b_i^T = e_i^T A \cdot S = \sum_{j=1}^n e_i^T A e_j e_j^T S =\sum_{j\in \chi_i} e_i^T A e_j (e_j^T S) = a_i^T S_i \ ,\ \ \ \ A \leftarrow F'(x)$$
-$$\Rightarrow S_i^Ta_i = b_i mit S_i = (e_j^TS)_{j\in X_i^{\in \mathbb{R}^{p_i\times p}}}$$
-Vermeintliches LGS zur Bestimmung der Nichtnulleinträge.
-
-Dabei kann $S_i$ so partitioniert werden, dass $S_i = [\tilde{S}_i,\dots,\tilde{S}_i]^{\in \mathbb{R}^{p_i\times p}}$ mit $DET(S_i) \neq 0$.\\
+$$\Rightarrow S_i^Ta_i = b_i\text{ mit }S_i = (e_j^TS)_{j\in X_i^{\in \mathbb{R}^{p_i\times p}}}$$
+vermeintliches LGS zur Bestimmung der Nichtnulleinträge.\marginpar {Formulierung}\\
+$S_i$ kann so partitioniert werden, dass $S_i = [\tilde{S}_i,\dots,\tilde{S}_i]^{\in \mathbb{R}^{p_i\times p}}$ mit $Det(S_i) \neq 0$.\\
 $\Rightarrow$ Quadratisches LGS
 $$\tilde{S}_i^Ta_i = \tilde{b}_i=\left(e_k^Tb_i\right)_{k=1,\dots,p_i}$$
 mit $p_i$ Gleichungen und $p_i$ Unbekannten.\\
@@ -46,30 +48,35 @@ Herausforderung: Lösen von $m$ kleinen LGS zur Bestimmung von allen Zeilen von 
 $\Rightarrow$ geht auch ohne Lösen von LGS über Graph Coloring.
 
 \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-Vertretungsvorlesung hier\\
+\subsection{Vertretungsvorlesung zu Sparse Matrices}
+\label{subsec:vertretungsvorlesung}
+\input{chaps/chap5_vertr}
+
+\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+ab hier weiter mit regulärer VL
+
 \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
 
-%\begin{document}
-
-\section{currentstuff}
-
-Wiederholung:
+\noindent
+\underline{Wiederholung:}
 \begin{itemize}
-	\item Ziel effiziente Berechnung von dünnbesetzten Abhleitungen $F'(x)$, deren dünnbesetzte Struktur bekannt ist
-	\item  Ausnutzen des FM bzw. RM, d.h. finde geeignete Seedmatrix (Richtungen)
+	\item[Ziel:] effiziente Berechnung von dünnbesetzten Abhleitungen $F'(x)$, deren dünnbesetzte Struktur bekannt ist.
+	\item[$\rightarrow$]  Ausnutzen des FM bzw. RM, d.h. finde geeignete\\ Seedmatrix (Richtungen)
 	$$S = S_1, \dots , S_p \in \mathbb{R}^{n\times p}$$
 	so dass
 	$$B=F'(x) \cdot S$$
 	alle Informationen von $F'(x)$ enthält.
-	\item \underline{Curtis-Powell-Reid Seeding}
 	
-	Durch Coloring/ Färbung des Spaltenzshgs.graphen $G=(V,E)$ von $F'(x)$ bestehend aus
-	\begin{itemize}
-		\item Knoten $V=\{1\dots n\}$, die jeweils einer Spalte von $F'(x)$ entsprechen und 
-		\item Kanten $E\subseteq V\times V$, die durch wiederholt auftretende Einträge in den Spalten induziert werden
-	\end{itemize}
-	M.A.W. es existiert eine Kante $(i,j)$ zwischen Knoten $i$ und $j$ gdw. Spalte $i$ und $j$ von $F'(x)$ mindestens einen gemeinsamen Nichtnulleintrag besitzen.\\
 \end{itemize}
+
+\subsection{Curtis-Powell-Reid Seeding}
+\label{subsubsec:CPRseeding}
+Durch Coloring/ Färbung des Spaltenzshgs.graphen $G=(V,E)$ von $F'(x)$ bestehend aus
+\begin{itemize}
+	\item Knoten $V=\{1\dots n\}$, die je einer Spalte von $F'(x)$ entsprechen und 
+	\item Kanten $E\subseteq V\times V$, die durch wiederholt auftretende Einträge in den Spalten induziert werden
+\end{itemize}
+M.A.W. es existiert eine Kante $(i,j)$ zwischen Knoten $i$ und $j$ $\Leftrightarrow$ Spalte $i$ und $j$ von $F'(x)$ haben mindestens einen gemeinsamen Nichtnulleintrag.\\
 
 \begin{tabular}{l}
 	$\begin{bmatrix}
@@ -90,7 +97,6 @@ Wiederholung:
 \end{tabular}\\
 
 
-\noindent
 Beispiel: $*$ -Nichtnulleintrag, $0$ - Null\\
 $A=\begin{bmatrix}
 *	& *	& 0	& 0	\\
@@ -115,10 +121,13 @@ Zeilenzusammenhangsgraph (analog definiert):
 $$V=\{1,2,3,4\},\ \ E=\{(1,2),(1,3),(2,3),(2,4),(3,4)\}$$
 
 \noindent
-$\rightarrow$ Färbung des Spalten-/ Zeilenzshgsgraphen
+\subsubsection{Spaltenkompression}
+Färbung des Spaltenzshgs.graphen
+\label{subsubsec:coloring_col_intersection_graph}
+
 $$c:\{1\dots n\}\mapsto \{1\dots p\}$$
 mit (möglichst wenig) $p$ Farben (1-Rot, 2-Grün, 3-Blau, 4-Gelb,\dots)
-liefert dann die entsprechende Seedmatrix: ($e_k$ bezeichnet den $k$-ten kartesischen Basisvektor)
+liefert die entsprechende Seedmatrix: ($e_k$ bezeichnet den $k$-ten kartesischen Basisvektor)
 $$S = [e^T_{c(j)}]_{j=1,\dots,n}\in \mathbb{R}^{n\times p}\ \ \ e_k^T = [0 \dots 0,1_k, 0 \dots 0]$$
 und die Anzahl der notwendigen Richtungen $p$ (d.h. nötige Aufrufe des FM).\\
 
@@ -179,14 +188,15 @@ Grafik:\\3 mal Spaltenzusammenhangsgraph nebeneinander, verschiedene Colorings\\
 \end{tabular}\\
 
 \noindent
-Problem: Rekonstruktion von $A (=F'(x))$ aus $B=A\cdot S$\\
+\underline{Problem:}\\
+Rekonstruktion von $A (=F'(x))$ aus $B=A\cdot S$\\
 $\Rightarrow$ Lsg von $b_i^T = w_i^TS_i$ bzgl. $w_i^T$ liefert die $p_i$ Nichtnulleinträge von $\nabla F_i(x)$\\
 Beispielgrafik der Matrixberechnung\\
 \vspace{3cm}
 
 
 $$\Rightarrow\ b_i^T =w_i^TS_i = e_i A S = e_i \sum_{j \in X_i} Ae_j^{}e_j^TS$$
-wobei  $X_i$ das Sparsitypattern der $i$-ten Zeile von $F'(x)$ ist, d.h. die Indizes der Nichtnulleinträge von $v\cdot F_i'(x)$\\
+wobei  $\chi_i$ das Sparsitypattern der $i$-ten Zeile von $F'(x)$ ist, d.h. die Indizes der Nichtnulleinträge von $v\cdot F_i'(x)$\\
 $\Rightarrow\ b_i^T =w_i^TS_i \Leftrightarrow S_i^Tw_i = b_i$ ist ein überstimmtes LGS!\\
 
 \marginpar{Korrektheit/ Vollständigkeit/ Verständlichkeit überprüfen}
@@ -203,10 +213,10 @@ $\Rightarrow\ b_i^T =w_i^TS_i \Leftrightarrow S_i^Tw_i = b_i$ ist ein überstimm
 	$e_k$ die zu $\tilde{S_i}$ entsprechenden Spaltenindizes sind )\\
 	
 	\item[$\Rightarrow$] Im Fall von CPR (Curtis-Powell-Reid) ist\\
-	$$S_i = \left[l^T_{c(j)}\right]_{j\in X_i}\in \mathbb{R}^{p_i\times p},\ \ \ x_i \hat{=} \text{ Sparsitypattern von Zeile } i$$
+	$$S_i = \left[l^T_{c(j)}\right]_{j\in \chi_i}\in \mathbb{R}^{p_i\times p},\ \ \ \chi_i \hat{=} \text{ Sparsitypattern von Zeile } i$$
 	gegeben als permutierte Einheitsmatrix mit angehängter Nullmatrix.
-	
 \end{itemize}
+\newpage
 \noindent
 Beispiel zur Matrix\\
 $A=\begin{bmatrix}
@@ -350,16 +360,19 @@ $\Rightarrow$ Lsg. von $\tilde{S}_i^Tw_i=\tilde{b}_i$,$i=1\dots n$ liefert Nicht
 	\end{bmatrix}$
 \end{tabular}\\
 
+\subsubsection{Zeilenkompression}
+\label{subsubsec:row_compr}
+Analog zur Spaltenkompression von rechts mittels des FM ($F'(x)\cdot S)$ kann auch von links mittels des RM ($S\cdot F'(x)$) komprimiert werden mit dem Zeilenzshgs.graph.\\
+
 \noindent
-\underline{Zeilenkompression}\\
-Analog zur Spaltenkompression von rechts mittesls des FM ($F'(x)\cdot S)$ kann auch von links komprimiert werden mit dem Zeilenzshgs.graph und mittels des RM ($S\cdot F'(x)$), \marginpar{Dimensionen evtl. falsch}
-Mit anderen Worten betrachte nun
+M.A.W. betrachte nun  \marginpar{Dimensionen evtl. falsch}
 $$ C^T = W^T F'(x) \in \mathbb{R}^{q\times n}$$
 wobei $W^T \in \mathbb{R}^{m\times q}$ nun die adjugierte Seed Matrix ist und $c^T \in \mathbb{R}^{q \times n}$ die komprimierte Darstellung der Jacobimatrix ist.\\
 
 \noindent
-Zeilen- und Spaltenkompression gleichzeitig machen:\\
-typisches Gegenbeispiel
+\subsubsection{Zeilen- \& Spaltenkompression gleichzeitig}
+\label{subsubsec:r_c_compr}
+typisches Gegenbeispiel:
 
 $\begin{bmatrix}
 * & \dots & * \\
@@ -381,9 +394,10 @@ $F'(x) \cdot \begin{pmatrix}
 \cdot F'(x)$
 $\Rightarrow$ \begin{tabular}{l}bei dieser Zerlegung würde\\es wieder funktionieren\end{tabular}\\
 
+\noindent
 $\Rightarrow$ \underline{Beidseitige Kompression}, d.h. finde $S$ und $W$ für Kompressionsmatrix\\
-$$B=A\cdot S \text{ und } C=A^TW$$\\
-Die genügend Informationen enthalten um die Nichtnulleinträge von $F'(x)$ wieder herzuleiten.
+$$B=A\cdot S \text{ und } C=A^TW\text{,}$$\\
+die genügend Informationen enthält um die Nichtnulleinträge von $F'(x)$ wieder herzuleiten.
 
 \subsubsection{Coleman und Verma}
 \label{subsubsec:part_row/column_compr}

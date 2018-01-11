@@ -1,8 +1,8 @@
 \section{Methoden zur Berechnung von Ableitungen ($f: \mathbb{R}^n \mapsto \mathbb{R}$)}
-
+\label{chap:differentiation_methods}
 
 \subsection{numerisch / Differenzenquotient}
-\label{subsec:numerisch / Differenzenquotient}
+\label{subsec:numeric/diffquotient}
 Idee: approximiere den Grenzwert
 \begin{align*}
 \frac{\partial f}{\partial x_i} & = lim_{h\mapsto 0} \frac{f(x_1,\dots,x_n) - f(x_i,\dots,x_n)}{h}\\
@@ -10,9 +10,9 @@ Idee: approximiere den Grenzwert
 \end{align*}
 wobei $l_i$ an der $i$-ten Stelle den Wert 1 und sonst den Wert 0 hat, durch 
 $$\frac{\partial f}{\partial x_i}(x) \approx \left[\frac{f(x+e,\tilde h)-f(x)}{\tilde h)}\right]$$
-mit \glqq hinreichend kleinem"\ Wert $\tilde h \in R^+$
-\\
-Vorteil:
+mit \glqq hinreichend kleinem"\ Wert $\tilde h \in R^+$\\
+
+\noindent Vorteil:
 \begin{itemize}
 	\item einfach zu implementieren
 	\item benötigt nur Auswertung für f
@@ -26,9 +26,11 @@ Nachteil:
 Grafik zur Genauigkeit: Fehler V -förmig (Rundungsfehler und Ungenauigkeit)
 
 \subsection{Analytisches Differenzieren/ per Hand}
-Idee: Benutze Standard-Differentationsregeln zum Ableiten einer Funktion, d.h. Kettenregel / Produktregel / Divisionsregel / Summenregel / Winkelfunktionen / Weitere
+\label{subsec:analytic_diff/manual}
+Idee: Benutze Standard-Differentationsregeln zum Ableiten einer Funktion, d.h. Ketten- / Produkt- / Divisions- / Summenregel / Winkelfkt. / Weitere\\
 
-\noindent Vorteil:
+\noindent
+Vorteil:
 \begin{itemize}
 	\item kann sehr effiziente, genaue Ergebnisse liefern
 \end{itemize}
@@ -46,15 +48,17 @@ $$f:\mathbb{R}^2\mapsto\mathbb{R}, f(x_1,x_2) = \frac{x_2 x_1^2}{sin(x_1)}+cos(x
 %\end{align*}
 \vspace{3cm}
 \subsection{Symbolisches Differenzieren}
-Idee: Zerlegung einer Funktion in ihre elementaren Operationen als Berechnungsbaum und anschließende Transformation mittels vorheriger Ableitungsregeln darstellen
+\label{subsec:symoblic_diff}
+Idee: Zerlegung einer Fkt. in ihre elementaren Operationen als Berechnungsbaum, anschließende Transformation mittels vorheriger Ableitungsregeln darstellen
 Beispiel: $f$ wie zuvor, Grafik: symbolischer Berechnungsbaum von $f$
 
 \vspace{8cm}
 
 wird zu, Grafik:  symbolischer Berechnungsbaum mit 41 Knoten
 
-\vspace{10cm}
+\vspace{9cm}
 
+\noindent
 Vorteil:
 \begin{itemize}
 	\item exakte Ableitungen
@@ -71,13 +75,15 @@ $f:\mathbb{R}^n\mapsto\mathbb{R}, f(x) = \prod_{i=1}^n x_i$
 Bemerkung: $\prod_{i=1}^n x_i$ taucht z.B. in der Berechnung von Determinanten o.ä. linear Algebra OPs vor.
 
 \subsection{Automatisches/ Algorithmisches Differenzieren}
+\label{subsec:automatic/algorithmic}
 
 gegeben: eine mathematische Funktion: $F:\mathbb{R}^n\mapsto\mathbb{R}^m$, welche
 \begin{itemize}
-	\item hinreichend oft differenzierbar ist
-	\item durch einen endlichen \glqq Straight-Line" Code beschrieben werden kann, d.h. keine (unendliche) Rekursion und Verzweigungen (if-branches,\dots) enthält
+	\item hinreichend oft differenzierbar ist und
+	\item durch einen endlichen \glqq Straight-Line" Code beschrieben werden kann, d.h. keine unendliche Rekursion und Verzweigungen enthält
 \end{itemize}
-Mit anderen Worten $F:U\subseteq \mathbb{R}^n\mapsto\mathbb{R}^m, F(x) = y$ ist gegeben durch eine sogenannte Evaluation Procedure
+M.A.W. $F:U\subseteq \mathbb{R}^n\mapsto\mathbb{R}^m, F(x) = y$ ist gegeben durch eine sogenannte
+\textbf{Evaluation Procedure}
 \begin{align*}
 	v_{i-n}= x_i & i = 1,\dots,n && Eingabe\\
 	v_i = \ \varphi_i(v_j) & i = 1,\dots,l && Auswertung\\
@@ -88,21 +94,24 @@ $$\varphi \in \Phi = \{\pm, cos, sin, \sqrt{\cdot}, Exp, Log \dots \}$$
 hinreichend oft differenzierbare Elementarfkt. (über U) sind.
 
 \vspace{\baselineskip}
-\noindent Ziel: 
-
+\noindent
+\underline{Ziel:}\\
 effiziente numerische Bestimmung von Ableitungsinformationen der Funktion bezüglich ihrer Ausgabe $y=F(x)$ und Eingabe $x \in \mathbb{R}^n$
 \vspace{\baselineskip}
 
-\noindent Bemerkung:
+\noindent
+\underline{Bemerkung:}\\
+Die Zwischenvariablen $v_i$ in der Eval. Procedure können nach ihrer Berechnungsvorschrift sortiert werden und induzieren einen \glqq Computational DAG", in welchem jede Zwischenvariable durch einen Knoten repräsentiert wird. Eine Kante existiert wenn eine solche Variable direkt von einer Anderen abhängt.\\
 
-Die Zwischenvariablen $v_i$ in der Eval. Proc. können nach ihrer Berechnungsvorschrift sortiert werden und induzieren einen \glqq Computational DAG", in welchem jede Zwischenvariable durch einen Knoten repräsentiert wird. Eine Kante existiert wenn eine solche Variable direkt von einer Anderen abhängt.
+\noindent
 $v_i = \varphi(v_j)_{j \prec i}$ ist eine Kurzschreibweise für den Funktionswert der entsprechenden Elementarfkt. $\varphi_i$ zur Auswertung von $v_i$, die von den vorher berechneten Werten ($(v_j)_{j \prec i}$) direkt abhängt.
 
 \vspace{\baselineskip}
 
-\noindent Forward Mode
+\subsubsection{Forward Mode}
+\label{subsubsec:FM}
 
-Ausgehend von der Evaluation Procedure kann man eine erweiterte/ extended  Eval. Proc. angeben, welche sowohl $y=F(x)$ als auch $\dot{y}=F'(x)\dot{x}$ für $\dot{x}\in \mathbb{R}$ berechnet.
+Ausgehend von der Evaluation Procedure kann man eine extended  Eval. Proc. angeben, welche sowohl $y=F(x)$ als auch $\dot{y}=F'(x)\dot{x}$ für $\dot{x}\in \mathbb{R}$ berechnet.
 
 \begin{tabular}{| L | L | L |}
 	\hline
@@ -117,8 +126,7 @@ Ausgehend von der Evaluation Procedure kann man eine erweiterte/ extended  Eval.
 	\hline
 \end{tabular}
 \newpage
-\noindent Beispiel : $f : \mathbb{R}^2\mapsto\mathbb{R}$ wie zuvor gegeben\\
-
+\noindent Beispiel $f : \mathbb{R}^2\mapsto\mathbb{R}$ wie zuvor gegeben\\
 \begin{tabular}{| L | L |}
 	\hline
 	v_{-1} = x_1& \\
@@ -176,18 +184,18 @@ Ausgehend von der Evaluation Procedure kann man eine erweiterte/ extended  Eval.
 	&$2,3$ &\prec 4\\
 	&$0$ &\prec 5\\
 	&$4,5$ &\prec 6\\
+	& &\\
 \end{tabular}
 
 \noindent
-Begründung:
-
-Der Forward Mode beruht auf der Kettenregel:\\
-$$\Phi_2(\Phi_1(x))' = \Phi_2'(\Phi_1(x))\cdot \Phi_1'(x)$$,
+\underline{Begründung:}\\
+Der Forward Mode beruht auf der Kettenregel
+$$\Phi_2(\Phi_1(x))' = \Phi_2'(\Phi_1(x))\cdot \Phi_1'(x)\text{,}$$
 welche mehrfach auf die erweiterten Abbildungen $\Phi_i : \tilde{V}\mapsto\tilde{V}$ angewendet wird, wobei $\tilde{V}\subseteq \mathbb{R}^{n+l+m}$ und $V \in \tilde{V}$ der Vektor aller Zwischenvariablen $v_i$, d.h.
 $$V=(v_{1-n},\dots, v_0,v_1, \dots , v_l, v_{l+1},\dots, v_{l+,})$$
 ist und somit $\Phi_i$ die Ausführung einer Zeile $v_i=\dots$ entspricht.
 
-Mit anderen Worten berechnet die Extended Evaluation Procedure nichts anderes als
+\noindent M.A.W. die Extended Evaluation Procedure berechnet nichts anderes als
 $$y=P \Phi_l(\Phi_{l-1}(\dots \Phi_1(Qx))\dots)) \quad \text{und}$$
 $$\dot{y} = P \Phi_l'(V_l)\cdot\Phi_{l-1}'(V_{l-1})\cdot\dots\cdot\Phi_1'(V_1)\cdot Q\dot{x} \text{ ,}$$
 wobei
@@ -229,13 +237,16 @@ in einer effizienten Art und Weise.\\
 	& = (I + (V\varphi(V)\cdot l_{n+i})\cdot l_{n+i}^T)
 \end{align*}
 
-\noindent Effizienz:
-
-$COST(EVAL(F'(x)\cdot \dot{x})) \approx c_1 \cdot COST(EVAL(F(x)))$\\
-wobei $c_1$ eine konstante Zahl (typisch $c_1\approx 2-5$) ist.
-$\Rightarrow$ Auswertung der Jacobimatrix ergibt $COST(EVAL(F'(x))) = n \cdot c_1 \cdot Cost(EVAL(F(x)))$, da im ungünstigsten Fall $F'(x)\cdot\dot{x}$ für alle $n$ Einheitsrichtungen $l_1,\dots, l_n$ ausgeführt werden muss.\\
-
-\noindent Bemerkung:
+\noindent
+\underline{Effizienz:}
+$$COST(EVAL(F'(x)\cdot \dot{x})) \approx c_1 \cdot COST(EVAL(F(x)))\text{,}$$
+wobei $c_1$ eine konstante Zahl ist (typisch $c_1\approx 2\text{-}5$).\\
+$\Rightarrow$ Auswertung der Jacobimatrix ergibt
+$$COST(EVAL(F'(x))) = n \cdot c_1 \cdot COST(EVAL(F(x)))\text{,}$$
+da im ungünstigsten Fall $F'(x)\cdot\dot{x}$ für alle $n$ Einheitsrichtungen $l_1,\dots, l_n$ ausgeführt werden muss.
+\newpage
+\noindent
+\underline{Bemerkung:}
 \begin{itemize}
 	\item Effizienz des Forward Mode entspricht dem Aufwand vom Differenzenquotient
 	\item Vorteil: kein \glqq $\tilde{h}$"\ benötigt
@@ -246,12 +257,14 @@ $\Rightarrow$ Auswertung der Jacobimatrix ergibt $COST(EVAL(F'(x))) = n \cdot c_
 	\end{itemize}
 \end{itemize}
 
-\noindent Problem:
-
+\noindent
+\underline{Problem:}\\
 Für eine große Anzahl von abhängigen Variablen ist das immer noch teuer\\
 
-\noindent $\Rightarrow$ Backward Mode\\
-Ziel: effiziente Auswertung von
+\subsubsection{Reverse Mode}
+\label{subsubsec:RM}
+\underline{Ziel:}\\
+effiziente Auswertung von
 $$ \bar{y}^T F'(x)$$
 mit welcher man z.B. nur einen Aufruf benötigen würde um den gesuchten Gradient $\nabla F \in \mathbb{R}^n$  von $F: \mathbb{R}^n \mapsto \mathbb{R}$ zu berechnen.\\
 (setze $\bar{y}=1 \Rightarrow \bar{y}^TF'(x)=1\cdot \nabla F(x)$)\\
@@ -260,7 +273,7 @@ mit welcher man z.B. nur einen Aufruf benötigen würde um den gesuchten Gradien
 $$\dot{y} = \xleftarrow{P \Phi_l'(V_l)\cdot\Phi_{l-1}'(V_{l-1})\cdot\dots\cdot\Phi_1'(V_1)\cdot Q\dot{x}}$$
 wie im Foward Mode zu berechnen, muss nun 
 $$\bar{x} = \xrightarrow{\bar{y} P \Phi_l'(V_l)\cdot\Phi_{l-1}'(V_{l-1})\cdot\dots\cdot\Phi_1'(V_1)\cdot Q}$$
-ausgewertet werden. Dies kann auf zwei Arten geschehen (inkrementell und nicht inkrementell). In beiden Fällen werden die Werte $V_i$ benötigt.\\
+ausgewertet werden. Dies kann auf zwei Arten geschehen: inkrementell und nicht inkrementell. In beiden Fällen werden die Werte $v_i$ benötigt.\\
 
 \noindent Non-Incremental:
 \begin{tabular}{L L c}
@@ -270,7 +283,7 @@ ausgewertet werden. Dies kann auf zwei Arten geschehen (inkrementell und nicht i
 	\hline
 	\bar{v}_{l-i} = \bar{y}_{m-i}	& i={m-1},\dots,0 & \\
 	\bar{v}_j = \sum_{i\succ j}\bar{v}_i \frac{\partial}{\partial v_j} \varphi_i(u_i)
-									& i=l-m, \dots,1-n & \glqq Backward Sweep"\\
+									& i=l-m, \dots,1-n & \glqq Reverse Sweep"\\
 	\bar{x}_i=\bar{v}_{i-n}			& i=n,\dots,1 &für (*)
 \end{tabular}
 
@@ -284,14 +297,14 @@ Foward Sweep:
 	\bar{x}_i = \bar{v}_{i-n} &i=n,\dots1
 \end{tabular}
 
-$\Rightarrow$\\
+\noindent
+\underline{Effizienz:}\\
 Auswertung von $\bar{x} = \bar{y}^TF'(x)$ benötigt eine Auswertung von F (Forward Sweep) und einen \glqq Reverse Sweep \grqq. Der Aufwand kann nach oben abgeschätzt werden:
 $$OPS(EVAL(\bar{y}^TF'(x))) \approx c_2 OPS(EVAL(F(x)))$$
 wobei $c_2$ kleine Konstante ist.\\
 
 \noindent
-Beispiel $f(x_1,x_2) = \dots$
-
+Beispiel $f(x_1,x_2) = \dots$\\
 \begin{tabular}{L L c}
 	\hline
 	v_{-1}=x_1				& &\\
@@ -344,7 +357,7 @@ Zusätzliche evtl. doppelte oder unvollständige Notizen zum Kapitel aus der Vor
 
 ForwardMode: $J \cdot v$ : Jacobi * Vektor
 
-BackwardMode: $v^T \cdot J$: Vektor$^T$ * Jacobi
+ReverseMode: $v^T \cdot J$: Vektor$^T$ * Jacobi
 
 \noindent Ziel: effiziente Auswertung von $v^TF'(x) = \dot{y}$
 Überlegung: $\dot{y} = P \Phi'_l(V_l)\cdot \Phi'_{l-1}(V_{l-1})\dots \Phi'_1(V_1)\cdot Q \cdot \dot{x}$

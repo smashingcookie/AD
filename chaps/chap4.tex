@@ -2,11 +2,12 @@
 \label{chap:Checkpointing}
 
 \subsection{Wiederholung}
+\label{subsec:rep}
 Beim Vorwärtsmodus ($F'(x)\cdot s$) und Rückwärtsmodus ($s^TF'(x)$) hatten wir gesehen, dass für $F:\mathbb{R}^n\mapsto\mathbb{R}^n$ folgende Abschätzungen gelten.
 
 \begin{tabular}{L L}
-	OPS(EVAL(F'(x)\cdot s)) &\le c_1 \cdot OPS()Eval(F(x))\\
-	OPS(EVAL(s^T\cdot F'(x))) &\le c_2 \cdot OPS()Eval(F(x))
+	OPS(EVAL(F'(x)\cdot s)) &\le c_1 \cdot OPS(Eval(F(x)))\\
+	OPS(EVAL(s^T\cdot F'(x))) &\le c_2 \cdot OPS(Eval(F(x)))
 \end{tabular}\\
 und somit
 
@@ -19,14 +20,14 @@ insbesondere
 	OPS(EVAL(vf(x))) \le c OPS(EVAL(f(x)))
 \end{tabular}\\
 für $f:\mathbb{R}^n\mapsto \mathbb{R}^n$ im Gegensatz zu FD, wo $n+1$ Auswertungen von $f$ benötigt werden.\\
-
 \noindent
-\underline{Wichtig:}
-Die Abschätzungen gelten nur für die Anzahl der Operationen!!!
+\textbf{\underline{Wichtig:}}\\
+Die Abschätzungen gelten nur für die Anzahl der Operationen!
 
 \noindent Rechenoperationen sind meist billig im Vergleich zu Lese-/Schreibzugriffen auf fast allen Systemen.
 
 \subsection{Forward/ Reverse Mode und Speicherbedarf}
+\label{subsec:RM/RM_memory_req}
 
 Forward Mode $\dot{y} = F'(x)\dot{x}$ : 
 \begin{tabular}{L L L }
@@ -42,8 +43,8 @@ Forward Mode $\dot{y} = F'(x)\dot{x}$ :
 \end{tabular}
 $\rightarrow \dot{v}$ wird nur so lange benötigt, wie $v$ benötigt wird, kann also während der Laufzeit schon gelöscht werden. Mit anderen Worten der Speicheraufwand für den Forward-Mode entspricht in etwa dem Speicheraufwand der Funktionsauswertung (bis auf konstanten Faktor).
 
-$\rightarrow$ Forward Mode stellt kein Problem dar\\
-anders sieht es im Backward Mode aus:\\
+$\Rightarrow$ Forward Mode stellt kein Problem dar\\
+anders sieht es im Reverse Mode aus:\\
 $\bar{x}=\bar{y}F'(x)$
 \begin{tabular}{L L}
 	v_{i-n}=\dot{x}_i & i = 1-n,\dots,l\\
@@ -60,11 +61,13 @@ $$\bar{x}=\bar{y}\ \underrightarrow{\varPhi(\ ) \dots \varPhi(\ )}$$
 Hier müssen/müssten alle Zwischenwerte $v_i$ gespeichert werden, insbesondere kann der Speicherbedarf nun für generelle Funktionen nicht mehr abgeschätzt werden.
 
 \subsubsection{Typisches Beispiel}
-Beispiel: Berechne $\nabla f(u_i(x))$, wobei $u_i(x)$ die Lösung einer gewöhnlichen DGL (ODE)
+\label{subsubsec:typical_example}
+Beispiel: Berechne $\nabla f(u_i(x))$, wobei $u_i(x)$ die Lösung einer gewöhnlichen DGL (ODE)\marginpar{Formulierung/ Korrektheit nachfolgendes}
 $$\frac{\partial u}{\partial t} = F(u,x,t)\ \ \ \forall_{t \in T} = [t_0,\dots,t_l]$$
 ist, welche von unbekannter Variable x abhängt, z.B. Parametern oder Startwerte.
 
 \subsubsection{Explizites SIR Bsp}
+\label{subsubsec:SIR_example}
  Die ODE für ein simples SIR ist gegeben durch:
 $$\frac{\partial u}{\partial t}
 \begin{Bmatrix}
@@ -91,7 +94,7 @@ wobei die Übergangswerte $\alpha$ und $\beta$ sowie die Startwerte $(S_0,I_0,R_
 	\State \Return $f(S_0,\dots S_N,I_0,\dots I_N, R_0,\dots R_N)$
 \end{algorithmic}
 
-Hier könnnte z.B. $f$ eine numerische Approximation 
+Hier könnnte z.B. $f$ eine numerische Approximation
 $$f(S_0,\dots,S_N,I_0,\dots I_N,\mathbb{R}_0,\dots,\mathbb{R}_N)$$
 $$ \frac{1}{T_N-t_0}\sum_{k=1}^N h_k(\frac{I_k+I_{k-1}}{2})$$
 für die durchschnittliche (Rel.) Anzahl von Infizierten sein:
@@ -130,6 +133,7 @@ m.a.w. anstatt alle $v_k$ tz speichern, werden nur ein paar ausgewählte Zwische
 \end{tabular}
 \newpage
 \subsubsection{Reverse Mode (für obiges Beispiel)}
+\label{subsubsec:RM_example}
 \begin{itemize}
 	\item[1.] Auswerten von $(*)$ und speichern der CP
 	\item[2.] Reverse Sweep
@@ -167,7 +171,8 @@ Beobachtung:
 Typische Perfomanzkurve (Grafik: Verhältnis Runtime zu log(\#CP's))\\
 \vspace{3cm}
 
-$\Rightarrow$ mögliche Laufzeit für Vanilla RM ohne CP kann z.T. schneller/langsamer oder etwas dazwischen sein im Vgl. zu mit CP - abhängig von Kosten des Speicherzugriffs\\
+\noindent
+$\Rightarrow$ mögliche Laufzeit für Vanilla RM ohne CP kann z.T. schneller/ langsamer oder dazwischen sein im Vgl. zu mit CP - abhängig von Kosten des Speicherzugriffs\\
 
 \noindent weitere Beobachtung:
 \begin{itemize}
@@ -178,18 +183,17 @@ Frage:\\
 - Wie sieht das aus, wenn CP wieder benutzt werden?
 
 \subsection{Binomial Checkpointing}
-Idee:\\
-Verteile CP's optimal bzgl. des Gesamtaufwandes, d.h. benutze auch CP's die wieder frei werden
+\label{subsec:binCP}
+Idee: Verteile CP's optimal bzgl. des Gesamtaufwandes, d.h. benutze auch CP's die wieder frei werden
 $\rightarrow$ Griewank: CP's nicht uniform verteilen\\
-Grafik\\
+Grafik\\\\
 sondern binomial\\
-Grafik\\
-
+Grafik\\\\
 Vorteil:\\
 die Letzten CP werden früh frei und können wieder verwendet werden und Neuberechnungen für $(*)$ werden eingespart\\
 $\Rightarrow$ frei gewordene CP's können dann beim ersten Durchlauf von $(*)$ wieder benutzt um Zwischenwerte abzuspeichern.
 
-Beispiel: Revolle Paper Griewank / Walther
+Beispiel: Revolle Paper Griewank / Walther \marginpar{Name Paper}
 
 
 
@@ -200,11 +204,13 @@ Beispiel: Revolle Paper Griewank / Walther
 \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
 Zusätzliche evtl. doppelte oder unvollständige Notizen zum Kapitel aus der Vorlesung:\\
 
-Wdh. Checkpointing\\
+\subsection{Wdh. Checkpointing}
 Gegeben $F = F_v \odot F_{v-1} \odot \dots \odot F_1$ D.H.
-$x_0 = x \rightarrow x_1 = F_1(x_0) \rightarrow x_2 = F_2(x_1) \rightarrow \dots \rightarrow y= x_v = F_v(x_{v-1})$
+$x_0 = x \rightarrow x_1 = F_1(x_0) \rightarrow x_2 = F_2(x_1) \rightarrow \dots \rightarrow y= x_v = F_v(x_{v-1})$\\
 
-Problem: bei Rückwärtssweep müssen alle Werte $x_i$ vorhanden sein (gespeichert werden)
+\noindent
+\underline{Problem:}\\
+bei Rückwärtssweep müssen alle Werte $x_i$ vorhanden sein (gespeichert werden)
 
 $\bar{x}= \bar{y}^TF'(x) | \bar{x} = \bar{y}_1F'(x_0)  \leftarrow \dots \leftarrow $
 
