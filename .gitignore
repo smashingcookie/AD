@@ -1,5 +1,6 @@
 ##################
 *vertr.tex
-*vertr.aux
+*.aux
+*.log
 *.pdf
 *.log
