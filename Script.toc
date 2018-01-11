@@ -31,3 +31,5 @@
 \contentsline {subsubsection}{\numberline {5.2.4}Coleman und Verma}{30}
 \contentsline {section}{\numberline {6}Lineare Gleichungsl\IeC {\"o}ser}{32}
 \contentsline {subsection}{\numberline {6.1}CG-Verfahren}{32}
+\contentsline {section}{\numberline {7}currentstuff}{35}
+\contentsline {subsection}{\numberline {7.1}Eliminationsregeln}{36}

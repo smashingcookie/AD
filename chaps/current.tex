@@ -1,0 +1,69 @@
+\section{currentstuff}
+
+Jacobi-Matrix-Berechnung mittels Graphreduktion
+
+\begin{itemize}
+	\item[Ziel:] Bestimme $F'(x)\in\mathbb{R}^{m\times n}$ für eine allgemeine differenzierbare Funktion $F:\mathbb{R}^n\mapsto\mathbb{R}^m$, $y=F(x)$ via Reduktion des Berechnungsgraph
+	\item[Bsp.:] $$F(x_1,x_2) = [(x_1+x_2)cos((x_1+x_2)^2),x_2 + cos((x_1+x_2)^2)]$$
+	$$v_{-1} = x_1,\ v_0 = x_2,\ v_1 = v{-1}+v_0,\ v_2=v_1^2,\ v_3=cos(v_2)$$
+\end{itemize}
+$(*)$ Berechnungsgraph: (Grafik)\\
+\vspace{2cm}
+
+\noindent
+$(\tilde{*})$ Berechnungsgraph für die erweiterte Auswertungsprozedur: (Grafik)\\
+$(**)$ $v_i = \sum_{j\prec i}\frac{\partial}{\partial}\varphi_i(u_i)\cdot \dot{v}_j\ ,\ \ \ c_{i,j}=\frac{\partial}{\partial v_j}\varphi_i(u_i)$):\\
+\vspace{2cm}
+
+mit $c_{1,-1}=1$, $c_{1,0}=1$, $c_{2,1}=2v_1$, $c_{3,2}=sin(v_2)$, $c_{4,1}=v_3$, $c_{4,3}=v_1$, $c_{5,3}=1$, $c_{5,0}=1$.
+
+\noindent
+$(\hat{*})$ Angenommen der Graph hätte nicht diese Form, sondern wäre bipartit, dann könnte man $F'(x)$ einfach ablesen: (Grafik)\\
+\vspace{3cm}
+
+\noindent
+$$F'(x) =
+\begin{bmatrix}
+	\nabla F_1(x)\\
+	\vdots\\
+	\nabla F_m(x)
+\end{bmatrix}
+\text{ für } [F(x) = F_1(x), F_2(x), \dots, F_m(x)]^T$$
+ADD STUFF HERE
+
+\begin{itemize}
+	\item[]Frage:] Kann $(\tilde{x})$ auf die Form $(\hat{*})$ gebracht werden, mittels geeigneter Knoten- oder Kantenmodifikationen ohne die zugrunde liegende Ableitungsfunktion zu verändern.
+	\item[Antwort:] \underline{JA}, mittels sog. \underline{Vertex}, \underline{Edge} und Faceelimination.
+	
+\end{itemize}
+\noindent
+Beispiel fortgeführt:\\
+Offensichtlich sind die folgenden Graphen Äquivalent zu $(\tilde{*})$\\
+(Grafik [$(\tilde{*})$ ohne Kante $c_{4,3}$])\\
+\vspace{2cm}
+
+\noindent
+mit $\tilde{c}_{4,1}= c_{4,3}\cdot c_{3,2} \cdot c_{2,1} + c_{4,1}$
+(Grafik)\\
+
+\vspace{2cm}
+mit $\tilde{c}_{4,-1} = \tilde{c}_{4,1}\cdot c_{1,-1}$ und $\tilde{c}_{4,0}=\tilde{c}_{4,1}\cdot c_{1,0}$
+
+Bsp fortgeführt:\\
+$\Rightarrow$ erinnert schon starl an $(\hat{*})$ und kann weiter fortgesetzt werden, bis der Graph bipartit ist. Diese Methode heißt Kantenelimination. Anstatt Kanten können auch Knoten eliminiert werden (Vertex).\\
+$\vdots$\\
+Grafiken zur Knotenelimination+Berechnungen\\
+$\vdots$
+
+\subsection{Eliminationsregeln}
+Die zugrunde liegende Ableitungsfunktion wird erhalten bei der Entfernung einer Kante $(i,j)$, d.h. $c_{i,j}=0$ mittels Rückwärts Kantenelimination, welche die Kantengewichte wie folgt anpasst:
+$$c_{i,k} += c_{i,j}\cdot c_{j,k} \text{ für alle } j\prec i$$
+bzw.
+$$c_{h,j} += c_{h,i}\cdot c_{i,j} \text{ für alle } h \succ i $$
+im Falle der Vorwärtskanntenelimination (und dann $c_{i,j} =0$).\\
+Im Falle der Knotenelimination müssen die Kantengewichte für alle Paare $i\succ j\ ,\ k\succ i$ mit 
+$$ c_{i,k}+=c_ij\cdot c_jk$$
+inkrementiert werden, bevor die angrenzenden Kanten zum Knoten $j$ null gesetzt werden, bzw. $j$ gelöscht werden kann.\\
+(Grafik Kantenelimination vorwärts $|$ rückwärts):\\
+
+\vspace{4cm}
