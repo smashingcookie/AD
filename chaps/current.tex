@@ -72,3 +72,311 @@ inkrementiert werden, bevor die angrenzenden Kanten zum Knoten $j$ null gesetzt 
 beide Methoden liefern einen bipartiten Graphen, aus dem die Jacobimatrix abgelesen werden kann, und das in endlicher Zeit. Allerdings beeinflusst die Reihenfolge der Kanten-/Knotenelimination die Effizienz (Anzahl an Multiplikationen). Die optimale Reihenfolge zu finden ist allerdings ein $np$-hartes Problem
 
 Motivation: besser als FM - da nicht für jeden Einheitsvektor gemacht werden muss (oder so ähnlich :3)
+
+
+......................................................................
+\section{PLAD}
+Neue VL 25.01.18\\
+Motivation: Viele Anwendungen sind nicht glatt, d.h. nicht differenzierbar an gewissen Stellen.
+M.A.W. die Funktion $F:\mathbb{R}^n \mapsto \mathbb{R}^m$, welche unsere Anwendung beschreibt, hat für gewisse $x \in \mathbb{R}^n$ Sprünge oder Knicke.
+
+
+Beispiel: $F:\mathbb{R}\mapsto\mathbb{R}$ gegeben durch
+$$F(x) = sign(x) \text{ oder } F(x) = ABS(x) = |x|$$
+$$MIN(u,v) = \frac{1}{2}(u+v -|u-v|)$$
+$$Max(u,v) = \frac{1}{2}(u+v +|u-v|)$$
+Verwendung häufig: Aktivierungsfunktion neuronale Netzwerke
+
+Was ist doe Anöeotimg an $x=0$
+
+$\frac{\partial F(x)}{\partial x_i} = \lim_{h\rightarrow 0} \frac{F(x+h\cdot e_i)-F(x)}{h}$
+z.B. für $F:\mathbb{R}\mapsto\mathbb{R}$, $F(x) = |x|$ an der Stelle 0 erhalten wir
+$$\lim_{h\rightarrow 0} \frac{F(x+h\cdot e_i)-F(x)}{h} = \lim_{h\rightarrow 0}\frac{|0+h1|-|0|}{h} = \lim_{h\rightarrow 0}\frac{|h|}{h}$$
+
+
+
+
+
+ergibt Sinn, da sowohl $F'(0) =1$ als auch $F'(0)=-1)$ das lineare Modell $F(x) + F'(x)\cdot S$ tangential an unsere Funktion anliegt.
+
+Konsequenzen:
+\begin{itemize}
+	\item lineares Modell ist nur auf einer Seite eine gute Approximation
+	\item wer entscheidet \glqq welche Seite wir nehmen \grqq
+	\item Gegenargument: es ist sehr selten in FP Arithmetik exakt auf \glqq0\grqq\ zu treffen
+	\item[$\Rightarrow$] $F'(x)$ ist fast immer wohldefiniert und man kommt nie in die Situation
+\end{itemize}
+\noindent
+Das stimmt nur fast, denn bei vielen Optimierungsproblemen sind die interessanten Punkte oft genau an diesen Stellen. Außerdem kann uns das lineare Modell leicht in die Irre führen.
+
+$$\text{Wdh.: } \min_{x\in \mathbb{R}^n}f(x),\ \ f:\mathbb{R}^n\mapsto \mathbb{R},\ \ \ \ (*)$$
+
+wird meist iterativ gelöst, d.h. ausgehend von $x_0 \in R^n$ wird eine Folge
+$$X_{k+1}= x_k+\alpha_kS_k$$
+generiert, die gegen die Lösung $x_*$ von $(*)$ konvergiert, wobei $\alpha_k \in \mathbb{R}_+$ die Schrittlänge (wie weit) und $s_k \in \mathbb{R}^k$ eine Schrittrichtung (wohin) sind, welche von Ableitungsinformationen von $F$ an der Stelle $x_k$ abhängt, z.B. $$s_k =\nabla f(x_n)\text{ (STEEPEST DESCENT)}$$
+\begin{itemize}
+	\item[$\Rightarrow$] Lineares Modell enthält keinerlei Information über Knicke/ Sprünge
+\end{itemize}
+Verallgemeinerte Ableitungen helfen auch nicht wirklich + praktisch nicht realisierbar
+z.B. wie soll ein AD-Tool mit Mengenwertigen o.ä. Ableitungen\\ $F'(0)={-1,1}$ für $F(x)=|x|$ bzw. \\$F'(x)=\infty$ für $F(x)=sgn(x)$
+
+\noindent
+Partielle Antwort:\\
+Zumindest für die meisten Funktionen, die nur "Knicke" (keine Sprünge) haben, lassen sich keine explizite Ableitungen angeben, aber dafür stückweise lineare Approximationen
+$$\Delta F(\cdot,\cdot):\mathbb{R}^n\times\mathbb{R}^n\mapsto \mathbb{R}^m \text{,}$$
+die Informationen über Knicke beinhalten und folgender Ungleichung genügen.
+$$|F(x+\Delta)-F(x)-\Delta F(x,\Delta x)|| \leq O(||\Delta x||^2)$$
+wobei $x\in \mathbb{R}^n$ wie zuvor der Punkt und $\Delta x \in \mathbb{R}^n$ ein Richtungsinkrement sind, für welche die Funktion entwickelt werden soll.
+
+Beispielgrafik
+\vspace{3cm}
+
+\noindent
+Praktische Umsetzung\\
+Annahme: $F$ sei gegeben durch eine endliche Auswertungsprozedur, wie im glatten Fall. 
+Unterschied zur originalen Bibliothek von El. Fkt.$\varPhi_{Orig}=\{\pm,*,\%,cos,\dots\}$ lassen wir nun auch den Absolutwert zu
+$$\Rightarrow \varPhi = \varPhi u \{ABS,MIN,Max,\dots\}$$
+$\Rightarrow$ Damit können die meisten Fkt. mit Knicken dargestellt werden
+
+Idee: Benutze FM von AD zur Bestimmung von\\
+\begin{tabular}{L L}
+	\Delta x = \Delta F(x, \Delta x) & \text{ Erinnerung FM: }\dot{y} = F'(x)\dot{x}
+\end{tabular}\\
+Mit folgenden Propagationsregeln:
+\begin{tabular}{ L L}
+	v_i = v_j \pm v_k &\Rightarrow \Delta v_i = \Delta v_j \pm v_k\\
+ 	v_i = v_j * v_k & \Rightarrow \Delta v_i \Delta v_j v_k + v_j\Delta v_k\\
+ 	v_i = \varphi (u_j)&\Rightarrow \\
+ 	v_i = | v_j| &\Rightarrow \Delta v_i = |v_j + \Delta v_i| - |v_j|
+\end{tabular}\\
+wenn $F$ kein ABS.Wert $(Min,Max,\dots)$ Aufruf beinhaltet haben wir somit den ursprünglichen FM, d.h.
+$$F(x, \Delta x) = F'(x)\cdot \Delta x$$
+auf der anderen Seite erhalten wir aufgrund von der neuen Regel z.B. für $F(x) = |x| = |x+ \Delta x| - |x|$ und somit $F(x) + \Delta F(x, \Delta x)=|x| + |x+ \Delta x| - |x| = F(x+\Delta x)$ was genau $F(x+\Delta x)$ entspricht.\\
+
+\noindent
+M.A.W. das stückweise lineare Modell von der $ABS$-Fkt. ist die Fkt. selbst.
+Im Allgemeinen kann man zeigen, dass mit der neuen Regel das stückweise lineare modell immer mit ihrer originalen Fkt. übereinstimmt, falls letztere schon stückweise linear war.
+
+BSP.: Funktion $F:\mathbb{R}^2\mapsto\mathbb{R}$ gegeben als $F(x_1,x_2)= (x_1^2+(x_2)_+)_+$ wobei $(u)_+=MAX(0,u)$.\\
+$x=(0,5;-0,5)$\\
+$\Delta x$ so dass $x+ \Delta x\in [-1,1]^2$\\
+Aufgabe: Schreibe Matlab Fkt. für $F$ und $F(x)+ F'(x)\cdot\Delta x$ und $F(x)+\Delta F(x,\Delta x)$\\
+-visualisiere diese 3 Fkt. über $[-1,1]^2$, d.h. $x \in[-1,1]^2$ und $\Delta x$ sodass $x+\Delta x \in [-1,1]^2$\\
+ -mit festem $x \in[-1,1] \rightarrow Bild$\\
+ -variables $x \in[-1,1] \rightarrow Movie$
+\\
+VL 01.02.18\\
+
+ 
+Evaluation Procedure\\
+\begin{tabular}{L}
+	v_{-1} = x_1			\\
+	v_0 = x_2				\\
+	v_1 = |v_0| 			\\
+	v_2 = v_0+ v_1			\\
+	v_3 = \frac{1}{2} v_2	\\
+	v_4 = v_{-1}^2			\\
+	v_5 = v_4-v_3			\\
+	v_6 = |v_5|				\\
+	v_7 = v_5+v_6			\\
+	v_8 = \frac{1}{2} v_7	\\
+	y = v_8					\\
+\end{tabular}
+$\underrightarrow{PLAD-Regeln}$
+\begin{tabular}{L}
+	\Delta v_{-1} = \Delta x_1				\\
+	\Delta v_0 = x_2						\\
+	\Delta v_1 = \textcolor{red}{|v_0 + \Delta v_0| - |v_0|} \\
+	\Delta v_2 = \Delta v_0+ \Delta v_1		\\
+	\Delta v_3 = \frac{1}{2} \Delta v_2		\\
+	\Delta v_4 = 2v_{-1} \Delta v_{-1}		\\
+	\Delta v_5 = \Delta v_4- \Delta v_3		\\
+	\Delta v_6 = |v_5 + \Delta v_5| - |v_5|	\\
+	\Delta v_7 = \Delta v_5+\Delta v_6		\\
+	\Delta v_8 = \frac{1}{2} \Delta v_7		\\
+	y = \Delta v_8
+\end{tabular}
+
+\noindent
+Computational Graph\\
+\vspace{3cm}
+
+\noindent
+Darstellung von $\Delta F(x, \Delta x)$\\
+im Gegensatz zum glatten Fall, in welchem die erweiterte Auswertungsprozedur einer einfachen Matrix-Vektor Multiplikation entspricht ($\dot{y}=F'(x)\dot{x}$), benötigt $\Delta y = \Delta F(x, \Delta x)$ eine komplexere Darstellung für stückweise glatte Fkt. $F: \mathbb{R}^n\mapsto \mathbb{R}^m$.
+
+Darstellung von $\Delta y = \Delta F(x, \Delta x)$ als ABS-Normalform.
+Eine kompakte algebraische Darstellung von $\Delta y = \Delta F(x, \Delta x)$ ist die sogenannte Abs-Normal-Form(?) (ANF).
+
+$$ ANF: \begin{bmatrix}
+\Delta z \\
+\Delta y
+\end{bmatrix}
+=
+\begin{bmatrix}
+a \\b 
+\end{bmatrix}
++
+\begin{bmatrix}
+Z & L \\
+J & Y
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+\Delta x\\
+|\Delta z|
+\end{bmatrix}
+$$
+
+wobei $a \in \mathbb{R}^s, b \in \mathbb{R}^m,\ Z \in \mathbb{R}^{s \times n},\ L \in \mathbb{R}^{s \times s},\ J  \in \mathbb{R}^{m \times n},\ Y \in \mathbb{R}^{m\times s}$ Matrizen / Vektoren sind, die i.A. von $x$ abhängen, d.h. $a= a(x),\ b=b(x),\ Z=Z(X),\dots$
+
+Hierbei bezeichnet $\Delta z  \in \mathbb{R}^s$ den Vektor von Switchingvariabeln, dessen Dimension $s \in \mathbb{N}$ der Anzahl der in $F$ vorkommenden $ABS (MIN,MAX)$-Aufrufe entspricht.
+
+Des Weiteren kann o.B.d.A. angenommen werden, dass die Matrix $L$ strikt (links) untere Dreiecksmatrix ist.
+
+Beispielgrafik
+\vspace{3cm}
+
+\noindent
+$\Rightarrow$ für gegebenes $\Delta x$ auswertbar
+
+Vorteile
+\begin{itemize}
+	\item[$\rightarrow$] ANF ist klardefinierte Struktur bestehend aus Matrizen/ Vektoren
+	\item[$\rightarrow$] erlaubt \glqq kompakte/ einfache\grqq\ Speicherung
+	\item[$\rightarrow$] Lineare Algebra kann wiederbenutzt werden
+	\item[$\rightarrow$] benutzerfreundlich + effizient
+\end{itemize}
+
+Berechnung von ANFs:\\
+Die Einträge der ANF sind bestimmte Ableitungsinformationen von gewissen Teilen der Funktionsauswertung von $F$.
+
+Notation
+\begin{itemize}
+	\item[IMF.] bezeichnen wir alle Argumente von vorkommenden Absolutwerten mit $z_i$ und entsprechenden $\Delta z_i$
+	$$v_j = | z_i | \underrightarrow{PLAD-Regel} v_j = |\Delta z_i + z_i|-|z_i|$$
+\end{itemize}
+
+
+Beide Graphen können jeweils mittel Vertex-Elimination akkumuliert werden, wobei alle Knoten zusammengezogen werden, die nicht einer (Un-)Abhängigen Variable bzw. dem Argument eines Absolutwertes $z_i (z_i+\Delta z_i)$ oder dessen Resultat entsprechen.
+
+Computational Graph
+\vspace{3cm}
+
+Kontrahierter Graph
+\vspace{2cm}
+
+
+
+$$\Rightarrow
+Z = \frac{\tilde{\partial} z}{\tilde{\partial}  x } (x),\ 
+L = \frac{\tilde{\partial} z}{\tilde{\partial} |z|} (x),\ 
+J = \frac{\tilde{\partial} y}{\tilde{\partial}  x } (x),\ 
+Y = \frac{\tilde{\partial} y}{\tilde{\partial} |z|} (x)$$
+wobei $\frac{\tilde{\partial} u}{\tilde{\partial} v} (x)$ den partiellen Ableitungen von den Teilfunktionen $u\mapsto v$ entsprechen, welche keine ABS-Werte beinhaltet.
+Z.B. wird bei der Berechnung von $(J(X) = \frac{\tilde{\partial} y}{\tilde{\partial} x} (x))$ nur die Funktion betrachtet, die folgendem Teilgraph entspricht:
+\vspace{2cm}
+
+Die Vektoren $a, b$ haben auch eine explizite Beschreibung, z.B. entspricht $a(x) = z(x)$ (=Argumente aller ABS-Werte in $F$ an Stelle $x$)
+
+Allgemein:
+\vspace{5.5cm}
+
+Die kompakte Eval.-Proc. des Beispiels ist wie folgt:\\
+
+\begin{tabular}{L}
+	z_1 = x_2								\\
+	z_2 = x_1^2 - \frac{1}{2}(z_1+|z_1|)	\\
+	y = \frac{1}{2} (z_2 + |z_2|)
+\end{tabular}
+$$\Rightarrow Z = \frac{\tilde{\partial} z}{\tilde{\partial}  x } (x) =
+\begin{bmatrix}
+\frac{\tilde{\partial} z_1 }{\tilde{\partial} x_1} &
+\frac{\tilde{\partial} z_1}{\tilde{\partial}  x_2} \\
+\frac{\tilde{\partial} z_2}{\tilde{\partial}  x_1} &
+\frac{\tilde{\partial} z_2}{\tilde{\partial}  x_2}
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 & 1 \\
+2x_1 &\frac{1}{2}
+\end{bmatrix}$$
+
+$$\Rightarrow L = \frac{\tilde{\partial} z}{\tilde{\partial}  |z| } = 
+\dots = \begin{bmatrix}
+0 & 0\\
+\frac{1}{2} & 0 
+\end{bmatrix}$$
+
+$$\Rightarrow J = \frac{\tilde{\partial} y}{\tilde{\partial}  x} =
+\begin{bmatrix}
+x_1 & -\frac{1}{4}
+\end{bmatrix}$$
+
+$$\Rightarrow Y = \frac{\tilde{\partial} y}{\tilde{\partial}  |z|} = 
+\begin{bmatrix}
+x_2\\
+x_1^2 - \frac{1}{2} (x_2 + |x_2|)
+\end{bmatrix}
+$$
+
+\noindent
+Zusammenfassung:
+\begin{itemize}
+	\item stückweise glatte Fkt. können durch stückweise lineare Modelle approximiert werden.
+	\item stückweise Linerarisierung/ Modell erhältlich durch minimale Modifikation des Forward Mode
+	\item kompakt darstellbar durch ABS-Normalform
+	\item Einträge der ANF sind Jacobi-Matrizen bestimmter Teilfunktionen
+\end{itemize}
+Aber: strukturell seriell, da Berechnung von $\Delta z$ wieder von $\Delta z$ abhängt. Dies ist möglich, da $L$ untere Dreiecksmatrix ist, aber nicht schön da nicht unbedingt effizient.\\
+
+\noindent
+Klausurvorbereitungszusammenfassung:
+
+\begin{itemize}
+	\item[I.] Ableitungen
+	\begin{itemize}
+		\item Definition (Differenzenquotient, Jacobimatrix)
+		\item praktische Herangehensweise: verschiedene Arten für die Berechnung (Approximation (h), analytisch, symbolisch, automatisch)
+		\item Vorteile/ Nachteile (Aufwand, Fehler, Benutzerfreundlichkeit)
+		\item Anwendungen (wieso machen wir das eigentlich) $\rightarrow$ Newton-Methode, Deepest-Descent, CG-Verfahren, \dots
+	\end{itemize}
+	\item[II.] AD-Einführung
+	\begin{itemize}
+		\item Evaluation Procedure (Eval.Proc.) (allgemeine Form + am Beispiel können)
+		\item Forward Mode (!) $\rightarrow$ Funktionsweise, Aufwand
+		\item Backward Mode () $\rightarrow$ Funktionsweise, Aufwand
+	\end{itemize}
+	\item[III.] Checkpointing
+	\begin{itemize}
+		\item FM gut
+		\item rückwärts: $\rightarrow$ Problem (Perfomance)/Ziel/Idee
+		\item Binomial Checkpointing (wieder frei werdende Checkpoints)
+		\item Bsp. Frage: welche Struktur wird benötigt ($\rightarrow$ verkettete Auswertung der Funktion $F_1( F_i(F_n( \dots))))$
+	\end{itemize}
+	\item[IV.] Sparse - Strukturen ableiten
+	\begin{itemize}
+		\item Sparse (was ist das - dünnbesetzt)
+		\item Idee
+		\item Seed-Matrix
+		\item Row-/ Column-compression $\rightarrow$ Coloring-Problem auf Graphen
+		\item Coleman + Verma (Algorithmus)
+	\end{itemize}
+	\item[V.] Compression des Computational Graphs
+	\begin{itemize}
+		\item Knoten-/ Kantenelimination
+		\item Heuristiken
+		\item Markowitz-Grad
+	\end{itemize}
+	\item[VI.] PLAD
+	\begin{itemize}
+		\item Problem/Idee/Ziel
+		\item stückweise lineare Auswertungsprozedur
+		\item (ANF; Zshg. mit reduziertem Berechnungsgraph)
+	\end{itemize}
+	\item \underline{BONUS}
+	\begin{itemize}
+		\item Lineare Löser $\rightarrow$ Homepage
+	\end{itemize}
+	\item [NOT:] Höhere Ableitungen
+\end{itemize}
